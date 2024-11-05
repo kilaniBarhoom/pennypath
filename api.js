@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import expenseRoutes from "./routes/expense.route.js";
 import sessionRoutes from "./routes/session.route.js";
+import attendanceRoutes from "./routes/attendance.route.js";
 
 
 //	Routes
@@ -30,6 +31,10 @@ router.use("/expense", expenseRoutes)
 
 //session Routes
 router.use("/session", sessionRoutes);
+
+//attendance Routes
+router.use("/attendance", attendanceRoutes);
+
 
 //  Undefined Routes
 router.route("*").all((req, res) => {

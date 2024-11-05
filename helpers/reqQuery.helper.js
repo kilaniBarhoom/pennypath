@@ -20,10 +20,10 @@ export default (query) => {
     let startDate = null;
     let endDate = null;
 
-    if (!from && !to) {
-        startDate = getFirstDayOfCurrentMonth(new Date());
-        endDate = getLastDayOfCurrentMonth(new Date());
-    }
+    // if (!from && !to) {
+    //     startDate = getFirstDayOfCurrentMonth(new Date());
+    //     endDate = getLastDayOfCurrentMonth(new Date());
+    // }
 
     if (from) {
         startDate = new Date(from);

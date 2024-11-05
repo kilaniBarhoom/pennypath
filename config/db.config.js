@@ -18,7 +18,7 @@ const createAdmin = async () => {
                 fullNameArabic: process.env.ADMIN_FULL_NAME_ARABIC,
                 email: process.env.ADMIN_EMAIL,
                 password: process.env.ADMIN_PASSWORD,
-                role: "admin",
+                role: "superadmin",
             }
             try {
                 const user = new User(Admin);

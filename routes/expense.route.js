@@ -16,7 +16,7 @@ router.use("/health", (req, res) => {
 router.route('/')
     .all(auth)
     .get(catcher(controller.getAllExpenses))
-    .post(hasRole(Roles.ADMIN), catcher(controller.createExpense))
+    .post(hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.createExpense))
 
 router.post('/uploadExpenseImage', fileUpload(fileValidation.image).single('file'), catcher(controller.uploadExpenseImage))
 
