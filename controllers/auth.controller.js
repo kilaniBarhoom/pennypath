@@ -61,7 +61,7 @@ export const login = async (req, res, next) => {
 }
 
 export const register = async (req, res, next) => {
-    const { fullNameEnglish, fullNameArabic, lastName, email, password } = req.body;
+    const { fullNameEnglish, fullNameArabic, email, password, phone, secondaryPhone } = req.body;
     if (!email || !password || !fullNameEnglish || !fullNameArabic) {
         return next(
             new ResponseError(
@@ -82,12 +82,16 @@ export const register = async (req, res, next) => {
         )
     }
 
-    const user = await User.create({
+    const userData = {
         email,
         password,
         fullNameEnglish,
-        fullNameArabic
-    })
+        fullNameArabic,
+        phone: phone || "",
+        secondaryPhone: secondaryPhone || "",
+    }
+
+    const user = await User.create(userData);
 
     req.user = user;
     sendToken(user, statusCodes.CREATED, res)

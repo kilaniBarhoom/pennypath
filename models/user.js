@@ -30,13 +30,15 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        required: [true, 'User must have a phone number'],
-        unique: true
+        default: "",
+        required: false,
+        unique: false,
     },
     secondaryPhone: {
         type: String,
+        default: "",
         required: false,
-        unique: true
+        unique: false,
     },
     password: {
         type: String,
@@ -47,7 +49,7 @@ const userSchema = new Schema({
     // role
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'admin', 'superadmin', 'spectator'],
         default: 'user'
     },
     active: {

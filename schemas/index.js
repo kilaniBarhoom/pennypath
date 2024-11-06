@@ -4,7 +4,14 @@ export const UserSchema = z.object({
     name: z.string().min(3),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.enum(["user", "admin", "spectator", "superadmin"]),
+});
+export const RegisterSchema = z.object({
+    fullNameArabic: z.string().min(3),
+    fullNameEnglish: z.string().min(3),
+    email: z.string().email(),
+    password: z.string().min(6),
+    phone: z.string().optional().default(""),
+    secondaryPhone: z.string().optional().default(""),
 });
 
 
