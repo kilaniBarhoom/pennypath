@@ -21,8 +21,8 @@ export default (query) => {
     let endDate = null;
 
     // if (!from && !to) {
-    //     startDate = getFirstDayOfCurrentMonth(new Date());
-    //     endDate = getLastDayOfCurrentMonth(new Date());
+    //     startDate = new Date();
+    //     endDate = new Date();
     // }
 
     if (from) {

@@ -130,17 +130,44 @@ export const getAllUsers = async (req, res, next) => {
             $sort: { createdAt: -1 } // Sort by createdAt in descending order
         },
         {
+            $addFields: {
+                id: "$_id" // Add a new field 'id' with the value of '_id'
+            }
+        },
+        {
+            $project: {
+                _id: 0, // Exclude the original '_id' field
+                role: "$role",
+                id: 1,
+                fullNameEnglish: 1,
+                fullNameArabic: 1,
+                email: 1,
+                createdAt: 1
+                // Add other fields you need here
+            }
+        },
+        {
             $group: {
                 _id: "$role", // Group by the role field
                 users: { $push: "$$ROOT" } // Push the entire user document into the users array
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                role: "$_id",
+                users: 1
             }
         }
     ]);
 
     res.status(200).json({
-        userGroups
+        success: true,
+        data: {
+            userGroups
+        }
     });
-}
+};
 
 
 export const toggleActivateUser = async (req, res, next) => {

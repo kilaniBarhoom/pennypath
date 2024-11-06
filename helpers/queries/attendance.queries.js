@@ -1,4 +1,4 @@
-export const findAttendance = (startDate, endDate, search) => {
+export const findAttendance = (startDate, endDate, search, filterUser, onlyAdvancePayments) => {
     const filter = [];
     if (startDate)
         filter.push({
@@ -12,14 +12,27 @@ export const findAttendance = (startDate, endDate, search) => {
                 date: { $lte: new Date(endDate) },
             },
         });
-    // if (search)
-    //     filter.push({
-    //         $match: {
-    //             $or: [
-    //                 { name: { $regex: search, $options: "i" } },
-    //             ],
-    //         },
-    //     });
+    if (search)
+        filter.push({
+            $match: {
+                $or: [
+                    { note: { $regex: search, $options: "i" } },
+                ],
+            },
+        });
+
+    if (onlyAdvancePayments)
+        filter.push({
+            $match: {
+                advancePayment: { $gt: 0 },
+            },
+        })
+    if (filterUser)
+        filter.push({
+            $match: {
+                user: filterUser,
+            },
+        });
 
     filter.push({
         $sort: {
@@ -35,6 +48,7 @@ export const findAttendance = (startDate, endDate, search) => {
             status: 1,
             advancePayment: 1,
             leaveTime: 1,
+            note: 1,
             user: 1,
             createdBy: 1,
         },
@@ -64,14 +78,12 @@ export const findAttendance = (startDate, endDate, search) => {
     filter.push({
         $addFields: {
             'user.fullNameEnglish': '$userDetails.fullNameEnglish',
+            'user.id': '$userDetails._id',
             'user.fullNameArabic': '$userDetails.fullNameArabic',
             'user.email': '$userDetails.email',
             'user.role': '$userDetails.role',
-        }
-    });
-    filter.push({
-        $addFields: {
             'createdBy.fullNameEnglish': '$userDetails.fullNameEnglish',
+            'createdBy.id': '$userDetails._id',
             'createdBy.fullNameArabic': '$userDetails.fullNameArabic',
             'createdBy.email': '$userDetails.email',
             'createdBy.role': '$userDetails.role',
@@ -86,22 +98,63 @@ export const findAttendance = (startDate, endDate, search) => {
     return filter;
 };
 
-// export const findValueSum = (_id) => {
-//     const filter = [
-//         {
-//             $group: {
-//                 _id: null,
-//                 total: { $sum: "$amount" },
-//             },
-//         },
-//     ];
+export const calculateAverageTimes = () => {
+    const filter = [
+        {
+            $addFields: {
+                attendanceMinutes: {
+                    $add: [
+                        { $multiply: [{ $toInt: { $substr: ["$attendanceTime", 0, 2] } }, 60] },
+                        { $toInt: { $substr: ["$attendanceTime", 3, 2] } }
+                    ]
+                },
+                leaveMinutes: {
+                    $add: [
+                        { $multiply: [{ $toInt: { $substr: ["$leaveTime", 0, 2] } }, 60] },
+                        { $toInt: { $substr: ["$leaveTime", 3, 2] } }
+                    ]
+                }
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                averageAttendanceMinutes: { $avg: "$attendanceMinutes" },
+                averageLeaveMinutes: { $avg: "$leaveMinutes" }
+            }
+        },
+        {
+            $project: {
+                averageAttendanceTime: {
+                    $concat: [
+                        { $toString: { $floor: { $divide: ["$averageAttendanceMinutes", 60] } } },
+                        ":",
+                        {
+                            $cond: {
+                                if: { $lt: [{ $mod: ["$averageAttendanceMinutes", 60] }, 10] },
+                                then: { $concat: ["0", { $toString: { $mod: ["$averageAttendanceMinutes", 60] } }] },
+                                else: { $toString: { $mod: ["$averageAttendanceMinutes", 60] } }
+                            }
+                        }
+                    ]
+                },
+                averageLeaveTime: {
+                    $concat: [
+                        { $toString: { $floor: { $divide: ["$averageLeaveMinutes", 60] } } },
+                        ":",
+                        {
+                            $cond: {
+                                if: { $lt: [{ $mod: ["$averageLeaveMinutes", 60] }, 10] },
+                                then: { $concat: ["0", { $toString: { $mod: ["$averageLeaveMinutes", 60] } }] },
+                                else: { $toString: { $mod: ["$averageLeaveMinutes", 60] } }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ];
 
-//     if (_id)
-//         filter.unshift({
-//             $match: {
-//                 _id: { $in: _id },
-//             },
-//         });
+    return filter;
+};
 
-//     return filter;
-// };

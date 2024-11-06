@@ -8,8 +8,13 @@ import ResponseError from '../utils/respErr.js';
 
 // create a new attendance, edit a attendance, delete a attendance, get all attendances, get a single attendance, delete a attendance after 1 day
 export const getAllAttendances = async (req, res, next) => {
-    const { from, to, search } = ReqQueryHelper(req.query);
-    const attendances = await Attendance.aggregate(queryHelper.findAttendance(from, to, search));
+    const { from, to, search, filterUser, onlyAdvancePayments } = ReqQueryHelper(req.query);
+    const attendances = await Attendance.aggregate(queryHelper.findAttendance(from, to, search, filterUser, onlyAdvancePayments));
+
+    let averageAttendanceAndLeaveTime = (await Attendance.aggregate(queryHelper.calculateAverageTimes()))[0];
+    const averageAttendanceTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageAttendanceTime : 0;
+    const averageLeaveTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageLeaveTime : 0;
+
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
@@ -17,6 +22,8 @@ export const getAllAttendances = async (req, res, next) => {
             from,
             to,
             search,
+            averageAttendanceTime,
+            averageLeaveTime,
         },
     });
 }
@@ -31,9 +38,8 @@ export const createAttendance = async (req, res, next) => {
                 , statusCodes.BAD_REQUEST));
         }
 
-        const { date, status, advancePayment, leaveTime, attendanceTime, user } = AttendanceSchema.parse(req.body);
+        const { date, status, advancePayment, leaveTime, attendanceTime, note, user } = AttendanceSchema.parse(req.body);
 
-        // upload images to cloudinary
 
         const attendance = await Attendance.create({
             date,
@@ -42,6 +48,7 @@ export const createAttendance = async (req, res, next) => {
             leaveTime,
             attendanceTime,
             user,
+            note,
             createdBy: req.user._id,
         });
 

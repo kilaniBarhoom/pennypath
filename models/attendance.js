@@ -7,6 +7,8 @@ const attendanceSchema = new Schema({
     },
     attendanceTime: {
         type: String,
+        required: false,
+        default: "00:00"
     },
     status: {
         type: String,
@@ -15,9 +17,13 @@ const attendanceSchema = new Schema({
     },
     advancePayment: {
         type: Number,
+        default: 0,
+        required: false,
     },
     leaveTime: {
         type: String,
+        required: false,
+        default: "00:00"
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -27,8 +33,30 @@ const attendanceSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    note: {
+        type: String,
+    }
 })
 
+attendanceSchema.index({ date: -1, user: 1 }, { unique: true });
+
+attendanceSchema.pre("save", async function (next) {
+    const { status } = this;
+    if (status === "absent") {
+        this.attendanceTime = "00:00";
+        this.leaveTime = "00:00";
+    }
+    next();
+});
+
+attendanceSchema.pre("findOneAndUpdate", async function (next) {
+    let { status } = this._update;
+    if (status === "absent") {
+        this._update.attendanceTime = "00:00";
+        this._update.leaveTime = "00:00";
+    }
+    next();
+});
 
 attendanceSchema.set("toJSON", {
     virtuals: true,

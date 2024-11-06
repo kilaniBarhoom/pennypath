@@ -28,6 +28,16 @@ const userSchema = new Schema({
             "Please provide a valid email",
         ],
     },
+    phone: {
+        type: String,
+        required: [true, 'User must have a phone number'],
+        unique: true
+    },
+    secondaryPhone: {
+        type: String,
+        required: false,
+        unique: true
+    },
     password: {
         type: String,
         required: [true, "Please enter a password"],

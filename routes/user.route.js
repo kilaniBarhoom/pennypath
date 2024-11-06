@@ -16,8 +16,8 @@ router.route('/')
     .get(catcher(controller.getOwnProfile))
     .delete(catcher(controller.deleteOwnProfile))
 
-router.get('/all', auth, hasRole(Roles.ADMIN), catcher(controller.getAllUsers))
-router.put("/toggle-activate/:userId", auth, hasRole(Roles.ADMIN), catcher(controller.toggleActivateUser))
+router.get('/all', auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.getAllUsers))
+router.put("/toggle-activate/:userId", auth, hasRole(Roles.SUPERADMIN), catcher(controller.toggleActivateUser))
 
 router.put('/update-password', auth, catcher(controller.updatePassword))
 

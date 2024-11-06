@@ -22,6 +22,7 @@ export const AttendanceSchema = z.object({
     leaveTime: z.string().optional(),
     attendanceTime: z.string().optional(),
     user: z.string().min(1, "User must be at least 1 characters long"),
-    // date, a string and required, and has a regex pattern of: "22-10-2020"
-    date: z.string().min(1, "Date is required").regex(/^\d{2}-\d{2}-\d{4}$/, "Date must be in the format of dd-mm-yyyy"),
+    date: z.string().min(1, "Date is required"),
+    // date: z.string().min(1, "Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in the format of yyyy-mm-dd"),
+    note: z.string().optional(),
 });
