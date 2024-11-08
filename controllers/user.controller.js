@@ -3,12 +3,56 @@ import Session from '../models/Session.js';
 import User from "../models/user.js";
 import sendToken from "../utils/jwtTokenCookie.js";
 import ResponseError from "../utils/respErr.js";
+import ReqQueryHelper from "../helpers/reqQuery.helper.js";
+import * as queryHelper from "../helpers/queries/user.queries.js";
+
 
 // /api/user/
 export const getOwnProfile = async (req, res, next) => {
 
     res.status(statusCodes.OK).json({
         user: req.user
+    })
+}
+
+export const createUser = async (req, res, next) => {
+    const { fullNameEnglish, fullNameArabic, email, password, phone, secondaryPhone } = req.body;
+    if (!email || !password || !fullNameEnglish || !fullNameArabic) {
+        return next(
+            new ResponseError(
+                "Enter all required fields",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+        return next(
+            new ResponseError(
+                "User already exists",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+
+    const userData = {
+        email,
+        password,
+        fullNameEnglish,
+        fullNameArabic,
+        phone: phone || "",
+        secondaryPhone: secondaryPhone || "",
+    }
+
+    const user = await User.create(userData);
+
+    return res.status(statusCodes.CREATED).json({
+        message: "User created",
+        data: {
+            user
+        }
     })
 }
 
@@ -59,25 +103,11 @@ export const updatePassword = async (req, res, next) => {
     sendToken(user, statusCodes.OK, res)
 }
 
-// /api/user/update-profile
-export const updateOwnProfile = async (req, res, next) => {
-    const { firstName, lastName, email, address, phone } = req.body;
-    if (!firstName && !lastName && !email) {
-        return next(
-            new ResponseError(
-                "Enter all required fields",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
-
-
-
-
-
-    await User.findByIdAndUpdate(req.user._id, req.body, {
+export const updateUser = async (req, res, next) => {
+    const { userId } = req.params
+    const user = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
-        runValidators: true,
+        runValidators: true
     })
 
     res.status(statusCodes.OK).json({
@@ -125,46 +155,16 @@ export const getRole = async (req, res, next) => {
 // get all users and sort descending by date and group by role
 // /api/user/all
 export const getAllUsers = async (req, res, next) => {
-    const userGroups = await User.aggregate([
-        {
-            $sort: { createdAt: -1 } // Sort by createdAt in descending order
-        },
-        {
-            $addFields: {
-                id: "$_id" // Add a new field 'id' with the value of '_id'
-            }
-        },
-        {
-            $project: {
-                _id: 0, // Exclude the original '_id' field
-                role: "$role",
-                id: 1,
-                fullNameEnglish: 1,
-                fullNameArabic: 1,
-                email: 1,
-                createdAt: 1
-                // Add other fields you need here
-            }
-        },
-        {
-            $group: {
-                _id: "$role", // Group by the role field
-                users: { $push: "$$ROOT" } // Push the entire user document into the users array
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                role: "$_id",
-                users: 1
-            }
-        }
-    ]);
+    const { grouped, search } = ReqQueryHelper(req.query);
+    const users = await User.aggregate(queryHelper.findAllUsers({ grouped, search }));
+
+
 
     res.status(200).json({
         success: true,
         data: {
-            userGroups
+            users,
+            search
         }
     });
 };
@@ -180,7 +180,22 @@ export const toggleActivateUser = async (req, res, next) => {
             )
         )
     }
-
+    if (user.role === "superadmin") {
+        return next(
+            new ResponseError(
+                "Cannot deactivate superadmin",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+    if (user.id === req.user._id) {
+        return next(
+            new ResponseError(
+                "Cannot deactivate yourself",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
     user.active = !user.active
     await user.save()
     res.status(statusCodes.OK).json({

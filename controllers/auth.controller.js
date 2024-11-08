@@ -60,42 +60,7 @@ export const login = async (req, res, next) => {
 
 }
 
-export const register = async (req, res, next) => {
-    const { fullNameEnglish, fullNameArabic, email, password, phone, secondaryPhone } = req.body;
-    if (!email || !password || !fullNameEnglish || !fullNameArabic) {
-        return next(
-            new ResponseError(
-                "Enter all required fields",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
 
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-        return next(
-            new ResponseError(
-                "User already exists",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
-
-    const userData = {
-        email,
-        password,
-        fullNameEnglish,
-        fullNameArabic,
-        phone: phone || "",
-        secondaryPhone: secondaryPhone || "",
-    }
-
-    const user = await User.create(userData);
-
-    req.user = user;
-    sendToken(user, statusCodes.CREATED, res)
-}
 
 export const refreshToken = async (req, res, next) => {
     const { refreshToken } = req.cookies;
