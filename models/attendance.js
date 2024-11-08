@@ -2,10 +2,15 @@ import { Schema, model } from 'mongoose';
 
 const attendanceSchema = new Schema({
     date: {
-        type: String,
-        required: true,
+        type: Date,
+        required: [true, "Please provide a date"],
     },
     attendanceTime: {
+        type: String,
+        required: false,
+        default: "00:00"
+    },
+    leaveTime: {
         type: String,
         required: false,
         default: "00:00"
@@ -19,11 +24,6 @@ const attendanceSchema = new Schema({
         type: Number,
         default: 0,
         required: false,
-    },
-    leaveTime: {
-        type: String,
-        required: false,
-        default: "00:00"
     },
     user: {
         type: Schema.Types.ObjectId,

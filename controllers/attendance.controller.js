@@ -30,19 +30,36 @@ export const getAllAttendances = async (req, res, next) => {
 
 export const createAttendance = async (req, res, next) => {
     try {
-        // validate the request body using the schema
-        const isValidationError = AttendanceSchema.safeParse(req.body);
+        const { date: oldDate } = req.body;
+        const isValidationError = AttendanceSchema.safeParse({
+            ...req.body,
+            date: new Date(oldDate)
+        });
         if (!isValidationError.success) {
             return next(new ResponseError(
                 isValidationError.error.errors[0].message
                 , statusCodes.BAD_REQUEST));
         }
 
-        const { date, status, advancePayment, leaveTime, attendanceTime, note, user } = AttendanceSchema.parse(req.body);
+        let { date, status, advancePayment, leaveTime, attendanceTime, note, user } = req.body;
+        if (status === 'absent') {
+            attendanceTime = '00:00';
+            leaveTime = '00:00';
+        }
 
+        // TODO this should be handled in the schema
+        if (status === 'present' && (!attendanceTime || attendanceTime === '' || attendanceTime === null)) {
+            attendanceTime = '00:00';
+            leaveTime = '00:00';
+        }
+
+        const isValidUser = await User.findById(user);
+        if (!isValidUser) {
+            return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
+        }
 
         const attendance = await Attendance.create({
-            date,
+            date: new Date(date),
             status,
             advancePayment,
             leaveTime,
