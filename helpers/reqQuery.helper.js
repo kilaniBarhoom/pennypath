@@ -5,6 +5,7 @@ import ResponseError from "../utils/respErr.js";
 export default (query) => {
     const { from, to } = query;
     let search = query.search || "";
+    let grouped = query.grouped || false;
     search = search.trim();
     const filter = query.filter ? query.filter.split(",") : undefined;
     filter && filter.map((f) => {
@@ -33,10 +34,19 @@ export default (query) => {
         endDate = new Date(to);
     }
 
+    if (grouped && grouped === "true") {
+        grouped = true;
+    }
+
+    if (grouped && grouped === "false") {
+        grouped = false;
+    }
+
     return {
         from: startDate,
         to: endDate,
         search,
+        grouped,
         filter,
         serial: query.serial ? query.serial.trim() : null,
     };
