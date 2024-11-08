@@ -20,6 +20,7 @@ router.route('/')
 router.get('/all', auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.getAllUsers))
 router.put("/toggle-activate/:userId", auth, hasRole(Roles.SUPERADMIN), catcher(controller.toggleActivateUser))
 router.put('/:userId', auth, hasRole(Roles.SUPERADMIN), catcher(controller.updateUser))
+router.patch('/:userId', auth, hasRole(Roles.SUPERADMIN), catcher(controller.changeRole))
 router.put('/update-password', auth, catcher(controller.updatePassword))
 
 export default router

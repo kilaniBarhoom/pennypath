@@ -105,7 +105,7 @@ export const updatePassword = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
     const { userId } = req.params
-    const user = await User.findByIdAndUpdate(userId, req.body, {
+    await User.findByIdAndUpdate(userId, req.body, {
         new: true,
         runValidators: true
     })
@@ -197,6 +197,40 @@ export const toggleActivateUser = async (req, res, next) => {
         )
     }
     user.active = !user.active
+    await user.save()
+    res.status(statusCodes.OK).json({
+        message: "User updated"
+    })
+}
+
+// /api/user/:userId, change the role using patch
+export const changeRole = async (req, res, next) => {
+    const user = await User.findById(req.params.userId)
+    if (!user) {
+        return next(
+            new ResponseError(
+                "User not found",
+                statusCodes.NOT_FOUND
+            )
+        )
+    }
+    if (user.role === "superadmin") {
+        return next(
+            new ResponseError(
+                "Cannot change superadmin role",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+    if (user.id === req.user._id) {
+        return next(
+            new ResponseError(
+                "Cannot change your own role",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+    user.role = req.body.role
     await user.save()
     res.status(statusCodes.OK).json({
         message: "User updated"
