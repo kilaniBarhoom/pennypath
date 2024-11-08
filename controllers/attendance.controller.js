@@ -18,7 +18,7 @@ export const getAllAttendances = async (req, res, next) => {
     const averageAttendanceTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageAttendanceTime : 0;
     const averageLeaveTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageLeaveTime : 0;
 
-    const getAllPeopleWhoArePresent = (await Attendance.aggregate(queryHelper.getAllPeopleWhoArePresent({ startDate, endDate })))[0];
+    const analyticsOfUsersAttendances = (await Attendance.aggregate(queryHelper.getAnalyticsOfUsersAttendances()));
 
     return res.status(statusCodes.OK).json({
         success: true,
@@ -29,7 +29,7 @@ export const getAllAttendances = async (req, res, next) => {
             search,
             averageAttendanceTime,
             averageLeaveTime,
-            getAllPeopleWhoArePresent,
+            analyticsOfUsersAttendances,
         },
     });
 }

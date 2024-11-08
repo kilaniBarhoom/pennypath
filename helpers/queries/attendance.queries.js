@@ -2,22 +2,41 @@ import Roles from "../../utils/authRoles.js";
 
 export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser }) => {
     const filter = [];
+
+    // Restrict by user role if applicable
     if (loggedInUser.role === Roles.USER || loggedInUser.role === Roles.SPECTATOR) {
         filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
     }
-    if (startDate)
+
+    // Handle date range filtering
+    if (startDate && endDate) {
+        // If both startDate and endDate are provided, use a range
         filter.push({
             $match: {
-                date: { $gte: startDate },
+                date: { $gte: startDate, $lte: endDate },
             },
         });
-    if (endDate)
+    } else if (startDate && !endDate) {
+        // Only startDate is provided: match the entire day by setting the date range from start to end of the day
+        const startOfDay = new Date(new Date(startDate).setHours(0, 0, 0, 0));
+        const endOfDay = new Date(new Date(startDate).setHours(23, 59, 59, 999));
+
         filter.push({
             $match: {
-                date: { $lte: endDate },
+                date: { $gte: startOfDay, $lte: endOfDay },
             },
         });
-    if (search)
+    } else if (!startDate && endDate) {
+        // Only endDate is provided: match up to the end of the specified date
+        filter.push({
+            $match: {
+                date: { $lte: new Date(endDate) },
+            },
+        });
+    }
+
+    // Optional search criteria
+    if (search) {
         filter.push({
             $match: {
                 $or: [
@@ -25,25 +44,34 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
                 ],
             },
         });
+    }
 
-    if (onlyAdvancePayments)
+    // Filter by advance payments if required
+    if (onlyAdvancePayments) {
         filter.push({
             $match: {
                 advancePayment: { $gt: 0 },
             },
-        })
-    if (filterUser)
+        });
+    }
+
+    // Filter by specific user if required
+    if (filterUser) {
         filter.push({
             $match: {
-                user: filterUser,
+                user: ObjectID(filterUser),
             },
         });
+    }
 
+    // Sort by date in descending order
     filter.push({
         $sort: {
             date: -1,
         },
     });
+
+    // Project only the required fields
     filter.push({
         $project: {
             _id: 0,
@@ -59,6 +87,7 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
         },
     });
 
+    // Join with users collection to get details of user and createdBy
     filter.push({
         $lookup: {
             from: 'users',
@@ -76,6 +105,7 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
         }
     });
 
+    // Unwind userDetails and createdByDetails arrays
     filter.push({
         $unwind: '$userDetails'
     });
@@ -83,6 +113,7 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
         $unwind: '$createdByDetails'
     });
 
+    // Add fields from the joined documents
     filter.push({
         $addFields: {
             'user.fullNameEnglish': '$userDetails.fullNameEnglish',
@@ -98,14 +129,17 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
         }
     });
 
+    // Exclude userDetails and createdByDetails from the final output
     filter.push({
         $project: {
             userDetails: 0,
             createdByDetails: 0,
         }
     });
+
     return filter;
 };
+
 
 export const calculateAverageTimes = () => {
     const filter = [
@@ -173,19 +207,26 @@ export const calculateAverageTimes = () => {
     return filter;
 };
 
+export const getAnalyticsOfUsersAttendances = () => {
+    // Calculate the first and last days of the current month
+    const now = new Date();
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
-export const getAllPeopleWhoArePresent = ({ startDate, endDate }) => {
     const filter = [
         {
             $match: {
-                status: "present",
-                date: { $gte: new Date(startDate) }
+                date: {
+                    $gte: firstDayOfMonth,
+                    $lte: lastDayOfMonth
+                }
             }
         },
         {
             $group: {
                 _id: "$user",
-                count: { $sum: 1 }
+                totalAttendance: { $sum: 1 },
+                totalAdvancePayments: { $sum: "$advancePayment" }
             }
         },
         {
@@ -193,30 +234,27 @@ export const getAllPeopleWhoArePresent = ({ startDate, endDate }) => {
                 from: 'users',
                 localField: '_id',
                 foreignField: '_id',
-                as: 'userDetails'
+                as: 'user'
             }
         },
         {
-            $unwind: '$userDetails'
+            $unwind: "$user"
         },
         {
             $project: {
                 _id: 0,
-                id: '$_id',
-                count: 1,
-                'user.fullNameEnglish': '$userDetails.fullNameEnglish',
-                'user.id': '$userDetails._id',
-                'user.fullNameArabic': '$userDetails.fullNameArabic',
-                'user.email': '$userDetails.email',
-                'user.role': '$userDetails.role',
+                totalAttendance: 1,
+                totalAdvancePayments: 1,
+                "user.fullNameEnglish": 1,
+                "user.fullNameArabic": 1,
+                "user.email": 1,
+                "user.role": 1,
+                "user.id": "$_id",
             }
         }
     ];
 
-    if (endDate) {
-        filter[0].$match.date.$lte = new Date(endDate);
-    }
+    return filter; // Modify 'attendances' to your actual collection name
+};
 
-    return filter;
-}
 
