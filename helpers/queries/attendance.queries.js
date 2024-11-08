@@ -67,12 +67,15 @@ export const findAttendance = (startDate, endDate, search, filterUser, onlyAdvan
             from: 'users',
             localField: 'createdBy',
             foreignField: '_id',
-            as: 'userDetails'
+            as: 'createdByDetails'
         }
     });
 
     filter.push({
         $unwind: '$userDetails'
+    });
+    filter.push({
+        $unwind: '$createdByDetails'
     });
 
     filter.push({
@@ -82,17 +85,18 @@ export const findAttendance = (startDate, endDate, search, filterUser, onlyAdvan
             'user.fullNameArabic': '$userDetails.fullNameArabic',
             'user.email': '$userDetails.email',
             'user.role': '$userDetails.role',
-            'createdBy.fullNameEnglish': '$userDetails.fullNameEnglish',
-            'createdBy.id': '$userDetails._id',
-            'createdBy.fullNameArabic': '$userDetails.fullNameArabic',
-            'createdBy.email': '$userDetails.email',
-            'createdBy.role': '$userDetails.role',
+            'createdBy.fullNameEnglish': '$createdByDetails.fullNameEnglish',
+            'createdBy.id': '$createdByDetails._id',
+            'createdBy.fullNameArabic': '$createdByDetails.fullNameArabic',
+            'createdBy.email': '$createdByDetails.email',
+            'createdBy.role': '$createdByDetails.role',
         }
     });
 
     filter.push({
         $project: {
-            userDetails: 0
+            userDetails: 0,
+            createdByDetails: 0,
         }
     });
     return filter;
@@ -100,6 +104,12 @@ export const findAttendance = (startDate, endDate, search, filterUser, onlyAdvan
 
 export const calculateAverageTimes = () => {
     const filter = [
+        {
+            $match: {
+                attendanceTime: { $ne: "00:00" },
+                leaveTime: { $ne: "00:00" }
+            }
+        },
         {
             $addFields: {
                 attendanceMinutes: {
@@ -157,4 +167,51 @@ export const calculateAverageTimes = () => {
 
     return filter;
 };
+
+
+export const getAllPeopleWhoArePresent = ({ startDate, endDate }) => {
+    const filter = [
+        {
+            $match: {
+                status: "present",
+                date: { $gte: new Date(startDate) }
+            }
+        },
+        {
+            $group: {
+                _id: "$user",
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        {
+            $unwind: '$userDetails'
+        },
+        {
+            $project: {
+                _id: 0,
+                id: '$_id',
+                count: 1,
+                'user.fullNameEnglish': '$userDetails.fullNameEnglish',
+                'user.id': '$userDetails._id',
+                'user.fullNameArabic': '$userDetails.fullNameArabic',
+                'user.email': '$userDetails.email',
+                'user.role': '$userDetails.role',
+            }
+        }
+    ];
+
+    if (endDate) {
+        filter[0].$match.date.$lte = new Date(endDate);
+    }
+
+    return filter;
+}
 

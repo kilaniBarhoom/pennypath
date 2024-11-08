@@ -3,27 +3,33 @@ import * as queryHelper from "../helpers/queries/attendance.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
 import Attendance from '../models/attendance.js';
+import User from '../models/user.js';
 import { AttendanceSchema } from '../schemas/index.js';
+import Roles from "../utils/authRoles.js";
 import ResponseError from '../utils/respErr.js';
 
 // create a new attendance, edit a attendance, delete a attendance, get all attendances, get a single attendance, delete a attendance after 1 day
 export const getAllAttendances = async (req, res, next) => {
-    const { from, to, search, filterUser, onlyAdvancePayments } = ReqQueryHelper(req.query);
-    const attendances = await Attendance.aggregate(queryHelper.findAttendance(from, to, search, filterUser, onlyAdvancePayments));
+    const { from: startDate, to: endDate, search, filterUser, onlyAdvancePayments } = ReqQueryHelper(req.query);
+
+    const attendances = await Attendance.aggregate(queryHelper.findAttendance({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser: req.user }));
 
     let averageAttendanceAndLeaveTime = (await Attendance.aggregate(queryHelper.calculateAverageTimes()))[0];
     const averageAttendanceTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageAttendanceTime : 0;
     const averageLeaveTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageLeaveTime : 0;
 
+    const getAllPeopleWhoArePresent = (await Attendance.aggregate(queryHelper.getAllPeopleWhoArePresent({ startDate, endDate })))[0];
+
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
             attendances,
-            from,
-            to,
+            startDate,
+            endDate,
             search,
             averageAttendanceTime,
             averageLeaveTime,
+            getAllPeopleWhoArePresent,
         },
     });
 }
@@ -114,6 +120,14 @@ export const deleteAttendance = async (req, res, next) => {
 }
 export const getSingleAttendance = async (req, res, next) => {
     const attendance = await Attendance.findById(req.params.attendanceId).populate('user', 'fullNameEnglish fullNameArabic email role').populate('createdBy', 'fullNameEnglish fullNameArabic email role');
+
+    if ((req.user.role === Roles.USER || req.user.role === Roles.SPECTATOR) && attendance.user.id !== req.user.id) {
+        throw new ResponseError(
+            "You are not authorized to access this attendance",
+            statusCode.NOT_AUTHORIZED
+        );
+    }
+
     if (!attendance) {
         return next(new ResponseError('Attendance not found', statusCodes.NOT_FOUND));
     }
@@ -123,11 +137,3 @@ export const getSingleAttendance = async (req, res, next) => {
     });
 }
 
-// export const createAttendancePDF = (req, res, next) => {
-//     const { attendances, from, to, rangeTotalValue, allTimeTotalValue } = req.body;
-//     const pdfBuffer = buildPDF(attendances, from, to, rangeTotalValue, allTimeTotalValue);
-
-//     res.setHeader('Content-Type', 'application/pdf');
-//     res.setHeader('Content-Disposition', 'attachment; filename=attendances.pdf');
-//     res.send(Buffer.concat(pdfBuffer));
-// }
