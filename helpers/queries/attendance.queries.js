@@ -1,15 +1,20 @@
-export const findAttendance = (startDate, endDate, search, filterUser, onlyAdvancePayments) => {
+import Roles from "../../utils/authRoles.js";
+
+export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser }) => {
     const filter = [];
+    if (loggedInUser.role === Roles.USER || loggedInUser.role === Roles.SPECTATOR) {
+        filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
+    }
     if (startDate)
         filter.push({
             $match: {
-                date: { $gte: new Date(startDate) },
+                date: { $gte: startDate },
             },
         });
     if (endDate)
         filter.push({
             $match: {
-                date: { $lte: new Date(endDate) },
+                date: { $lte: endDate },
             },
         });
     if (search)
