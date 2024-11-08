@@ -47,7 +47,22 @@ export const findAllUsers = ({ grouped, search }) => {
         // just return the users in the order when first created to last
         filters = [
             {
-                $sort: { createdAt: 1 } // Sort by createdAt in descending order
+                $addFields: {
+                    roleOrder: {
+                        $switch: {
+                            branches: [
+                                { case: { $eq: ["$role", "superadmin"] }, then: 1 },
+                                { case: { $eq: ["$role", "admin"] }, then: 2 },
+                                { case: { $eq: ["$role", "user"] }, then: 3 },
+                                { case: { $eq: ["$role", "spectator"] }, then: 4 }
+                            ],
+                            default: 5 // Assign a default value for any other roles
+                        }
+                    }
+                }
+            },
+            {
+                $sort: { roleOrder: 1 } // Sort by roleOrder first, then by createdAt
             },
             {
                 $addFields: {
@@ -69,8 +84,13 @@ export const findAllUsers = ({ grouped, search }) => {
                     updatedAt: 1
                     // Add other fields you need here
                 }
+            },
+            {
+                $project: {
+                    roleOrder: 0 // Optionally exclude the roleOrder field from the final output
+                }
             }
-        ]
+        ];
     }
 
     if (search)
