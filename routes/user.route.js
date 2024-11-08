@@ -14,7 +14,7 @@ router.use("/health", (req, res) => {
 router.route('/')
     .all(auth)
     .get(catcher(controller.getOwnProfile))
-    .post(hasRoles(Roles.SUPERADMIN, Roles.ADMIN), catcher(controller.createUser))
+    .post(hasRole(Roles.SUPERADMIN, Roles.ADMIN), catcher(controller.createUser))
     .delete(catcher(controller.deleteOwnProfile))
 
 router.get('/all', auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.getAllUsers))
