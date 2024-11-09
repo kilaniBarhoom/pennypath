@@ -6,6 +6,7 @@ export default (query) => {
     const { from, to, analyticsInterval } = query;
     let search = query.search || "";
     let grouped = query.grouped || false;
+    let pageNumber = query.pageNumber || 1;
     search = search.trim();
     const filter = query.filter ? query.filter.split(",") : undefined;
     filter && filter.map((f) => {
@@ -41,6 +42,8 @@ export default (query) => {
     if (grouped && grouped === "false") {
         grouped = false;
     }
+    if (pageNumber)
+        pageNumber = pageNumber - 1;
 
     return {
         from: startDate,
@@ -49,6 +52,7 @@ export default (query) => {
         grouped,
         filter,
         analyticsInterval,
+        pageNumber
     };
 };
 

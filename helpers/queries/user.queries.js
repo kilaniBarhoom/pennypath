@@ -1,8 +1,8 @@
-export const findAllUsers = ({ grouped, search }) => {
-    let filters = []
+export const findAllUsers = ({ grouped, search, pageNumber }) => {
+    let filter = []
 
     if (grouped) {
-        filters = [
+        filter = [
             {
                 $sort: { createdAt: 1 } // Sort by createdAt in descending order
             },
@@ -45,7 +45,7 @@ export const findAllUsers = ({ grouped, search }) => {
         ]
     } else {
         // just return the users in the order when first created to last
-        filters = [
+        filter = [
             {
                 $addFields: {
                     roleOrder: {
@@ -89,12 +89,16 @@ export const findAllUsers = ({ grouped, search }) => {
                 $project: {
                     roleOrder: 0 // Optionally exclude the roleOrder field from the final output
                 }
-            }
+            },
+            {
+                $skip: pageNumber * 10
+            },
+            { $limit: 10 }
         ];
     }
 
     if (search)
-        filters.push({
+        filter.push({
             $match: {
                 $or: [
                     { email: { $regex: search, $options: "i" } },
@@ -106,6 +110,6 @@ export const findAllUsers = ({ grouped, search }) => {
             },
         });
 
-    return filters;
+    return filter;
 
 }

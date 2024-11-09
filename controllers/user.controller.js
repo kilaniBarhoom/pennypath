@@ -7,6 +7,27 @@ import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 import * as queryHelper from "../helpers/queries/user.queries.js";
 
 
+// get all users and sort descending by date and group by role
+// /api/user/all
+export const getAllUsers = async (req, res, next) => {
+    const { grouped, search, pageNumber } = ReqQueryHelper(req.query);
+    const userDocuments = await User.countDocuments();
+
+    const totalPages = Math.ceil(userDocuments / 10);
+
+    const users = await User.aggregate(queryHelper.findAllUsers({ grouped, search, pageNumber }));
+
+    res.status(200).json({
+        success: true,
+        data: {
+            users,
+            search,
+            pageNumber: pageNumber + 1,
+            totalPages
+        }
+    });
+};
+
 // /api/user/
 export const getOwnProfile = async (req, res, next) => {
 
@@ -152,22 +173,7 @@ export const getRole = async (req, res, next) => {
     })
 }
 
-// get all users and sort descending by date and group by role
-// /api/user/all
-export const getAllUsers = async (req, res, next) => {
-    const { grouped, search } = ReqQueryHelper(req.query);
-    const users = await User.aggregate(queryHelper.findAllUsers({ grouped, search }));
 
-
-
-    res.status(200).json({
-        success: true,
-        data: {
-            users,
-            search
-        }
-    });
-};
 
 
 export const toggleActivateUser = async (req, res, next) => {

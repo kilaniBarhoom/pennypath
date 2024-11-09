@@ -1,6 +1,6 @@
 import Roles from "../../utils/authRoles.js";
 
-export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser }) => {
+export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser, pageNumber }) => {
     const filter = [];
 
     // Restrict by user role if applicable
@@ -136,6 +136,12 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
             createdByDetails: 0,
         }
     });
+
+    filter.push({
+        $skip: pageNumber * 10
+    },
+        { $limit: 10 })
+
 
     return filter;
 };
