@@ -3,7 +3,7 @@ import IsValidID from "../utils/IsValidID.js";
 import ResponseError from "../utils/respErr.js";
 
 export default (query) => {
-    const { from, to } = query;
+    const { from, to, analyticsInterval } = query;
     let search = query.search || "";
     let grouped = query.grouped || false;
     search = search.trim();
@@ -48,7 +48,7 @@ export default (query) => {
         search,
         grouped,
         filter,
-        serial: query.serial ? query.serial.trim() : null,
+        analyticsInterval,
     };
 };
 

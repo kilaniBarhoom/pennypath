@@ -53,7 +53,7 @@ export const createAttendance = async (req, res, next) => {
             leaveTime = '00:00';
         }
 
-        // TODO this should be handled in the schema
+        //! TODO this should be handled in the schema
         if (status === 'present' && (!attendanceTime || attendanceTime === '' || attendanceTime === null)) {
             attendanceTime = '00:00';
             leaveTime = '00:00';
@@ -137,3 +137,18 @@ export const getSingleAttendance = async (req, res, next) => {
     });
 }
 
+export const getAnalytics = async (req, res, next) => {
+    const { analyticsInterval } = ReqQueryHelper(req.query);
+
+    const analyticsOfUsersAttendancesAndLeaveTimes = (await Attendance.aggregate(queryHelper.getAnalyticsOfUsersAttendancesAndLeaveTimesByInterval({
+        analyticsInterval
+    })));
+
+    return res.status(statusCodes.OK).json({
+        success: true,
+        data: {
+            analyticsOfUsersAttendancesAndLeaveTimes,
+        },
+    });
+
+}

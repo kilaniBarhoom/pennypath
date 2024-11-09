@@ -257,4 +257,260 @@ export const getAnalyticsOfUsersAttendances = () => {
     return filter; // Modify 'attendances' to your actual collection name
 };
 
+export const getAnalyticsOfUsersAttendancesAndLeaveTimesByInterval = ({ analyticsInterval }) => {
+    const filter = [];
+
+    if (analyticsInterval === "monthly") {
+        filter.push(
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), 0, 1),
+                        $lte: new Date(new Date().getFullYear(), 11, 31),
+                    },
+                    attendanceTime: { $ne: "00:00" },
+                    leaveTime: { $ne: "00:00" }
+                },
+            },
+            {
+                $addFields: {
+                    attendanceMinutes: {
+                        $add: [
+                            { $multiply: [{ $toInt: { $substr: ["$attendanceTime", 0, 2] } }, 60] },
+                            { $toInt: { $substr: ["$attendanceTime", 3, 2] } }
+                        ]
+                    },
+                    leaveMinutes: {
+                        $add: [
+                            { $multiply: [{ $toInt: { $substr: ["$leaveTime", 0, 2] } }, 60] },
+                            { $toInt: { $substr: ["$leaveTime", 3, 2] } }
+                        ]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: { month: { $month: "$date" } },
+                    avgAttendanceMinutes: { $avg: "$attendanceMinutes" },
+                    avgLeaveMinutes: { $avg: "$leaveMinutes" }
+                }
+            },
+            {
+                $sort: {
+                    "_id.month": 1,
+                },
+            },
+            {
+                $project: {
+                    month: "$_id.month",
+                    avgAttendanceTime: {
+                        $concat: [
+                            { $toString: { $floor: { $divide: ["$avgAttendanceMinutes", 60] } } },
+                            ":",
+                            {
+                                $cond: {
+                                    if: { $lt: [{ $mod: ["$avgAttendanceMinutes", 60] }, 10] },
+                                    then: { $concat: ["0", { $toString: { $mod: ["$avgAttendanceMinutes", 60] } }] },
+                                    else: { $toString: { $mod: ["$avgAttendanceMinutes", 60] } }
+                                }
+                            }
+                        ]
+                    },
+                    avgLeaveTime: {
+                        $concat: [
+                            { $toString: { $floor: { $divide: ["$avgLeaveMinutes", 60] } } },
+                            ":",
+                            {
+                                $cond: {
+                                    if: { $lt: [{ $mod: ["$avgLeaveMinutes", 60] }, 10] },
+                                    then: { $concat: ["0", { $toString: { $mod: ["$avgLeaveMinutes", 60] } }] },
+                                    else: { $toString: { $mod: ["$avgLeaveMinutes", 60] } }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        );
+
+        // Ensure all months are included
+        filter.push({
+            $group: {
+                _id: null,
+                months: { $push: "$$ROOT" }
+            }
+        });
+
+        filter.push({
+            $project: {
+                months: {
+                    $map: {
+                        input: { $range: [1, 13] },
+                        as: "month",
+                        in: {
+                            $let: {
+                                vars: {
+                                    monthData: {
+                                        $arrayElemAt: [
+                                            {
+                                                $filter: {
+                                                    input: "$months",
+                                                    as: "m",
+                                                    cond: { $eq: ["$$m.month", "$$month"] }
+                                                }
+                                            },
+                                            0
+                                        ]
+                                    }
+                                },
+                                in: {
+                                    month: "$$month",
+                                    avgAttendanceTime: { $ifNull: ["$$monthData.avgAttendanceTime", "0:00"] },
+                                    avgLeaveTime: { $ifNull: ["$$monthData.avgLeaveTime", "0:00"] }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        filter.push({
+            $unwind: "$months"
+        });
+
+        filter.push({
+            $replaceRoot: { newRoot: "$months" }
+        });
+
+    } else if (analyticsInterval === "yearly") {
+        filter.push(
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear() - 3, 0, 1),
+                        $lt: new Date(new Date().getFullYear() + 1, 0, 1),
+                    },
+                    attendanceTime: { $ne: "00:00" },
+                    leaveTime: { $ne: "00:00" }
+                },
+            },
+            {
+                $addFields: {
+                    attendanceMinutes: {
+                        $add: [
+                            { $multiply: [{ $toInt: { $substr: ["$attendanceTime", 0, 2] } }, 60] },
+                            { $toInt: { $substr: ["$attendanceTime", 3, 2] } }
+                        ]
+                    },
+                    leaveMinutes: {
+                        $add: [
+                            { $multiply: [{ $toInt: { $substr: ["$leaveTime", 0, 2] } }, 60] },
+                            { $toInt: { $substr: ["$leaveTime", 3, 2] } }
+                        ]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: { year: { $year: "$date" } },
+                    avgAttendanceMinutes: { $avg: "$attendanceMinutes" },
+                    avgLeaveMinutes: { $avg: "$leaveMinutes" }
+                }
+            },
+            {
+                $sort: {
+                    "_id.year": 1,
+                },
+            },
+            {
+                $project: {
+                    year: "$_id.year",
+                    avgAttendanceTime: {
+                        $concat: [
+                            { $toString: { $floor: { $divide: ["$avgAttendanceMinutes", 60] } } },
+                            ":",
+                            {
+                                $cond: {
+                                    if: { $lt: [{ $mod: ["$avgAttendanceMinutes", 60] }, 10] },
+                                    then: { $concat: ["0", { $toString: { $mod: ["$avgAttendanceMinutes", 60] } }] },
+                                    else: { $toString: { $mod: ["$avgAttendanceMinutes", 60] } }
+                                }
+                            }
+                        ]
+                    },
+                    avgLeaveTime: {
+                        $concat: [
+                            { $toString: { $floor: { $divide: ["$avgLeaveMinutes", 60] } } },
+                            ":",
+                            {
+                                $cond: {
+                                    if: { $lt: [{ $mod: ["$avgLeaveMinutes", 60] }, 10] },
+                                    then: { $concat: ["0", { $toString: { $mod: ["$avgLeaveMinutes", 60] } }] },
+                                    else: { $toString: { $mod: ["$avgLeaveMinutes", 60] } }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        );
+
+        // Ensure all years are included
+        filter.push({
+            $group: {
+                _id: null,
+                years: { $push: "$$ROOT" }
+            }
+        });
+
+        filter.push({
+            $project: {
+                years: {
+                    $map: {
+                        input: { $range: [new Date().getFullYear() - 3, new Date().getFullYear() + 1] },
+                        as: "year",
+                        in: {
+                            $let: {
+                                vars: {
+                                    yearData: {
+                                        $arrayElemAt: [
+                                            {
+                                                $filter: {
+                                                    input: "$years",
+                                                    as: "y",
+                                                    cond: { $eq: ["$$y.year", "$$year"] }
+                                                }
+                                            },
+                                            0
+                                        ]
+                                    }
+                                },
+                                in: {
+                                    year: "$$year",
+                                    avgAttendanceTime: { $ifNull: ["$$yearData.avgAttendanceTime", "0:00"] },
+                                    avgLeaveTime: { $ifNull: ["$$yearData.avgLeaveTime", "0:00"] }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        filter.push({
+            $unwind: "$years"
+        });
+
+        filter.push({
+            $replaceRoot: { newRoot: "$years" }
+        });
+    }
+    return filter;
+};
+
+
+
+
+
 

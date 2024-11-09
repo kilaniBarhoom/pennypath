@@ -17,13 +17,13 @@ router.route('/')
     .get(catcher(controller.getAllAttendances))
     .post(hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.createAttendance))
 
-
-
+router.get('/analytics', auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.getAnalytics))
 router.route('/:attendanceId')
     .all(auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN))
     .get(catcher(controller.getSingleAttendance))
     .delete(catcher(controller.deleteAttendance))
     .put(catcher(controller.editAttendance))
+
 
 
 
