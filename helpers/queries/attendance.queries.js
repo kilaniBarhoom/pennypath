@@ -30,7 +30,7 @@ export const findAttendance = ({ startDate, endDate, search, filterUser, onlyAdv
         // Only endDate is provided: match up to the end of the specified date
         filter.push({
             $match: {
-                date: { $lte: new Date(endDate) },
+                date: { $lte: endDate },
             },
         });
     }
