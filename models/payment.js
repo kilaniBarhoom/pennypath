@@ -20,6 +20,11 @@ const paymentSchema = new Schema({
     },
     note: {
         type: String,
+    },
+    type: {
+        type: String,
+        enum: ['advance', 'full'],
+        default: 'full',
     }
 })
 

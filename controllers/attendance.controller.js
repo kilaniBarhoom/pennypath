@@ -3,6 +3,7 @@ import * as queryHelper from "../helpers/queries/attendance.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
 import Attendance from '../models/attendance.js';
+import Payment from '../models/payment.js';
 import User from '../models/user.js';
 import { AttendanceSchema } from '../schemas/index.js';
 import Roles from "../utils/authRoles.js";
@@ -67,6 +68,17 @@ export const createAttendance = async (req, res, next) => {
     const isValidUser = await User.findById(user);
     if (!isValidUser) {
         return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
+    }
+
+    if (advancePayment && advancePayment > 0) {
+        await Payment.create({
+            date: new Date(date),
+            amount: advancePayment,
+            user,
+            note: 'Advance payment for attendance',
+            type: 'advance',
+            createdBy: req.user._id,
+        });
     }
 
     const attendance = await Attendance.create({

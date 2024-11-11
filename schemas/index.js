@@ -43,4 +43,5 @@ export const PaymentSchema = z.object({
         required_error: "Date is required",
     }),
     note: z.string().optional(),
+    type: z.enum(["advance", "full"]),
 });
