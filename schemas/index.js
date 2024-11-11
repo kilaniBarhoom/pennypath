@@ -35,3 +35,12 @@ export const AttendanceSchema = z.object({
     // date: z.string().min(1, "Date is required").regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in the format of yyyy-mm-dd"),
     note: z.string().optional(),
 });
+
+export const PaymentSchema = z.object({
+    amount: z.number().min(0, "Advance payment must be at least 0"),
+    user: z.string().min(1, "User must be at least 1 characters long"),
+    date: z.date({
+        required_error: "Date is required",
+    }),
+    note: z.string().optional(),
+});
