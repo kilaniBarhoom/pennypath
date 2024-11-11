@@ -11,6 +11,7 @@ import expenseRoutes from "./routes/expense.route.js";
 import sessionRoutes from "./routes/session.route.js";
 import attendanceRoutes from "./routes/attendance.route.js";
 import paymentRoutes from "./routes/payment.route.js";
+import settingsRoutes from "./routes/settings.route.js";
 
 
 //	Routes
@@ -38,6 +39,9 @@ router.use("/attendance", attendanceRoutes);
 
 //payment Routes
 router.use("/payment", paymentRoutes);
+
+//settings Routes
+router.use("/settings", settingsRoutes);
 
 
 //  Undefined Routes

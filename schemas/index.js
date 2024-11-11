@@ -45,3 +45,7 @@ export const PaymentSchema = z.object({
     note: z.string().optional(),
     type: z.enum(["advance", "full"]),
 });
+
+export const SettingsSchema = z.object({
+    attendanceType: z.enum(["dateOnly", "checkinchekout"]),
+});
