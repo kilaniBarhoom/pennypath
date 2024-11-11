@@ -4,6 +4,7 @@ import * as controller from '../controllers/attendance.controller.js';
 import { auth, hasRole } from '../middleware/auth.middleware.js';
 import catcher from '../middleware/catcher.middleware.js';
 import Roles from "../utils/authRoles.js";
+import loadSettings from "../middleware/loadSettings.js";
 
 const router = express.Router()
 
@@ -13,7 +14,7 @@ router.use("/health", (req, res) => {
 
 
 router.route('/')
-    .all(auth)
+    .all(auth, loadSettings)
     .get(catcher(controller.getAllAttendances))
     .post(hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.createAttendance))
 

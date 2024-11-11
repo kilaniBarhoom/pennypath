@@ -54,16 +54,16 @@ export const createAttendance = async (req, res, next) => {
     }
 
     let { date, status, advancePayment, leaveTime, attendanceTime, note, user } = req.body;
-    if (status === 'absent') {
+    if (status === 'absent' || attendanceType === 'dateOnly') {
         attendanceTime = '00:00';
         leaveTime = '00:00';
-    }
+    } else
 
-    //! TODO this should be handled in the schema
-    if (status === 'present' && (!attendanceTime || attendanceTime === '' || attendanceTime === null)) {
-        attendanceTime = '00:00';
-        leaveTime = '00:00';
-    }
+        //! TODO this should be handled in the schema
+        if (status === 'present' && (!attendanceTime || attendanceTime === '' || attendanceTime === null)) {
+            attendanceTime = '00:00';
+            leaveTime = '00:00';
+        }
 
     const isValidUser = await User.findById(user);
     if (!isValidUser) {
