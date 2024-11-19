@@ -18,12 +18,23 @@ export const getAllPayments = async (req, res, next) => {
 
     const payments = await Payment.aggregate(queryHelper.findPayments({ startDate, endDate, search, filterUser, loggedInUser: req.user, pageNumber }));
 
+
+    const _id = payments.map(({ _id }) => _id);
+
+    let allTimeTotal = (await Payment.aggregate(queryHelper.findValueSum()))[0];
+    const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
+
+    let rangeTotal = (await Payment.aggregate(queryHelper.findValueSum(_id)))[0];
+    const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
+
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
             payments,
             startDate,
             endDate,
+            allTimeTotalValue,
+            rangeTotalValue,
             search,
             pageNumber: pageNumber + 1,
             totalPages
@@ -57,6 +68,7 @@ export const createPayment = async (req, res, next) => {
         amount,
         user,
         note,
+        type,
         createdBy: req.user._id,
     });
 
@@ -69,7 +81,7 @@ export const createPayment = async (req, res, next) => {
 
 export const editPayment = async (req, res, next) => {
     const { paymentId } = req.params;
-    const { date: oldDate } = req.body;
+    const { date: oldDate, user } = req.body;
     const isValidationError = PaymentSchema.safeParse({
         ...req.body,
         date: new Date(oldDate)
@@ -86,7 +98,10 @@ export const editPayment = async (req, res, next) => {
         return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
     }
 
-    const payment = await Payment.findByIdAndUpdate(paymentId, req.ody, { new: true, runValidators: true });
+    const payment = await Payment.findByIdAndUpdate(paymentId, {
+        ...req.body,
+        date: new Date(req.body.date)
+    }, { new: true, runValidators: true });
 
     res.status(statusCodes.OK).json({
         status: 'success',

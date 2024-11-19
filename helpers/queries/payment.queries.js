@@ -49,6 +49,7 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
             id: "$_id",
             date: 1,
             amount: 1,
+            type: 1,
             note: 1,
             user: 1,
             createdBy: 1,
@@ -111,3 +112,23 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
 
     return filter;
 }
+
+export const findValueSum = (_id) => {
+    const filter = [
+        {
+            $group: {
+                _id: null,
+                total: { $sum: "$amount" },
+            },
+        },
+    ];
+
+    if (_id)
+        filter.unshift({
+            $match: {
+                _id: { $in: _id },
+            },
+        });
+
+    return filter;
+};
