@@ -10,8 +10,13 @@ import { buildPDF } from '../helpers/buildPDF.js';
 
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
-    const { from, to, search } = ReqQueryHelper(req.query);
-    const expenses = await Expense.aggregate(queryHelper.findExpenses(from, to, search));
+    const { from, to, search, pageNumber } = ReqQueryHelper(req.query);
+
+    const expenseDocuments = await Expense.countDocuments();
+
+    const totalPages = Math.ceil(expenseDocuments / 10);
+
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, loggedInUser: req.user, pageNumber }));
 
     const _id = expenses.map(({ _id }) => _id);
 
@@ -30,40 +35,36 @@ export const getAllExpenses = async (req, res, next) => {
             from,
             to,
             search,
+            pageNumber,
+            totalPages
         },
     });
 }
 
 export const createExpense = async (req, res, next) => {
-    try {
-        // validate the request body using the schema
 
 
-        const isValidationError = ExpenseSchema.safeParse(req.body);
+    const isValidationError = ExpenseSchema.safeParse(req.body);
 
-        if (!isValidationError.success) {
-            return next(new ResponseError(
-                isValidationError.error.errors[0].message
-                , statusCodes.BAD_REQUEST));
-        }
-
-        const { name, description, amount, images } = ExpenseSchema.parse(req.body);
-        const user = req.user.id;
-
-        await Expense.create({
-            name,
-            description,
-            amount,
-            images,
-            user,
-        });
-        res.status(statusCodes.CREATED).json({
-            status: 'success',
-            message: 'Expense created successfully',
-        });
-    } catch (error) {
-        next(new ResponseError(error.message, statusCodes.BAD_REQUEST));
+    if (!isValidationError.success) {
+        return next(new ResponseError(
+            isValidationError.error.errors[0].message
+            , statusCodes.BAD_REQUEST));
     }
+
+    const { name, description, amount, images } = ExpenseSchema.parse(req.body);
+
+    await Expense.create({
+        name,
+        description,
+        amount,
+        images,
+        user: req.user.id,
+    });
+    res.status(statusCodes.CREATED).json({
+        status: 'success',
+        message: 'Expense created successfully',
+    });
 }
 
 export const editExpense = async (req, res, next) => {
@@ -103,18 +104,11 @@ export const editExpense = async (req, res, next) => {
 }
 
 export const deleteExpense = async (req, res, next) => {
-    try {
-        const expense = await Expense.findByIdAndDelete(req.params.expenseId);
-        if (!expense) {
-            return next(new ResponseError('Expense not found', statusCodes.NOT_FOUND));
-        }
-        res.status(statusCodes.OK).json({
-            status: true,
-            message: 'Expense deleted successfully',
-        });
-    } catch (error) {
-        next(new ResponseError(error.message, statusCodes.BAD_REQUEST));
-    }
+    await Expense.findByIdAndDelete(req.params.expenseId);
+    res.status(statusCodes.OK).json({
+        status: true,
+        message: 'Expense deleted successfully',
+    });
 }
 
 export const uploadExpenseImage = async (req, res, next) => {

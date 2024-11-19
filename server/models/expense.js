@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose';
 
 const expenseSchema = new Schema({
     name: {
@@ -21,22 +21,15 @@ const expenseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    id: {
-        type: Number,
-        unique: true,
-    },
 }, { timestamps: true })
 
-expenseSchema.pre('save', async function (next) {
-    if (this.isNew) {
-        const lastExpense = await this.constructor.findOne().sort({ id: -1 });
-        this.id = lastExpense ? lastExpense.id + 1 : 1;
-    }
-    next();
+expenseSchema.set("toJSON", {
+    virtuals: true,
+    transform: function (doc, ret) {
+        delete ret._id;
+        delete ret.__v;
+    },
 });
-
-
-
 
 const Expense = model('Expense', expenseSchema)
 export default Expense

@@ -1,15 +1,23 @@
-export const findExpenses = (startDate, endDate, search) => {
+import ObjectID from "../../utils/ObjectID.js";
+
+export const findExpenses = ({ startDate, endDate, search, loggedInUser, pageNumber }) => {
     const filter = [];
+
+    if (!loggedInUser) {
+        return filter;
+    }
+    filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
+
     if (startDate)
         filter.push({
             $match: {
-                createdAt: { $gte: new Date(startDate) },
+                createdAt: { $gte: startDate },
             },
         });
     if (endDate)
         filter.push({
             $match: {
-                createdAt: { $lte: new Date(endDate) },
+                createdAt: { $lte: endDate },
             },
         });
     if (search)
@@ -29,8 +37,8 @@ export const findExpenses = (startDate, endDate, search) => {
     });
     filter.push({
         $project: {
-            _id: 1,
-            id: 1,
+            _id: 0,
+            id: "$_id",
             createdAt: 1,
             amount: 1,
             description: 1,
@@ -55,6 +63,7 @@ export const findExpenses = (startDate, endDate, search) => {
 
     filter.push({
         $addFields: {
+            'user.id': '$userDetails._id',
             'user.fullNameEnglish': '$userDetails.fullNameEnglish',
             'user.fullNameArabic': '$userDetails.fullNameArabic',
             'user.email': '$userDetails.email',
@@ -67,6 +76,11 @@ export const findExpenses = (startDate, endDate, search) => {
             userDetails: 0
         }
     });
+    filter.push({
+        $skip: pageNumber * 20
+    },
+        { $limit: 20 })
+
     return filter;
 };
 

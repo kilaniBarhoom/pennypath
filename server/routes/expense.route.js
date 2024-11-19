@@ -16,14 +16,14 @@ router.use("/health", (req, res) => {
 router.route('/')
     .all(auth)
     .get(catcher(controller.getAllExpenses))
-    .post(hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.createExpense))
+    .post(catcher(controller.createExpense))
 
 router.post('/uploadExpenseImage', fileUpload(fileValidation.image).single('file'), catcher(controller.uploadExpenseImage))
 
 router.post('/createPDF', catcher(controller.createExpensePDF))
 
 router.route('/:expenseId')
-    .all(auth, hasRole(Roles.ADMIN))
+    .all(auth)
     .get(catcher(controller.getSingleExpense))
     .delete(catcher(controller.deleteExpense))
     .put(catcher(controller.editExpense))
