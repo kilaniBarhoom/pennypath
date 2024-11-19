@@ -39,3 +39,13 @@ declare type PaymentType = {
   createdBy: UserType;
   type: "full" | "advance";
 };
+
+declare type ExpenseType = {
+  id: string;
+  name: string;
+  description: string;
+  amount: number;
+  user: UserType;
+  createdAt: string;
+  updatedAt: string;
+};

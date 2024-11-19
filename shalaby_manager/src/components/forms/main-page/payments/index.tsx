@@ -41,7 +41,7 @@ type PaymentFormProps = {
   payment?: PaymentType;
 };
 
-const AttendanceForm = ({
+const PaymentForm = ({
   paymentForm,
   isLoading,
   onSubmit,
@@ -265,4 +265,4 @@ const AttendanceForm = ({
   );
 };
 
-export default AttendanceForm;
+export default PaymentForm;

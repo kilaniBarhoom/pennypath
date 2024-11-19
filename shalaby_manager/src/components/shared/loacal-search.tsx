@@ -60,16 +60,10 @@ const LocalSearchBar = ({
       type="text"
       placeholder={t(placeholder)}
       value={search}
-      icon={
-        Icon ? (
-          <Icon size={18} />
-        ) : (
-          <Search className="-translate-y-[0.20rem]" size={18} />
-        )
-      }
+      icon={Icon ? <Icon size={18} /> : <Search size={18} />}
       onChange={(e) => setSearch(e.target.value)}
       className={ny(
-        "w-72 font-semibold bg-muted h-9 border-secondary-foreground/20",
+        "w-72 font-semibold bg-muted h-10 border-secondary-foreground/20",
         otherClasses
       )}
     />
