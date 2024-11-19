@@ -22,7 +22,12 @@ import {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<PersistentLogin />}>
+      <Route
+        element={<PersistentLogin />}
+        errorElement={
+          <ErrorHandler status={500} title="Something went wrong!" />
+        }
+      >
         <Route path="/" element={<AuthLayout />}>
           <Route index element={<Login />} />
         </Route>
@@ -36,15 +41,33 @@ const router = createBrowserRouter(
 
         <Route path="/" element={<MainLayout />}>
           <Route element={<RequireAuth />}>
-            <Route path="/attendance" element={<Attendance />} />
-            <Route path="/payments" element={<Payments />} />
+            <Route
+              path="/attendance"
+              element={<Attendance />}
+              errorElement={
+                <ErrorHandler status={500} title="Something went wrong!" />
+              }
+            />
+            <Route
+              path="/payments"
+              element={<Payments />}
+              errorElement={
+                <ErrorHandler status={500} title="Something went wrong!" />
+              }
+            />
           </Route>
         </Route>
         <Route path="/users" element={<MainLayout />}>
           <Route
             element={<RequireAuth allowedRoles={["admin", "superadmin"]} />}
           >
-            <Route index element={<Users />} />
+            <Route
+              index
+              element={<Users />}
+              errorElement={
+                <ErrorHandler status={500} title="Something went wrong!" />
+              }
+            />
           </Route>
         </Route>
 
