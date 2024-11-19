@@ -38,7 +38,9 @@ const PaymentsList = ({
   return (
     <ScrollArea className="flex flex-col divide-y border border-t-0 rounded-md max-h-80">
       {isLoading ? (
-        dummyArray.map((_, index) => <Skeleton key={index} className="h-60" />)
+        dummyArray.map((_, index) => (
+          <Skeleton key={index} className="h-20 mt-2 first:mt-0" />
+        ))
       ) : payments && payments.length > 0 ? (
         payments.map((payment) => (
           <div

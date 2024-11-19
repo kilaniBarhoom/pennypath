@@ -24,7 +24,12 @@ const Attendance = () => {
   const language = i18n.language;
   const dir = i18n.dir();
   const [searchParams, setSearchParams] = useSearchParams();
-  const from = searchParams.get("from") || dateToString(new Date());
+
+  // Default to current day for "to" and first day of the month for "from"
+  const today = dateToString(new Date());
+  const to = searchParams.get("to") || today;
+  const from =
+    searchParams.get("from") || dateToString(new Date(new Date().setDate(1)));
 
   const setFromDate = (from: string) => {
     setSearchParams((prev) => {
@@ -36,15 +41,63 @@ const Attendance = () => {
     });
   };
 
+  const setToDate = (to: string) => {
+    setSearchParams((prev) => {
+      prev.delete("to");
+      if (to) {
+        prev.set("to", to);
+      }
+      return prev;
+    });
+  };
+
   useEffect(() => {
-    if (
-      !searchParams.get("from") ||
-      searchParams.get("from") === "" ||
-      searchParams.get("from") === "1970-01-01"
-    ) {
-      setFromDate(dateToString(new Date()));
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    // Ensure "from" is set to the first of the current month if invalid
+    if (!from || from === "" || from === "1970-01-01") {
+      setFromDate(dateToString(new Date(currentYear, currentMonth, 1)));
     }
-  }, [from]);
+
+    // Adjust "to" based on whether it's the current month or a past month
+    if (!to || to === "" || to === "1970-01-01") {
+      const toDate =
+        stringToDate(from).getMonth() === currentMonth
+          ? currentDate
+          : new Date(currentYear, currentMonth - 1, 0); // Last day of the past month
+      setToDate(dateToString(toDate));
+    }
+  }, [from, to]);
+
+  const handlePreviousMonth = () => {
+    const currentDate = stringToDate(from);
+    const previousMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
+    );
+
+    // Prevent "from" from exceeding "to"
+    if (previousMonth <= stringToDate(to)) {
+      setFromDate(dateToString(previousMonth));
+    }
+  };
+
+  const handleNextMonth = () => {
+    const currentDate = stringToDate(from);
+    const nextMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1
+    );
+
+    // Prevent "from" from exceeding "to"
+    if (nextMonth <= stringToDate(to)) {
+      setFromDate(dateToString(nextMonth));
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -75,13 +128,8 @@ const Attendance = () => {
             <Button
               variant="secondary"
               size={"xs"}
-              onClick={() => {
-                const previousDate = dateToString(
-                  new Date(new Date(from).setDate(new Date(from).getDate() - 1))
-                );
-                setFromDate(previousDate);
-              }}
-              aria-label="previous-day"
+              onClick={handlePreviousMonth}
+              aria-label="previous-month"
             >
               {dir === "ltr" && <ChevronLeft />}
               {dir === "rtl" && <ChevronRight />}
@@ -93,25 +141,16 @@ const Attendance = () => {
                 className="font-semibold"
                 color="black"
               >
-                {format(
-                  from ? stringToDate(from) : new Date(),
-                  "eee, dd/MM/y",
-                  {
-                    locale: language === "ar" ? ar : enGB,
-                  }
-                )}
+                {format(stringToDate(from), "MMMM yyyy", {
+                  locale: language === "ar" ? ar : enGB,
+                })}
               </Typography>
             </div>
             <Button
               variant="secondary"
               size={"xs"}
-              onClick={() => {
-                const nextDate = dateToString(
-                  new Date(new Date(from).setDate(new Date(from).getDate() + 1))
-                );
-                setFromDate(nextDate);
-              }}
-              aria-label="next-day"
+              onClick={handleNextMonth}
+              aria-label="next-month"
             >
               {dir === "ltr" && <ChevronRight />}
               {dir === "rtl" && <ChevronLeft />}
