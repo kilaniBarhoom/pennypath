@@ -17,8 +17,8 @@ export default function PaymentsWrapper() {
 
   return (
     <div className="border flex flex-col gap-2 p-4 rounded-xl">
-      <div className="border rounded-md w-full p-4 flex items-center justify-center gap-2">
-        <Typography element="span" as="p">
+      <div className="shadow-md bg-blue-500 rounded-md w-full p-4 flex items-center justify-center gap-2">
+        <Typography element="span" as="largeText" color="white">
           {t("All time total amount")}:
         </Typography>
         <Badge size={"lg"}>

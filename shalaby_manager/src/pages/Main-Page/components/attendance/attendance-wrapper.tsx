@@ -1,7 +1,7 @@
 import LocalSearchBar from "@/components/shared/loacal-search";
 import { useSearchAttendanceQuery } from "@/pages/Main-Page/api/attendance";
 import AttendanceFilters from "./filters";
-import AttendanceStats from "./stats";
+// import AttendanceStats from "./stats";
 import AttendanceTable from "./table";
 import TablePagiation from "@/components/shared/pagination";
 
@@ -11,14 +11,14 @@ export default function AttendanceWrapper() {
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <AttendanceStats
+      {/* <AttendanceStats
         avgAttendanceTime={tableResponse?.averageAttendanceTime ?? ""}
         avgLeaveTime={tableResponse?.averageLeaveTime ?? ""}
         // analyticsOfUsersAttendances={
         //   tableResponse?.analyticsOfUsersAttendances ?? []
         // }
         loadingToFetchAnalytics={isLoadingToFetchAttendanceData}
-      />
+      /> */}
       <div className="border flex flex-col gap-2 p-4 rounded-xl">
         <div className="flex items-center justify-between gap-2">
           <LocalSearchBar
