@@ -91,9 +91,13 @@ const ExpensesList = ({
         ))
       ) : (
         <div className="p-4 flex items-center justify-center">
-          <Typography element="span" as="p">
-            {t("No expenses found")}
-          </Typography>
+          <div className="flex h-60 items-center justify-center">
+            <img
+              src="/assets/noData2.png"
+              alt="no data"
+              className=" object-cover w-80"
+            />
+          </div>
         </div>
       )}
     </ScrollArea>

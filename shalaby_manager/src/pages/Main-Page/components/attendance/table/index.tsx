@@ -75,11 +75,14 @@ const AttendanceTable = ({
           <TableRows attendance={attendance} />
         ) : (
           <TableRow>
-            <TableCell
-              colSpan={6}
-              className="text-center text-lg fond-bold py-5"
-            >
-              {t("No attendance found.")}
+            <TableCell colSpan={6}>
+              <div className="flex h-60 items-center justify-center">
+                <img
+                  src="/assets/noData2.png"
+                  alt="no data"
+                  className=" object-cover w-80"
+                />
+              </div>
             </TableCell>
           </TableRow>
         )}

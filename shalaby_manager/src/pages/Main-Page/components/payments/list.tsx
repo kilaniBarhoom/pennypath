@@ -98,9 +98,13 @@ const PaymentsList = ({
           </div>
         ))
       ) : (
-        <Typography element="span" as="p" className="p-4">
-          {t("No payments found")}
-        </Typography>
+        <div className="flex h-60 items-center justify-center">
+          <img
+            src="/assets/noData2.png"
+            alt="no data"
+            className=" object-cover w-80"
+          />
+        </div>
       )}
     </ScrollArea>
   );
