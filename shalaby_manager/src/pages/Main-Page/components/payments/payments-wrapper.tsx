@@ -1,11 +1,10 @@
 import LocalSearchBar from "@/components/shared/loacal-search";
-import PaymentsFilters from "./filters";
 import TablePagiation from "@/components/shared/pagination";
-import PaymentsList from "./list";
-import { useSearchPaymentsQuery } from "../../api/payments";
+import { Badge } from "@/components/ui/badge";
 import Typography from "@/components/ui/typography";
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge";
+import { useSearchPaymentsQuery } from "../../api/payments";
+import PaymentsList from "./list";
 
 export default function PaymentsWrapper() {
   const {
@@ -26,11 +25,15 @@ export default function PaymentsWrapper() {
           <sup className="text-lg">₪</sup>
         </Badge>
       </div>
-      <div className="flex items-center justify-between gap-2">
-        <LocalSearchBar route="/payments" placeholder="Search for a payment" />
-        <div className="flex gap-2 items-center">
+      <div className="md:w-fit w-full">
+        <LocalSearchBar
+          route="/payments"
+          placeholder="Search for a payment"
+          otherClasses="md:w-fit w-full"
+        />
+        {/* <div className="flex gap-2 items-center">
           <PaymentsFilters />
-        </div>
+        </div> */}
       </div>
       <PaymentsList
         payments={searchPaymentsResponse?.payments ?? []}

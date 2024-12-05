@@ -54,7 +54,7 @@ const ExpensesList = ({
                   <CreditCard className="h-6 w-6 text-gray-500" />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <Typography element="span" as="h6">
+                  <Typography element="span" as="h6" className="text-xl">
                     {expense?.name}
                   </Typography>
                   <div className="gap-1 flex items-center">

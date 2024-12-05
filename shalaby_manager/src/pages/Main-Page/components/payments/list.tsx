@@ -55,7 +55,7 @@ const PaymentsList = ({
               <div className="flex flex-col gap-2">
                 <Typography
                   element="span"
-                  className="scroll-m-20 text-base font-semibold tracking-tight"
+                  className="scroll-m-20 font-semibold tracking-tight text-xl"
                 >
                   {lang === "ar"
                     ? payment?.user?.fullNameArabic
