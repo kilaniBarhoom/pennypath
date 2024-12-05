@@ -42,8 +42,6 @@ export const getAllExpenses = async (req, res, next) => {
 }
 
 export const createExpense = async (req, res, next) => {
-
-
     const isValidationError = ExpenseSchema.safeParse(req.body);
 
     if (!isValidationError.success) {

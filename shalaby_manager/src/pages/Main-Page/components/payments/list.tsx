@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import Typography from "@/components/ui/typography";
-import { stringToDate } from "@/lib/utils";
+import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon, CreditCard, Pen, Trash2 } from "lucide-react";
@@ -46,14 +46,17 @@ const PaymentsList = ({
           <div
             dir={dir}
             key={payment.id}
-            className="p-4 flex flex-wrap gap-2 items-center justify-between last:border-b-0 border-b hover:bg-secondary/40 transition-all duration-200 ease-in-out cursor-pointer"
+            className="p-4 flex flex-wrap gap-4 items-center justify-between last:border-b-0 border-b hover:bg-secondary/40 transition-all duration-200 ease-in-out cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <div className=" rounded-full bg-secondary border p-2">
+              <div className="rounded-full bg-secondary border p-2">
                 <CreditCard className="h-6 w-6 text-gray-500" />
               </div>
               <div className="flex flex-col gap-2">
-                <Typography element="span" as="h6">
+                <Typography
+                  element="span"
+                  className="scroll-m-20 text-base font-semibold tracking-tight"
+                >
                   {lang === "ar"
                     ? payment?.user?.fullNameArabic
                     : payment?.user?.fullNameEnglish}
@@ -68,13 +71,18 @@ const PaymentsList = ({
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2 h-10">
-              <div className="text-center flex gap-4">
-                <Typography element="span" as="lead">
+            <div className="flex md:w-fit w-full md:justify-normal justify-between items-center gap-2 h-10">
+              <div className="text-center items-center flex gap-4">
+                <Badge size={"lg"} className="text-xl">
                   {payment.amount} <sup className="text-lg">₪</sup>
-                </Typography>
+                </Badge>
                 <Badge
-                  variant={payment.type === "full" ? "default" : "secondary"}
+                  size={"lg"}
+                  variant={"leftBordered"}
+                  className={ny("text-xl", {
+                    "border-green-400 text-white": payment?.type === "full",
+                    "border-orange-400 text-white": payment?.type === "advance",
+                  })}
                 >
                   {t(payment?.type)}
                 </Badge>
@@ -98,12 +106,20 @@ const PaymentsList = ({
           </div>
         ))
       ) : (
-        <div className="flex h-60 items-center justify-center">
-          <img
-            src="/assets/noData2.png"
-            alt="no data"
-            className=" object-cover w-80"
-          />
+        <div className="p-4 flex items-center justify-center">
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <img
+              src="/assets/noexpenses.png"
+              alt="no data"
+              className=" object-cover w-60"
+            />
+            <Typography
+              element="span"
+              className="text-4xl font-bold text-secondary-foreground drop-shadow-xl"
+            >
+              {t("No payments found")}
+            </Typography>
+          </div>
         </div>
       )}
     </ScrollArea>

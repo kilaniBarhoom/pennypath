@@ -72,4 +72,4 @@ const getLastDayOfCurrentMonth = (date) => {
     // set time to 23:59:59
     lastDay.setUTCHours(23, 59, 59, 999);
     return lastDay;
-};
+}; 
