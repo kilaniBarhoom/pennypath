@@ -1,12 +1,12 @@
 import * as statusCodes from '../constants/status.constants.js';
-import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 import * as queryHelper from "../helpers/queries/expense.queries.js";
+import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
+import { buildPDF } from '../helpers/buildPDF.js';
 import Expense from '../models/expense.js';
 import { ExpenseSchema } from '../schemas/index.js';
 import cloudinary from '../utils/cloudinary.js';
 import ResponseError from '../utils/respErr.js';
-import { buildPDF } from '../helpers/buildPDF.js';
 
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
@@ -23,6 +23,14 @@ export const getAllExpenses = async (req, res, next) => {
     let allTimeTotal = (await Expense.aggregate(queryHelper.findValueSum()))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
+    let week_month_total = (await Expense.aggregate(queryHelper.totalSumByCurrentWeekAndMonth({ loggedInUser: req.user })))[0];
+
+
+    const weekTotal = week_month_total ? week_month_total.weekTotal : 0;
+
+
+    const monthTotal = week_month_total ? week_month_total.monthTotal : 0;
+
     let rangeTotal = (await Expense.aggregate(queryHelper.findValueSum(_id)))[0];
     const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
 
@@ -32,6 +40,8 @@ export const getAllExpenses = async (req, res, next) => {
             expenses,
             allTimeTotalValue,
             rangeTotalValue,
+            weekTotal,
+            monthTotal,
             from,
             to,
             search,

@@ -54,7 +54,7 @@ export const createAttendance = async (req, res, next) => {
     }
 
     let { date, status, advancePayment, leaveTime, attendanceTime, note, user } = req.body;
-    if (status === 'absent' || attendanceType === 'dateOnly') {
+    if (status === 'absent') { // || attendanceType === 'dateOnly'
         attendanceTime = '00:00';
         leaveTime = '00:00';
     } else

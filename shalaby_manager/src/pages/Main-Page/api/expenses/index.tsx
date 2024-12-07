@@ -12,6 +12,8 @@ type SearchExpensesResponseType = {
   endDate: Date;
   allTimeTotalValue: number;
   rageTotalValue: number;
+  weekTotal: number;
+  monthTotal: number;
   totalPages: number;
   pageNumber: number;
 };

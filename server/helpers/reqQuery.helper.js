@@ -56,7 +56,7 @@ export default (query) => {
     };
 };
 
-const getFirstDayOfCurrentMonth = (date) => {
+export const getFirstDayOfCurrentMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1, 12, 0, 0, 0);
@@ -65,7 +65,7 @@ const getFirstDayOfCurrentMonth = (date) => {
     return firstDay;
 };
 
-const getLastDayOfCurrentMonth = (date) => {
+export const getLastDayOfCurrentMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const lastDay = new Date(year, month + 1, 0, 12, 0, 0, 0);

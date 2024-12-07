@@ -103,3 +103,78 @@ export const findValueSum = (_id) => {
 
     return filter;
 };
+
+export const totalSumByCurrentWeekAndMonth = ({ _id, loggedInUser }) => {
+    if (!loggedInUser) {
+        return [];
+    }
+
+    // Get start of current month and week
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+
+    const filter = [
+        // Match expenses for the logged-in user
+        {
+            $match: {
+                user: ObjectID(loggedInUser.id)
+            }
+        },
+        // Create aggregation stages for monthly and weekly totals
+        {
+            $facet: {
+                monthlyExpenses: [
+                    {
+                        $match: {
+                            createdAt: { $gte: startOfMonth }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            total: { $sum: "$amount" },
+                            count: { $sum: 1 }
+                        }
+                    }
+                ],
+                weeklyExpenses: [
+                    {
+                        $match: {
+                            createdAt: { $gte: startOfWeek }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            total: { $sum: "$amount" },
+                            count: { $sum: 1 }
+                        }
+                    }
+                ]
+            }
+        },
+        // Unwind results to flatten the output
+        {
+            $project: {
+                monthTotal: { $arrayElemAt: ["$monthlyExpenses.total", 0] },
+                monthlyCount: { $arrayElemAt: ["$monthlyExpenses.count", 0] },
+                weekTotal: { $arrayElemAt: ["$weeklyExpenses.total", 0] },
+                weeklyCount: { $arrayElemAt: ["$weeklyExpenses.count", 0] }
+            }
+        }
+    ];
+
+    if (_id)
+        filter.unshift({
+            $match: {
+                _id: { $in: _id },
+            },
+        });
+
+
+    return filter;
+};
