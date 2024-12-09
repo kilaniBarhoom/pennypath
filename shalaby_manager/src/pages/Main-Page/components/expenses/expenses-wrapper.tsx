@@ -50,7 +50,7 @@ export default function PaymentsWrapper() {
               className="md:text-lg text-sm font-semibold"
               color="white"
             >
-              {t("Week Total")}:&nbsp;
+              {t("Week T")}:&nbsp;
             </Typography>
             <Badge size={"sm"}>
               {searchExpensesResponse?.weekTotal ?? 0}
@@ -63,7 +63,7 @@ export default function PaymentsWrapper() {
               className="md:text-lg text-sm font-semibold"
               color="white"
             >
-              {t("Month Total")}:&nbsp;
+              {t("Month T")}:&nbsp;
             </Typography>
             <Badge size={"sm"}>
               {searchExpensesResponse?.monthTotal ?? 0}

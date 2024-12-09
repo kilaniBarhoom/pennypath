@@ -4,11 +4,10 @@ import Typography from "@/components/ui/typography";
 import { dateToString, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
-import { CalendarIcon, CreditCard, Pin } from "lucide-react";
+import { CalendarIcon, CreditCard, MessageCircle, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDeleteExpenseMutation } from "../../api/expenses";
 import AddEditExpenseDialogDrawer from "./add-edit-dialog-drawer";
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
 
 const ExpensesList = ({
   expenses,
@@ -85,14 +84,14 @@ const ExpensesList = ({
               >
                 {todaysExpense?.name}
               </Typography>
-              <div className="gap-1 flex-1 items-end justify-end flex">
+              <div className="gap-3 flex-1 items-end justify-end flex">
                 <div className="border rounded-md p-2 text-lg tabular-nums">
                   {todaysExpense?.amount} <sup className="text-lg">₪</sup>
                 </div>
               </div>
             </div>
-            <div className="gap-1 flex items-center text-white">
-              <CalendarIcon className="mr-1 h-4 w-4" />
+            <div className="gap-3 flex items-center text-white">
+              <CalendarIcon className="h-4 w-4" />
               <span className="text-sm">
                 {format(
                   stringToDate(todaysExpense?.createdAt),
@@ -104,9 +103,18 @@ const ExpensesList = ({
               </span>
             </div>
 
-            <Typography element="p" as={"mutedText"}>
-              {todaysExpense?.description}
-            </Typography>
+            {todaysExpense?.description && (
+              <div className="gap-3 flex items-start">
+                <MessageCircle className="h-4 w-4 text-white" />
+                <Typography
+                  element="p"
+                  as={"smallText"}
+                  className="text-white/80"
+                >
+                  {todaysExpense?.description}
+                </Typography>
+              </div>
+            )}
           </div>
           <div className="grid md:grid-cols-3 gap-2 sm:grid-cols-2 grid-cols-1">
             {expenses.map((expense) => {
@@ -141,40 +149,47 @@ const ExpensesList = ({
                       Delete
                     </Button>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CreditCard className="h-6 w-6 text-gray-500" />
-                    <Typography
-                      element="span"
-                      as="h6"
-                      className="md:text-xl text-base tracking-wider"
-                    >
-                      {expense?.name}
-                    </Typography>
-                    <div className="gap-1 flex-1 items-end justify-end flex">
-                      <div className="border rounded-md p-2 tabular-nums">
-                        {expense.amount} <sup className="text-lg">₪</sup>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="h-6 w-6 text-gray-500" />
+                      <Typography
+                        element="span"
+                        as="h6"
+                        className="md:text-xl text-base tracking-wider"
+                      >
+                        {expense?.name}
+                      </Typography>
+                      <div className="gap-3 flex-1 items-end justify-end flex">
+                        <div className="border rounded-md p-2 tabular-nums">
+                          {expense.amount} <sup className="text-lg">₪</sup>
+                        </div>
                       </div>
                     </div>
+                    <div className="gap-3 flex items-center">
+                      <CalendarIcon className="h-4 w-4 text-gray-500" />
+                      <span className="text-sm text-gray-500">
+                        {format(
+                          stringToDate(expense.createdAt),
+                          "eeee, d-MM-y",
+                          {
+                            locale: lang === "ar" ? ar : enGB,
+                          }
+                        )}
+                      </span>
+                    </div>
                   </div>
-                  <div className="gap-1 flex items-center">
-                    <CalendarIcon className="mr-1 h-4 w-4 text-gray-500" />
-                    <span className="text-sm text-gray-500">
-                      {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
-                        locale: lang === "ar" ? ar : enGB,
-                      })}
-                    </span>
-                  </div>
+
                   {expense?.description && (
-                    <div className="gap-1 flex items-center">
-                      <ChatBubbleIcon className="mr-1 h-4 w-4 text-gray-500" />
+                    <span className="flex gap-2">
+                      <MessageCircle className="min-h-4 min-w-4 text-gray-500 inline-block" />
                       <Typography
-                        element="p"
+                        element="span"
                         as={"smallText"}
                         className="text-muted-foreground"
                       >
                         {expense?.description}
                       </Typography>
-                    </div>
+                    </span>
                   )}
                 </div>
               );
