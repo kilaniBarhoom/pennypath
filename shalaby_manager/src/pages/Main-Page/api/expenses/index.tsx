@@ -14,6 +14,7 @@ type SearchExpensesResponseType = {
   rageTotalValue: number;
   weekTotal: number;
   monthTotal: number;
+  mostSpentInADay: number;
   totalPages: number;
   pageNumber: number;
 };

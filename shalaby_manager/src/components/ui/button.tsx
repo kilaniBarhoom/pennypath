@@ -6,7 +6,7 @@ import { ny } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center hover:scale-105 active:scale-100 transition-all duration-200 ease-in-out justify-center rounded-md text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center tracking-wider active:scale-95 transition-all duration-200 ease-in-out justify-center rounded-md text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -23,6 +23,7 @@ const buttonVariants = cva(
         hover:
           "text-secondary-foreground/40 bg-transparent hover:text-secondary-foreground ",
         success: "text-white bg-green-500 hover:bg-green-500/70",
+        navBtn: "text-white bg-blue-500 hover:bg-blue-500/70 font-semibold ",
         none: "",
       },
       size: {

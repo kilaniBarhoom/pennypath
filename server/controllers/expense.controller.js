@@ -23,13 +23,12 @@ export const getAllExpenses = async (req, res, next) => {
     let allTimeTotal = (await Expense.aggregate(queryHelper.findValueSum()))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
-    let week_month_total = (await Expense.aggregate(queryHelper.totalSumByCurrentWeekAndMonth({ loggedInUser: req.user })))[0];
+    let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.totalSumCategorizedQuery({ loggedInUser: req.user })))[0];
 
 
-    const weekTotal = week_month_total ? week_month_total.weekTotal : 0;
-
-
-    const monthTotal = week_month_total ? week_month_total.monthTotal : 0;
+    const weekTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.weekTotal : 0;
+    const monthTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.monthTotal : 0;
+    const mostSpentInADay = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.mostSpentInADay : 0;
 
     let rangeTotal = (await Expense.aggregate(queryHelper.findValueSum(_id)))[0];
     const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
@@ -42,6 +41,7 @@ export const getAllExpenses = async (req, res, next) => {
             rangeTotalValue,
             weekTotal,
             monthTotal,
+            mostSpentInADay,
             from,
             to,
             search,

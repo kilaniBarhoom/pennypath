@@ -27,7 +27,7 @@ const NavElements = ({
               }}
               className={ny(
                 buttonVariants({
-                  variant: pathname === item.path ? "default" : "secondary",
+                  variant: pathname === item.path ? "navBtn" : "secondary",
                   size: "lg",
                 }),
                 "justify-between flex gap-2 p-2  h-12 group border-primary items-center text-lg border font-semibold ltr:border-l-[7px] rtl:border-r-[7px]"

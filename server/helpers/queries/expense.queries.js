@@ -104,7 +104,7 @@ export const findValueSum = (_id) => {
     return filter;
 };
 
-export const totalSumByCurrentWeekAndMonth = ({ _id, loggedInUser }) => {
+export const totalSumCategorizedQuery = ({ _id, loggedInUser }) => {
     if (!loggedInUser) {
         return [];
     }
@@ -154,6 +154,22 @@ export const totalSumByCurrentWeekAndMonth = ({ _id, loggedInUser }) => {
                             count: { $sum: 1 }
                         }
                     }
+                ],
+                mostSpentInADay: [
+                    {
+                        $group: {
+                            _id: "$createdAt",
+                            total: { $sum: "$amount" }
+                        }
+                    },
+                    {
+                        $sort: {
+                            total: -1
+                        }
+                    },
+                    {
+                        $limit: 1
+                    }
                 ]
             }
         },
@@ -163,7 +179,8 @@ export const totalSumByCurrentWeekAndMonth = ({ _id, loggedInUser }) => {
                 monthTotal: { $arrayElemAt: ["$monthlyExpenses.total", 0] },
                 monthlyCount: { $arrayElemAt: ["$monthlyExpenses.count", 0] },
                 weekTotal: { $arrayElemAt: ["$weeklyExpenses.total", 0] },
-                weeklyCount: { $arrayElemAt: ["$weeklyExpenses.count", 0] }
+                weeklyCount: { $arrayElemAt: ["$weeklyExpenses.count", 0] },
+                mostSpentInADay: { $arrayElemAt: ["$mostSpentInADay.total", 0] }
             }
         }
     ];

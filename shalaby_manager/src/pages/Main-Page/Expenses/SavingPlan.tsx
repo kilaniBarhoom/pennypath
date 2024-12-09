@@ -11,7 +11,7 @@ import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 import AddEditExpenseDialogDrawer from "../components/expenses/add-edit-dialog-drawer";
 import { Separator } from "@/components/ui/separator";
 
-const Expenses = () => {
+const SavingPlan = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const from = searchParams.get("from") || dateToString(new Date());
@@ -43,16 +43,6 @@ const Expenses = () => {
       <Helmet>
         <title>Expenses</title>
       </Helmet>
-
-      <BreadcrumbComponent
-        tree={[
-          {
-            title: "Expenses",
-          },
-        ]}
-        currentPage={"All"}
-      />
-      <Separator />
       <nav>
         <ul className="flex gap-2">
           <li>
@@ -60,8 +50,7 @@ const Expenses = () => {
               to="/expenses"
               className={ny(
                 buttonVariants({
-                  size: "lg",
-                  variant: ["plan"].includes(pathname) ? "outline" : "navBtn",
+                  variant: ["plan"].includes(pathname) ? "outline" : "default",
                 })
               )}
             >
@@ -73,8 +62,7 @@ const Expenses = () => {
               to="/expenses/plan"
               className={ny(
                 buttonVariants({
-                  size: "lg",
-                  variant: ["plan"].includes(pathname) ? "navBtn" : "outline",
+                  variant: ["plan"].includes(pathname) ? "default" : "outline",
                 })
               )}
             >
@@ -83,6 +71,15 @@ const Expenses = () => {
           </li>
         </ul>
       </nav>
+      <Separator />
+      <BreadcrumbComponent
+        tree={[
+          {
+            title: "Expenses",
+          },
+        ]}
+        currentPage={"All"}
+      />
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
         <Typography
           className="flex items-center gap-2"
@@ -109,4 +106,4 @@ const Expenses = () => {
   );
 };
 
-export default Expenses;
+export default SavingPlan;

@@ -20,14 +20,13 @@ export default function AttendanceWrapper() {
         loadingToFetchAnalytics={isLoadingToFetchAttendanceData}
       /> */}
       <div className="border flex flex-col gap-2 p-4 rounded-xl">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center sm:flex-row flex-col justify-between gap-2">
           <LocalSearchBar
             route="/attendance"
             placeholder="Search for an attendance"
+            otherClasses="sm:w-fit w-full"
           />
-          <div className="flex gap-2 items-center">
-            <AttendanceFilters />
-          </div>
+          <AttendanceFilters />
         </div>
         <AttendanceTable
           attendance={tableResponse?.attendances ?? []}

@@ -1,5 +1,8 @@
 import { DatePicker } from "@/components/shared/date-picker";
+import Loading from "@/components/shared/loading";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -8,6 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -17,25 +21,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ny, stringToDate } from "@/lib/utils";
-import { format } from "date-fns";
-import { ar, enGB } from "date-fns/locale";
-import { MoveRight, CalendarIcon, Check, X } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge";
 import Typography from "@/components/ui/typography";
-import { useEffect, useState } from "react";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { ny, stringToDate } from "@/lib/utils";
 import {
   getAllUsers,
   useAuth,
   UserGroupsType,
 } from "@/providers/auth-provider";
-import Loading from "@/components/shared/loading";
-import { UserAvatar } from "@/components/ui/user-avatar";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
-import { TimePickerInput } from "@/components/ui/time-picker";
+import { format } from "date-fns";
+import { ar, enGB } from "date-fns/locale";
+import { CalendarIcon, Check, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type AttendanceFormProps = {
   attendanceForm: any;
@@ -92,7 +91,7 @@ const AttendanceForm = ({
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full h-10">
+                    <SelectTrigger className="w-full h-fit min-h-10">
                       <SelectValue placeholder="User" />
                     </SelectTrigger>
                   </FormControl>
@@ -151,7 +150,7 @@ const AttendanceForm = ({
                       <Button
                         variant={"outline"}
                         className={ny(
-                          "pl-3 text-left font-semibold text-base flex-1 w-full",
+                          "pl-3 text-left font-normal text-base flex-1 w-full",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -218,7 +217,7 @@ const AttendanceForm = ({
             />
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <div className="flex flex-col gap-2 flex-1 border justify-start items-start p-2 rounded-md bg-green-700">
               <Typography
                 element="label"
@@ -264,7 +263,7 @@ const AttendanceForm = ({
                 <TimePickerInput picker="minutes" id="minutes" />
               </div>
             </div>
-          </div>
+          </div> */}
 
           <FormField
             control={attendanceForm.control}

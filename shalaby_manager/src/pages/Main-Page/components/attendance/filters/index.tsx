@@ -27,7 +27,7 @@ const AttendanceFilters = () => {
   };
 
   return (
-    <div className="min-w-max">
+    <div className="sm:min-w-max w-full">
       <DateRangePicker
         showCompare={false}
         onUpdate={({ range }) => {

@@ -9,8 +9,8 @@ import { ErrorProvider } from "./providers/error-provider.tsx";
 import { ThemeProvider } from "./providers/theme-provider.tsx";
 // import Loading from "./components/shared/loading.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Suspense } from "react";
-import Loading from "./components/shared/loading.tsx";
+// import { Suspense } from "react";
+// import Loading from "./components/shared/loading.tsx";
 
 i18n.on("languageChanged", (locale: any) => {
   let lang = locale.substring(0, 2);
@@ -43,10 +43,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <ErrorProvider>
         <QueryClientProvider client={queryClient}>
-          <Suspense fallback={<Loading />}>
-            <App />
-            <Toaster />
-          </Suspense>
+          {/* <Suspense fallback={<Loading />}> */}
+          <App />
+          <Toaster />
+          {/* </Suspense> */}
         </QueryClientProvider>
       </ErrorProvider>
     </AuthProvider>

@@ -7,6 +7,7 @@ import RequireAuth from "@/components/routing/require-auth";
 import Login from "@/pages/Auth/Login";
 import Attendance from "@/pages/Main-Page/Attendance";
 import Expenses from "@/pages/Main-Page/Expenses";
+import SavingPlan from "@/pages/Main-Page/Expenses/SavingPlan";
 import Payments from "@/pages/Main-Page/Payments";
 import Users from "@/pages/Main-Page/Users";
 // import Articles from "@/pages/articles";
@@ -58,11 +59,13 @@ const router = createBrowserRouter(
             />
             <Route
               path="/expenses"
-              element={<Expenses />}
               errorElement={
                 <ErrorHandler status={500} title="Something went wrong!" />
               }
-            />
+            >
+              <Route index element={<Expenses />} />
+              <Route path="plan" element={<SavingPlan />} />
+            </Route>
           </Route>
         </Route>
         <Route path="/users" element={<MainLayout />}>

@@ -151,7 +151,7 @@ const PaymentForm = ({
                     <Button
                       variant={"outline"}
                       className={ny(
-                        "pl-3 text-left font-semibold text-base flex-1 w-full hover:scale-100 active:scale-100",
+                        "pl-3 text-left font-normal text-base flex-1 w-full hover:scale-100 active:scale-100",
                         !field.value && "text-muted-foreground"
                       )}
                     >
