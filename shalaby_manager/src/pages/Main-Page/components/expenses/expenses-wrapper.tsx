@@ -25,7 +25,7 @@ export default function PaymentsWrapper() {
           >
             {t("All time total")}
           </Typography>
-          <Badge size={"lg"}>
+          <Badge size={"lg"} className="gap-1">
             {searchExpensesResponse?.allTimeTotalValue ?? 0}
             <sup className="text-lg">₪</sup>
           </Badge>
@@ -38,7 +38,7 @@ export default function PaymentsWrapper() {
           >
             {t("Most Spent In A Day")}
           </Typography>
-          <Badge size={"lg"} className="animate-pulse">
+          <Badge size={"lg"} className="animate-pulse gap-1">
             {searchExpensesResponse?.mostSpentInADay ?? 0}
             <sup className="text-lg">₪</sup>
           </Badge>
@@ -52,7 +52,7 @@ export default function PaymentsWrapper() {
             >
               {t("Week T")}:&nbsp;
             </Typography>
-            <Badge size={"sm"}>
+            <Badge size={"sm"} className="gap-1">
               {searchExpensesResponse?.weekTotal ?? 0}
               <sup className="text-lg">₪</sup>
             </Badge>
@@ -65,7 +65,7 @@ export default function PaymentsWrapper() {
             >
               {t("Month T")}:&nbsp;
             </Typography>
-            <Badge size={"sm"}>
+            <Badge size={"sm"} className="gap-1">
               {searchExpensesResponse?.monthTotal ?? 0}
               <sup className="text-lg">₪</sup>
             </Badge>

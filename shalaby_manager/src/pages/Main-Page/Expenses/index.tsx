@@ -1,15 +1,14 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
+import { dateToString } from "@/lib/utils";
 import { Banknote } from "lucide-react";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { dateToString, ny } from "@/lib/utils";
-import { useEffect } from "react";
-import ExpensesWrapper from "../components/expenses/expenses-wrapper";
+import { useSearchParams } from "react-router-dom";
 import AddEditExpenseDialogDrawer from "../components/expenses/add-edit-dialog-drawer";
-import { Separator } from "@/components/ui/separator";
+import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 
 const Expenses = () => {
   const { t } = useTranslation();
@@ -36,7 +35,7 @@ const Expenses = () => {
     }
   }, [from]);
 
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   return (
     <div className="flex flex-col gap-2">
@@ -52,7 +51,7 @@ const Expenses = () => {
         ]}
         currentPage={"All"}
       />
-      <Separator />
+      {/* <Separator />
       <nav>
         <ul className="flex gap-2">
           <li>
@@ -82,7 +81,7 @@ const Expenses = () => {
             </Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
         <Typography
           className="flex items-center gap-2"
