@@ -5,13 +5,14 @@ const router = express.Router();
 //Cookie pasrser
 
 // Routes and Authorizations
-import authRoutes from "./routes/auth.route.js";
-import userRoutes from "./routes/user.route.js";
-import expenseRoutes from "./routes/expense.route.js";
-import sessionRoutes from "./routes/session.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 import attendanceRoutes from "./routes/attendance.route.js";
+import authRoutes from "./routes/auth.route.js";
+import expenseRoutes from "./routes/expense.route.js";
 import paymentRoutes from "./routes/payment.route.js";
+import sessionRoutes from "./routes/session.route.js";
 import settingsRoutes from "./routes/settings.route.js";
+import userRoutes from "./routes/user.route.js";
 
 
 //	Routes
@@ -42,6 +43,8 @@ router.use("/payment", paymentRoutes);
 
 //settings Routes
 router.use("/settings", settingsRoutes);
+//analytics Routes
+router.use("/analytics", analyticsRoutes);
 
 
 //  Undefined Routes

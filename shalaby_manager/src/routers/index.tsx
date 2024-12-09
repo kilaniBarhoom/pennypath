@@ -15,6 +15,7 @@ import Users from "@/pages/Main-Page/Users";
 // import LoginLayout from "@/pages/auth/login/layout";
 // import MainPage from "@/pages/main page";
 // import Resume from "@/pages/resume";
+import Home from "@/pages/Main-Page/Home";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
               <Route index element={<Expenses />} />
               <Route path="plan" element={<SavingPlan />} />
             </Route>
+            <Route path="/home" element={<Home />} />
           </Route>
         </Route>
         <Route path="/users" element={<MainLayout />}>
