@@ -1,11 +1,17 @@
 import TablePagiation from "@/components/shared/pagination";
-import { Badge } from "@/components/ui/badge";
 import Typography from "@/components/ui/typography";
+import {
+  ChartColumnBig,
+  ChartBar,
+  ChartSpline,
+  ClockArrowUp,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { useSearchExpensesQuery } from "../../api/expenses";
 import ExpensesFilters from "./filters";
 import ExpensesList from "./list";
+import { Separator } from "@/components/ui/separator";
 
 export default function PaymentsWrapper() {
   const {
@@ -29,64 +35,80 @@ export default function PaymentsWrapper() {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex flex-col bg-background border rounded-md p-4 items-center w-full justify-center gap-2">
+      <div className="flex flex-col border rounded-md items-start bg-background p-4 gap-2 w-full">
+        <div className="flex items-center gap-2">
+          <ChartBar className="w-10 h-10 border border-white rounded-full p-2 bg-muted text-white text-muted-foreground" />
           <Typography
-            element="span"
-            className="md:text-lg text-sm font-semibold"
-            color="white"
+            element="h2"
+            className="md:text-3xl text-lg font-normal text-white"
           >
-            {t("All time total")}
+            {t("Stats")}
           </Typography>
-          <Badge size={"lg"} className="gap-1">
-            {searchExpensesResponse?.allTimeTotalValue ?? 0}
-            <sup className="text-lg">₪</sup>
-          </Badge>
         </div>
-        <div
-          onClick={() =>
-            setSearchAmount(String(searchExpensesResponse?.mostSpentInADay))
-          }
-          className="shadow-md flex-col justify-center items-center bg-red-600 cursor-pointer border rounded-md flex-1 w-full p-4 flex gap-2"
-        >
-          <Typography
-            element="span"
-            className="md:text-lg text-sm font-semibold"
-            color="white"
-          >
-            {t("Most Spent In A Day")}
-          </Typography>
-          <Badge size={"lg"} className="animate-pulse gap-1">
-            {searchExpensesResponse?.mostSpentInADay ?? 0}
-            <sup className="text-lg">₪</sup>
-          </Badge>
-        </div>
-        <div className="shadow-md flex-col justify-center items-center bg-background border rounded-md flex-1 w-full p-4 flex gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          <ChartColumnBig className="w-5 h-5 text-muted-foreground" />
+          <div className="flex items-center gap-1">
+            <span className="flex items-center">
+              <span>₪</span>
+              {searchExpensesResponse?.allTimeTotalValue ?? 0}
+            </span>
             <Typography
               element="span"
-              className="md:text-lg text-sm font-semibold"
-              color="white"
+              className="tracking-tight leading-none text-sm font-normal text-muted-foreground"
             >
-              {t("Week T")}:&nbsp;
+              {t("All time total")}
             </Typography>
-            <Badge size={"sm"} className="gap-1">
-              {searchExpensesResponse?.weekTotal ?? 0}
-              <sup className="text-lg">₪</sup>
-            </Badge>
+          </div>
+        </div>
+        <div className="flex-1 flex gap-2 items-center">
+          <ChartSpline className="w-5 h-5 text-muted-foreground" />
+          <div className="flex items-center gap-1">
+            <span className="animate-pulse text-base text-red-500 flex items-center">
+              <span>₪</span>
+              {searchExpensesResponse?.mostSpentInADay ?? 0}
+            </span>
+            <Typography
+              onClick={() =>
+                setSearchAmount(String(searchExpensesResponse?.mostSpentInADay))
+              }
+              element="span"
+              className="tracking-tight hover:underline hover:text-white transition-all duration-200 ease-in-out cursor-pointer leading-none text-sm font-normal text-muted-foreground"
+            >
+              {t("Most Spent In A Day")}
+            </Typography>
+          </div>
+        </div>
+        <Separator />
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2">
+            <ChartColumnBig className="w-5 h-5 text-muted-foreground" />
+            <div className="flex items-center gap-1">
+              <span className="flex items-center">
+                <span>₪</span>
+                {searchExpensesResponse?.weekTotal ?? 0}
+              </span>
+              <Typography
+                element="span"
+                className="tracking-tight leading-none text-sm font-normal text-muted-foreground"
+              >
+                {t("Week Total")}
+              </Typography>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <Typography
-              element="span"
-              className="md:text-lg text-sm font-semibold"
-              color="white"
-            >
-              {t("Month T")}:&nbsp;
-            </Typography>
-            <Badge size={"sm"} className="gap-1">
-              {searchExpensesResponse?.monthTotal ?? 0}
-              <sup className="text-lg">₪</sup>
-            </Badge>
+            <ClockArrowUp className="w-5 h-5 text-muted-foreground" />
+            <div className="flex items-center gap-1">
+              <span className="flex items-center">
+                <span>₪</span>
+                {searchExpensesResponse?.monthTotal ?? 0}
+              </span>
+              <Typography
+                element="span"
+                className="tracking-tight leading-none text-sm font-normal text-muted-foreground"
+              >
+                {t("Month Total")}
+              </Typography>
+            </div>
           </div>
         </div>
       </div>

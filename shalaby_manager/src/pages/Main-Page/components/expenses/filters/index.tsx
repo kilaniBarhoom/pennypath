@@ -10,13 +10,13 @@ const ExpensesFilters = () => {
           otherClasses="md:w-80 w-full"
         />
       </div>
-      <LocalSearchBar
+      {/* <LocalSearchBar
         variant="amount"
         searchQuery="amount"
         placeholder="Amount"
         route="expenses"
         otherClasses="w-fit"
-      />
+      /> */}
     </div>
   );
 };
