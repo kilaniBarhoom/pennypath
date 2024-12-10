@@ -15,8 +15,8 @@ export default function PaymentsWrapper() {
   const { t } = useTranslation();
 
   return (
-    <div className="border flex flex-col gap-2 p-4 rounded-xl">
-      <div className="shadow-md bg-blue-500 rounded-md w-full p-4 flex items-center justify-center gap-2">
+    <div className="border flex flex-col gap-2 p-4 rounded-sm">
+      <div className="shadow-md bg-blue-500 rounded-sm w-full p-4 flex items-center justify-center gap-2">
         <Typography element="span" as="largeText" color="white">
           {t("All time total amount")}:
         </Typography>
@@ -39,7 +39,7 @@ export default function PaymentsWrapper() {
         payments={searchPaymentsResponse?.payments ?? []}
         isLoading={isLoadingToFetchPaymentsData}
       />
-      <div className="flex items-center w-full border rounded-md py-2 bg-secondary/50">
+      <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
         <TablePagiation totalPages={searchPaymentsResponse?.totalPages ?? 1} />
       </div>
     </div>

@@ -1,8 +1,9 @@
 import TablePagiation from "@/components/shared/pagination";
+import { Separator } from "@/components/ui/separator";
 import Typography from "@/components/ui/typography";
 import {
-  ChartColumnBig,
   ChartBar,
+  ChartColumnBig,
   ChartSpline,
   ClockArrowUp,
 } from "lucide-react";
@@ -11,7 +12,6 @@ import { useSearchParams } from "react-router-dom";
 import { useSearchExpensesQuery } from "../../api/expenses";
 import ExpensesFilters from "./filters";
 import ExpensesList from "./list";
-import { Separator } from "@/components/ui/separator";
 
 export default function PaymentsWrapper() {
   const {
@@ -35,7 +35,7 @@ export default function PaymentsWrapper() {
 
   return (
     <>
-      <div className="flex flex-col border rounded-md items-start bg-background p-4 gap-2 w-full">
+      <div className="flex flex-col border rounded-sm items-start bg-background p-4 gap-2 w-full">
         <div className="flex items-center gap-2">
           <ChartBar className="w-10 h-10 border border-white rounded-full p-2 bg-muted text-white text-muted-foreground" />
           <Typography
@@ -112,13 +112,13 @@ export default function PaymentsWrapper() {
           </div>
         </div>
       </div>
-      <div className="border flex flex-col gap-4 p-4 rounded-xl">
+      <div className="border flex flex-col gap-4 p-4 rounded-sm">
         <ExpensesFilters />
         <ExpensesList
           expenses={searchExpensesResponse?.expenses ?? []}
           isLoading={isLoadingToFetchExpensesData}
         />
-        <div className="flex items-center w-full border rounded-md py-2 bg-secondary/50">
+        <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
           <TablePagiation
             totalPages={searchExpensesResponse?.totalPages ?? 1}
           />

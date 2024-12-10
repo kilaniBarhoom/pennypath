@@ -1,4 +1,5 @@
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import LoadingComponent from "@/components/shared/Loading-component";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,14 +13,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useGetAnalyticsOfAttendanceAndLeaveQuery } from "@/pages/Main-Page/api/attendance";
-import LoadingComponent from "@/components/shared/Loading-component";
 import Typography from "@/components/ui/typography";
-import { format } from "date-fns";
-import { useSearchParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { ny } from "@/lib/utils";
+import { useGetAnalyticsOfAttendanceAndLeaveQuery } from "@/pages/Main-Page/api/attendance";
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 const chartConfig = {
   avgAttendanceTime: {
@@ -82,7 +82,7 @@ export function AttendanceChart() {
           <CardTitle className="flex items-center justify-between">
             {t("Attendance Overview Chart")}
           </CardTitle>
-          <div className="flex items-center divide-x border rounded-md">
+          <div className="flex items-center divide-x border rounded-sm">
             <Button
               onClick={() => {
                 setAnalyticsInterval("monthly");

@@ -13,7 +13,7 @@ const AttendanceList = ({
         ) : (
           attendance &&
           attendance.map((item) => (
-            <li className="rounded-md p-4 border" key={item.id}>
+            <li className="rounded-sm p-4 border" key={item.id}>
               <p>{item.user.fullNameArabic}</p>
               <p>{item.date}</p>
               <p>{item.status}</p>

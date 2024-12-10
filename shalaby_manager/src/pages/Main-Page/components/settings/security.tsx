@@ -61,7 +61,7 @@ const Security = () => {
   };
   return (
     <div className="flex flex-col gap-5">
-      <div className="bg-secondary w-full justify-start ltr:text-left rtl:text-right rounded-md flex flex-col gap-5 p-4">
+      <div className="bg-secondary w-full justify-start ltr:text-left rtl:text-right rounded-sm flex flex-col gap-5 p-4">
         <Form {...changePasswordForm}>
           <form
             onSubmit={changePasswordForm.handleSubmit(onSubmit)}

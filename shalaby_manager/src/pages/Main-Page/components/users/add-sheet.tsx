@@ -9,13 +9,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useUsersFormMutation } from "@/pages/Main-Page/api/Users";
 import { UsersFormSchema, UsersFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { useUsersFormMutation } from "@/pages/Main-Page/api/Users";
 
 const AddEditUsersSheet = ({ children }: { children: React.ReactNode }) => {
   const { t, i18n } = useTranslation();
@@ -61,7 +61,7 @@ const AddEditUsersSheet = ({ children }: { children: React.ReactNode }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent
         disableBackdrop
-        className="bg-background sm:min-w-[500px] rounded-md w-full transition-all duration-300 ease-in-out"
+        className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
         side={dir === "ltr" ? "right" : "left"}
       >
         <div className=" flex flex-col gap-2 overflow-auto">

@@ -1,20 +1,20 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useSearchParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import {
   UserRolesResponseType,
   UsersResponseType,
 } from "@/pages/Main-Page/api/Users";
-import { Separator } from "@/components/ui/separator";
-import { UserAvatar } from "@/components/ui/user-avatar";
-import { useTranslation } from "react-i18next";
 import { ArrowUpDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 
 const UsersFilters = ({
   usersResponse,
@@ -52,7 +52,7 @@ const UsersFilters = ({
                   />
                   <Label
                     htmlFor={user.id}
-                    className="p-2 rounded-md bg-secondary w-full"
+                    className="p-2 rounded-sm bg-secondary w-full"
                   >
                     <UserAvatar
                       imageClassName="bg-background border"

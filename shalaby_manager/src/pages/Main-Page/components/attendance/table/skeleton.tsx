@@ -5,19 +5,19 @@ const AttendanceTableSkeleton = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton className="h-8 rounded-md w-full" />
+        <Skeleton className="h-8 rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 rounded-md w-full" />
+        <Skeleton className="h-8 rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 rounded-md w-full" />
+        <Skeleton className="h-8 rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 rounded-md w-full" />
+        <Skeleton className="h-8 rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 rounded-md w-full" />
+        <Skeleton className="h-8 rounded-sm w-full" />
       </TableCell>
     </TableRow>
   );

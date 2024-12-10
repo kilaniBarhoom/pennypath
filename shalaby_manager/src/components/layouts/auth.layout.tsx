@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   return (
@@ -10,7 +10,7 @@ const AuthLayout = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <main className="border rounded-md p-6 bg-background max-w-md mx-auto w-full">
+        <main className="border rounded-sm p-6 bg-background max-w-md mx-auto w-full">
           <Outlet />
         </main>
       </motion.div>

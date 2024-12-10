@@ -3,22 +3,22 @@ import Typography from "@/components/ui/typography";
 import { useTranslation } from "react-i18next";
 
 import AuthorizedRender from "@/components/shared/authorized-conditional-render";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/providers/auth-provider";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { ny } from "@/lib/utils";
 import {
   UserRolesResponseType,
   UsersResponseType,
   useToggleUserActivationMutation,
 } from "@/pages/Main-Page/api/Users";
-import { useSearchParams } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
-import { ny } from "@/lib/utils";
+import { useAuth } from "@/providers/auth-provider";
 import { Copy, Pen } from "lucide-react";
-import { toast } from "sonner";
-import EditUsersSheet from "../edit-sheet";
 import { useRef } from "react";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 import ChangeRoleDialog from "../change-role";
-import { UserAvatar } from "@/components/ui/user-avatar";
+import EditUsersSheet from "../edit-sheet";
 
 const TableRows = ({
   userResponse,
@@ -59,7 +59,7 @@ const TableRows = ({
                   ? user?.fullNameArabic
                   : user?.fullNameEnglish ?? ""
               }
-              className="border rounded-md px-2 py-1 bg-secondary"
+              className="border rounded-sm px-2 py-1 bg-secondary"
               imageClassName="size-8 bg-background border"
             />
           </Typography>

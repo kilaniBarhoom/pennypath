@@ -37,14 +37,14 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={ny(
-          "z-50 gap-4 w-full max-w-screen-sm relative md:scale-100 scale-90 rounded-b-lg border border-border bg-background shadow-xl animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:rounded-lg sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0 data-[state=open]:my-5",
+          "z-50 gap-4 w-full max-w-screen-sm relative md:scale-100 scale-90 rounded-b-lg border border-border bg-background shadow-xl animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:rounded-sm sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0 data-[state=open]:my-5",
           className
         )}
         {...props}
       >
         {children}
         {!withoutClose && (
-          <DialogPrimitive.Close className="absolute ltr:right-4 rtl:left-4 top-4 rounded-md opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent text-foreground">
+          <DialogPrimitive.Close className="absolute ltr:right-4 rtl:left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent text-foreground">
             <X size={25} />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>

@@ -1,11 +1,11 @@
-import { useAuth } from "@/providers/auth-provider";
-import NavElements from "./nav-elements";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Typography from "@/components/ui/typography";
-import { useTranslation } from "react-i18next";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useAuth } from "@/providers/auth-provider";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import NavElements from "./nav-elements";
 
 const SideNav = ({
   setOpen,
@@ -28,7 +28,7 @@ const SideNav = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-col bg-primary/50 rounded-md border w-full">
+      <div className="flex flex-col bg-primary/50 rounded-sm border w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
           <Avatar className="size-28">
             <AvatarImage src="/assets/userprofile.png" />

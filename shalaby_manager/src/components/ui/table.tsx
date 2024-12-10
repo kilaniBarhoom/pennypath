@@ -10,7 +10,7 @@ const Table = React.forwardRef<
   }
 >(({ className, noTopBorder, noBottomBorder, ...props }, ref) => (
   <div
-    className={ny("relative w-full overflow-auto border rounded-lg", {
+    className={ny("relative w-full overflow-auto border rounded-sm", {
       "border-t-0 rounded-t-none": noTopBorder,
       "border-b-0 rounded-b-none": noBottomBorder,
     })}

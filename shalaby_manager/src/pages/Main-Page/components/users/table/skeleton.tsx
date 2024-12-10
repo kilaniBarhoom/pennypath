@@ -5,19 +5,19 @@ const UsersTableSkeleton = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton className="h-8 bg-secondary rounded-md w-full" />
+        <Skeleton className="h-8 bg-secondary rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 bg-secondary rounded-md w-full" />
+        <Skeleton className="h-8 bg-secondary rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 bg-secondary rounded-md w-full" />
+        <Skeleton className="h-8 bg-secondary rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 bg-secondary rounded-md w-full" />
+        <Skeleton className="h-8 bg-secondary rounded-sm w-full" />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-8 bg-secondary rounded-md w-full" />
+        <Skeleton className="h-8 bg-secondary rounded-sm w-full" />
       </TableCell>
     </TableRow>
   );

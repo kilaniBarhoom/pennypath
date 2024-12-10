@@ -5,6 +5,8 @@ import { DayPicker, type DropdownProps } from "react-day-picker";
 import { buttonVariants } from "@/components/ui/button";
 import { ny } from "@/lib/utils";
 
+import { ar, enGB } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -13,8 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-import { useTranslation } from "react-i18next";
-import { enGB, ar } from "date-fns/locale";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -46,7 +46,7 @@ function Calendar({
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell:
-          "text-muted-foreground rounded-md w-10 font-normal text-[0.8rem]",
+          "text-muted-foreground rounded-sm w-10 font-normal text-[0.8rem]",
         row: "flex w-full gap-1 mt-2",
         cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: ny(

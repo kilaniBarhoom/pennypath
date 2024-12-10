@@ -8,9 +8,9 @@ import { useTranslation } from "react-i18next";
 // import AddEditCostDialog from "../add-edit-attendee-dialog";
 // import { useDeleteCostMutation } from "@/features/MainPage/api/attendance";
 
-import { UserAvatar } from "@/components/ui/user-avatar";
 import { Badge } from "@/components/ui/badge";
-import { Check, MoveRight, X, MoveLeft } from "lucide-react";
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { Check, MoveLeft, MoveRight, X } from "lucide-react";
 const TableRows = ({ attendance }: { attendance: AttendanceType[] }) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
@@ -62,7 +62,7 @@ const TableRows = ({ attendance }: { attendance: AttendanceType[] }) => {
                   element="p"
                   as="p"
                   color="white"
-                  className="bg-green-700 rounded-md px-1"
+                  className="bg-green-700 rounded-sm px-1"
                 >
                   {attendee?.attendanceTime}
                 </Typography>
@@ -77,7 +77,7 @@ const TableRows = ({ attendance }: { attendance: AttendanceType[] }) => {
                   element="p"
                   as="p"
                   color="white"
-                  className="bg-green-700 rounded-md px-1"
+                  className="bg-green-700 rounded-sm px-1"
                 >
                   {attendee?.attendanceTime}
                 </Typography>
@@ -87,7 +87,7 @@ const TableRows = ({ attendance }: { attendance: AttendanceType[] }) => {
                   element="p"
                   as="p"
                   color="white"
-                  className="bg-red-700 rounded-md px-1"
+                  className="bg-red-700 rounded-sm px-1"
                 >
                   {attendee?.leaveTime}
                 </Typography>
@@ -97,14 +97,14 @@ const TableRows = ({ attendance }: { attendance: AttendanceType[] }) => {
           <TableCell className="w-28">
             {attendee.status === "present" ? (
               <Badge
-                className="bg-green-500 justify-center rounded-md"
+                className="bg-green-500 justify-center rounded-sm"
                 size={"sm"}
               >
                 <Check size={16} strokeWidth={3} />
               </Badge>
             ) : (
               <Badge
-                className="bg-red-500 justify-center rounded-md"
+                className="bg-red-500 justify-center rounded-sm"
                 size={"sm"}
               >
                 <X size={16} strokeWidth={3} />

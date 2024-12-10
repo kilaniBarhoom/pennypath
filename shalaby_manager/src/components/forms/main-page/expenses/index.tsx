@@ -165,7 +165,7 @@ const ExpenseForm = ({
               {t("Add Category")}
             </Button>
 
-            <div className="text-lg font-semibold w-full text-center p-2 mt-2 rounded-md bg-blue-500 text-white tracking-wider">
+            <div className="text-lg font-semibold w-full text-center p-2 mt-2 rounded-sm bg-blue-500 text-white tracking-wider">
               {t("Total")}: <span className="text-2xl">₪</span>
               {total.toFixed(2)}
             </div>

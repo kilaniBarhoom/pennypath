@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Command as CommandPrimitive } from "cmdk";
+import * as React from "react";
 
-import { ny } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ny } from "@/lib/utils";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -15,7 +15,7 @@ const Command = React.forwardRef<
   <CommandPrimitive
     ref={ref}
     className={ny(
-      "bg-popover text-popover-foreground flex size-full flex-col overflow-hidden rounded-md",
+      "bg-popover text-popover-foreground flex size-full flex-col overflow-hidden rounded-sm",
       className
     )}
     {...props}
@@ -46,7 +46,7 @@ const CommandInput = React.forwardRef<
     <CommandPrimitive.Input
       ref={ref}
       className={ny(
-        "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "placeholder:text-muted-foreground flex h-10 w-full rounded-sm bg-transparent py-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
@@ -145,11 +145,11 @@ CommandShortcut.displayName = "CommandShortcut";
 export {
   Command,
   CommandDialog,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
-  CommandShortcut,
+  CommandList,
   CommandSeparator,
+  CommandShortcut,
 };

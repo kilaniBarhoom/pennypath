@@ -1,14 +1,14 @@
 import {
   Dialog,
-  DialogHeader,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -28,10 +28,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { UserAvatar } from "@/components/ui/user-avatar";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useUsersChangeRoleFormMutation } from "../../api/Users";
-import { useState } from "react";
-import { UserAvatar } from "@/components/ui/user-avatar";
 
 const ChangeRoleFormSchema = z.object({
   role: z.string({
@@ -107,7 +107,7 @@ const ChangeRoleDialog = ({
             }
             description={user.email}
             imageClassName="bg-background border size-10 "
-            className="border border-primary bg-secondary p-2 w-full rounded-md"
+            className="border border-primary bg-secondary p-2 w-full rounded-sm"
             descriptionType="email"
             nameClassName="text-base"
           />

@@ -190,7 +190,7 @@ const AttendanceForm = ({
                       <SelectItem value="present">
                         <div className="flex items-center gap-2">
                           <Badge
-                            className="bg-green-500 justify-start rounded-md p-1 h-6"
+                            className="bg-green-500 justify-start rounded-sm p-1 h-6"
                             size={"sm"}
                           >
                             <Check size={16} strokeWidth={3} />
@@ -201,7 +201,7 @@ const AttendanceForm = ({
                       <SelectItem value="absent">
                         <div className="flex items-center gap-2">
                           <Badge
-                            className="bg-red-500 justify-start rounded-md p-1 h-6"
+                            className="bg-red-500 justify-start rounded-sm p-1 h-6"
                             size={"sm"}
                           >
                             <X size={16} strokeWidth={3} />
@@ -218,7 +218,7 @@ const AttendanceForm = ({
           </div>
 
           {/* <div className="flex items-center gap-4">
-            <div className="flex flex-col gap-2 flex-1 border justify-start items-start p-2 rounded-md bg-green-700">
+            <div className="flex flex-col gap-2 flex-1 border justify-start items-start p-2 rounded-sm bg-green-700">
               <Typography
                 element="label"
                 className="w-full leading-2 flex items-center justify-between"
@@ -242,7 +242,7 @@ const AttendanceForm = ({
             <Typography element="span" className="text-muted-foreground">
               <MoveRight size={24} />
             </Typography>
-            <div className="flex flex-col gap-2 flex-1 border justify-start items-start p-2 rounded-md bg-red-700">
+            <div className="flex flex-col gap-2 flex-1 border justify-start items-start p-2 rounded-sm bg-red-700">
               <Typography
                 element="label"
                 className="w-full leading-2 flex items-center justify-between"

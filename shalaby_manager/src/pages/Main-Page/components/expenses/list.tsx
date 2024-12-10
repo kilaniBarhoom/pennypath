@@ -44,7 +44,7 @@ const ExpensesList = ({
                 <div
                   dir={dir}
                   className={ny(
-                    "p-4 border rounded-md w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
+                    "p-4 border rounded-sm w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
                     new Date(expense.createdAt).getDate() ===
                       new Date().getDate()
                       ? "bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
