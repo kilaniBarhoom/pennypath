@@ -45,6 +45,7 @@ const ExpenseForm = ({
                 <FormControl>
                   <Input
                     {...field}
+                    placeholder="e.g. Salary"
                     autoComplete="name"
                     error={!!expenseForm.formState.errors.name?.message}
                   />
@@ -65,6 +66,7 @@ const ExpenseForm = ({
                   <Input
                     {...field}
                     type="number"
+                    defaultValue={0}
                     min={0}
                     autoComplete="amount"
                     error={!!expenseForm.formState.errors.amount?.message}
@@ -83,6 +85,7 @@ const ExpenseForm = ({
                 <FormControl>
                   <Textarea
                     {...field}
+                    placeholder="e.g. Salary for the month of January"
                     autoComplete="description"
                     className="h-32"
                   />

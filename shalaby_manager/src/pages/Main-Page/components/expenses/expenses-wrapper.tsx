@@ -1,9 +1,10 @@
-import LocalSearchBar from "@/components/shared/loacal-search";
 import TablePagiation from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
 import Typography from "@/components/ui/typography";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { useSearchExpensesQuery } from "../../api/expenses";
+import ExpensesFilters from "./filters";
 import ExpensesList from "./list";
 
 export default function PaymentsWrapper() {
@@ -13,6 +14,18 @@ export default function PaymentsWrapper() {
   } = useSearchExpensesQuery();
 
   const { t } = useTranslation();
+
+  const [_, setSearchParams] = useSearchParams();
+
+  const setSearchAmount = (amount: string) => {
+    setSearchParams((prev) => {
+      prev.delete("amount");
+      if (amount) {
+        prev.set("amount", amount);
+      }
+      return prev;
+    });
+  };
 
   return (
     <>
@@ -30,7 +43,12 @@ export default function PaymentsWrapper() {
             <sup className="text-lg">₪</sup>
           </Badge>
         </div>
-        <div className="shadow-md flex-col justify-center items-center bg-red-500/70 border rounded-md flex-1 w-full p-4 flex gap-2">
+        <div
+          onClick={() =>
+            setSearchAmount(String(searchExpensesResponse?.mostSpentInADay))
+          }
+          className="shadow-md flex-col justify-center items-center bg-red-600 cursor-pointer border rounded-md flex-1 w-full p-4 flex gap-2"
+        >
           <Typography
             element="span"
             className="md:text-lg text-sm font-semibold"
@@ -73,16 +91,7 @@ export default function PaymentsWrapper() {
         </div>
       </div>
       <div className="border flex flex-col gap-4 p-4 rounded-xl">
-        <div className=" md:w-fit w-full ">
-          <LocalSearchBar
-            route="/expenses"
-            placeholder="Search for an expense"
-            otherClasses="md:w-fit w-full"
-          />
-          {/* <div className="flex gap-2 items-center">
-          <PaymentsFilters />
-        </div> */}
-        </div>
+        <ExpensesFilters />
         <ExpensesList
           expenses={searchExpensesResponse?.expenses ?? []}
           isLoading={isLoadingToFetchExpensesData}

@@ -1,7 +1,7 @@
-"use client";
+import { Group, NumberField } from "react-aria-components";
 
 import { Input } from "@/components/ui/input";
-import { ny, formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
+import { formUrlQuery, ny, removeKeysFromQuery } from "@/lib/utils";
 import { Search } from "lucide-react";
 // import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ interface CustomInputProps {
   otherClasses?: string;
   Icon?: any;
   searchQuery?: string;
+  variant?: string;
 }
 
 const LocalSearchBar = ({
@@ -22,6 +23,7 @@ const LocalSearchBar = ({
   otherClasses,
   Icon,
   searchQuery = "q",
+  variant = "search",
 }: CustomInputProps) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -47,6 +49,7 @@ const LocalSearchBar = ({
             params: searchParams.toString(),
             keysToRemove: [searchQuery],
           });
+          searchParams.delete(searchQuery);
           navigate(newUrl, { replace: true });
         }
       }
@@ -56,17 +59,46 @@ const LocalSearchBar = ({
   }, [query, search, route, pathname, searchParams]);
 
   return (
-    <Input
-      type="text"
-      placeholder={t(placeholder)}
-      value={search}
-      icon={Icon ? <Icon size={18} /> : <Search size={18} />}
-      onChange={(e) => setSearch(e.target.value)}
-      className={ny(
-        "w-72 font-semibold bg-muted h-10 border-secondary-foreground/20",
-        otherClasses
+    <>
+      {variant === "search" ? (
+        <Input
+          aria-label="search"
+          type="text"
+          placeholder={t(placeholder)}
+          value={search}
+          icon={Icon ? <Icon size={18} /> : <Search size={18} />}
+          onChange={(e) => setSearch(e.target.value)}
+          className={ny(
+            "w-72 font-normal bg-muted h-10 border-secondary-foreground/20",
+            otherClasses
+          )}
+        />
+      ) : (
+        <NumberField
+          defaultValue={undefined}
+          formatOptions={{
+            style: "currency",
+            currency: "ILS",
+            currencySign: "accounting",
+          }}
+          aria-label="amount"
+        >
+          <Group className="relative inline-flex h-10 w-fit items-center overflow-hidden whitespace-nowrap rounded-lg border border-input text-sm shadow-sm shadow-black/5 transition-shadow data-[focus-within]:border-ring data-[disabled]:opacity-50 data-[focus-within]:outline-none data-[focus-within]:ring-[3px] data-[focus-within]:ring-ring/20">
+            <Input
+              aria-label="search"
+              placeholder={placeholder}
+              value={search}
+              min={0}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              type="number"
+              className="flex-1 bg-background px-3 py-2 tabular-nums text-foreground focus:outline-none border-0"
+            />
+          </Group>
+        </NumberField>
       )}
-    />
+    </>
   );
 };
 export default LocalSearchBar;

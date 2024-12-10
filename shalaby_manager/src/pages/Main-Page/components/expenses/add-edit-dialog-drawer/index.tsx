@@ -63,7 +63,7 @@ const AddEditExpenseDialogDrawer = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="md:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
             {expense ? t("Edit expense") : t("Add a new expense")}

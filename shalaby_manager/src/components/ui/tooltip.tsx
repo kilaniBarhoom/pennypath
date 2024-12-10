@@ -11,7 +11,7 @@ const tooltipVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground",
+        default: "bg-background text-secondary-foreground",
         outline: "border bg-popover text-popover-foreground shadow-md",
         secondary: "bg-secondary text-secondary-foreground",
       },

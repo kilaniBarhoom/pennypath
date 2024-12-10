@@ -1,6 +1,6 @@
 import ObjectID from "../../utils/ObjectID.js";
 
-export const findExpenses = ({ startDate, endDate, search, loggedInUser, pageNumber }) => {
+export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser, pageNumber }) => {
     const filter = [];
 
     if (!loggedInUser) {
@@ -29,7 +29,14 @@ export const findExpenses = ({ startDate, endDate, search, loggedInUser, pageNum
                 ],
             },
         });
-
+    if (amount) {
+        console.log("Amount  ", amount)
+        filter.push({
+            $match: {
+                amount: { $eq: amount },
+            },
+        });
+    }
     filter.push({
         $sort: {
             createdAt: -1,

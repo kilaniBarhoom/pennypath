@@ -30,6 +30,7 @@ export const useSearchExpensesQuery = () => {
   const from = searchParams.get("from") || "";
   const to = searchParams.get("to") || "";
   const search = searchParams.get("q") || "";
+  const amount = searchParams.get("amount") || "";
 
   return useQuery({
     queryKey: [
@@ -40,6 +41,7 @@ export const useSearchExpensesQuery = () => {
         from,
         to,
         search,
+        amount,
       },
     ],
     queryFn: async () => {
@@ -49,7 +51,7 @@ export const useSearchExpensesQuery = () => {
         from: from,
         to: to,
         search: search,
-        // hasOverTime: hasOverTime === "true" && true,
+        amount: amount,
       };
       if (from) {
         dataToSend["from"] = from;
@@ -59,6 +61,9 @@ export const useSearchExpensesQuery = () => {
       }
       if (search) {
         dataToSend["search"] = search;
+      }
+      if (amount) {
+        dataToSend["amount"] = amount;
       }
       const { data: response } = await axios.get(`expense`, {
         params: dataToSend,

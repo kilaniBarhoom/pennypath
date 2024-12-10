@@ -1,40 +1,24 @@
-// import {
-//   MultiSelect,
-//   MultiSelectContent,
-//   MultiSelectEmpty,
-//   MultiSelectGroup,
-//   MultiSelectItem,
-//   MultiSelectList,
-//   MultiSelectSearch,
-//   MultiSelectTrigger,
-//   MultiSelectValue,
-// } from "@/components/ui/multi-select";
-// import { getAllUsers, useAuth } from "@/providers/auth-provider";
-// import { useEffect, useState } from "react";
-const AttendanceFilters = () => {
-  //   const { accessToken } = useAuth();
-  //   const [open, setOpen] = useState(true);
-  //   const [userGroups, setUserGroups] = useState<UserGroupType[]>([]);
-  //   const [loadingToFetchAllUsers, setLoadingToFetchAllUsers] = useState(false);
+import LocalSearchBar from "@/components/shared/loacal-search";
 
-  // useEffect(() => {
-  //   if (open) {
-  //     try {
-  //       setLoadingToFetchAllUsers(true);
-  //       const getUsers = async () => {
-  //         const users = await getAllUsers(accessToken ?? "");
-  //         setUserGroups(users);
-  //       };
-  //       getUsers();
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       setLoadingToFetchAllUsers(false);
-  //     }
-  //   }
-  // }, []);
-
-  return <div></div>;
+const ExpensesFilters = () => {
+  return (
+    <div className="flex md:flex-row flex-col gap-2 items-center justify-between">
+      <div className=" md:w-fit w-full ">
+        <LocalSearchBar
+          route="/expenses"
+          placeholder="Search for an expense"
+          otherClasses="md:w-80 w-full"
+        />
+      </div>
+      <LocalSearchBar
+        variant="amount"
+        searchQuery="amount"
+        placeholder="Amount"
+        route="expenses"
+        otherClasses="w-fit"
+      />
+    </div>
+  );
 };
 
-export default AttendanceFilters;
+export default ExpensesFilters;

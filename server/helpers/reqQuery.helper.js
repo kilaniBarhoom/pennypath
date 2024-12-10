@@ -5,6 +5,7 @@ import ResponseError from "../utils/respErr.js";
 export default (query) => {
     const { from, to, analyticsInterval } = query;
     let search = query.search || "";
+    let amount = query.amount || null;
     let grouped = query.grouped || false;
     let pageNumber = query.pageNumber || 1;
     search = search.trim();
@@ -45,10 +46,21 @@ export default (query) => {
     if (pageNumber)
         pageNumber = pageNumber - 1;
 
+    if (amount) {
+        if (isNaN(parseFloat(amount))) {
+            throw new ResponseError(
+                "Please provide a valid amount",
+                statusCode.BAD_REQUEST
+            );
+        }
+        amount = parseFloat(amount);
+    }
+
     return {
         from: startDate,
         to: endDate,
         search,
+        amount,
         grouped,
         filter,
         analyticsInterval,
