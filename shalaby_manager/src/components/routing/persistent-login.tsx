@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import { getAuth, useAuth, useRefreshToken } from "@/providers/auth-provider";
 import { useError } from "@/providers/error-provider";
+import LoadingComponent from "../shared/Loading-component";
 
 const PersistentLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,9 +37,7 @@ const PersistentLogin = () => {
   }, []);
 
   return isLoading ? (
-    <div>
-      <h1>Loading...</h1>
-    </div>
+    <LoadingComponent size={40} className="h-screen" />
   ) : (
     <Outlet />
   );

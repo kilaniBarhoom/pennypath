@@ -9,6 +9,8 @@ import { ErrorProvider } from "./providers/error-provider.tsx";
 import { ThemeProvider } from "./providers/theme-provider.tsx";
 // import Loading from "./components/shared/loading.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LoadingComponent from "./components/shared/Loading-component.tsx";
+import { Suspense } from "react";
 // import { Suspense } from "react";
 // import Loading from "./components/shared/loading.tsx";
 
@@ -43,10 +45,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <ErrorProvider>
         <QueryClientProvider client={queryClient}>
-          {/* <Suspense fallback={<Loading />}> */}
-          <App />
-          <Toaster />
-          {/* </Suspense> */}
+          <Suspense fallback={<LoadingComponent />}>
+            <App />
+            <Toaster />
+          </Suspense>
         </QueryClientProvider>
       </ErrorProvider>
     </AuthProvider>
