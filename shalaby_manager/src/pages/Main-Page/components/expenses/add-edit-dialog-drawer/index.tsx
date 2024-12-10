@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
-import { ExpenseFormSchemaType, ExpenseFormSchema } from "@/schemas";
+import ExpenseForm from "@/components/forms/main-page/expenses";
+import { useExpenseFormMutation } from "@/pages/Main-Page/api/expenses";
+import { ExpenseFormSchema, ExpenseFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useExpenseFormMutation } from "@/pages/Main-Page/api/expenses";
-import ExpenseForm from "@/components/forms/main-page/expenses";
 
 type AddEditExpenseDialogDrawerProps = {
   children: React.ReactNode;
@@ -34,7 +34,8 @@ const AddEditExpenseDialogDrawer = ({
     defaultValues: {
       name: expense?.name || "",
       description: expense?.description || "",
-      amount: String(expense?.amount) || "0",
+      amount: expense?.amount || 0,
+      categories: expense?.categories || [],
     },
   });
 

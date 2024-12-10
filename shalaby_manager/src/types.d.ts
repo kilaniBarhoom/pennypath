@@ -46,6 +46,7 @@ declare type ExpenseType = {
   description: string;
   amount: number;
   user: UserType;
+  categories?: { name: string; amount: number }[];
   createdAt: string;
   updatedAt: string;
 };

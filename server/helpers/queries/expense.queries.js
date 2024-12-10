@@ -30,7 +30,6 @@ export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser,
             },
         });
     if (amount) {
-        console.log("Amount  ", amount)
         filter.push({
             $match: {
                 amount: { $eq: amount },
@@ -51,7 +50,8 @@ export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser,
             description: 1,
             name: 1,
             user: 1,
-            images: 1
+            images: 1,
+            categories: 1,
         },
     });
 

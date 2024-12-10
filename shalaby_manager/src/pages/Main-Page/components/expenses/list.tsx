@@ -41,10 +41,9 @@ const ExpensesList = ({
           <div className="grid md:grid-cols-3 gap-2 sm:grid-cols-2 grid-cols-1">
             {expenses.map((expense) => {
               return (
-                <ExpenseCard expense={expense}>
+                <ExpenseCard expense={expense} key={expense.id}>
                   <div
                     dir={dir}
-                    key={expense.id}
                     className={ny(
                       "p-4 border rounded-md grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
                       new Date(expense.createdAt).getDate() ===
@@ -153,14 +152,59 @@ function ExpenseCard({
       <TooltipProvider delayDuration={0}>
         <Tooltip>
           <TooltipTrigger asChild>{children}</TooltipTrigger>
-          {expense?.description && (
-            <TooltipContent className="py-3 w-[320px] flex flex-col gap-1 items-start text-start justify-center">
-              <Typography element="span" as="mutedText">
-                Description
-              </Typography>
-              <Typography element="p" as="smallText" color="white">
-                {expense?.description}
-              </Typography>
+          {(expense?.description ||
+            (expense?.categories && expense?.categories.length > 0)) && (
+            <TooltipContent
+              align="start"
+              className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
+            >
+              <div className="flex flex-col items-start w-full text-start justify-start">
+                {expense?.description && (
+                  <>
+                    <span className="text-muted-foreground text-xs leading-5">
+                      Description
+                    </span>
+                    <Typography
+                      element="p"
+                      className="text-xs tracking-wide"
+                      color="white"
+                    >
+                      {expense?.description}
+                    </Typography>
+                  </>
+                )}
+                {expense?.categories && expense?.categories?.length > 0 && (
+                  <div className="flex flex-col w-full ">
+                    <span className="text-muted-foreground text-xs leading-5">
+                      Categories
+                    </span>
+                    {expense?.categories.map((category) => (
+                      <div
+                        key={category.name}
+                        className="flex w-full gap-2 items-center"
+                      >
+                        <div className="flex items-center gap-2">
+                          <svg
+                            width="8"
+                            height="8"
+                            fill="currentColor"
+                            viewBox="0 0 8 8"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="shrink-0 text-rose-500"
+                            aria-hidden="true"
+                          >
+                            <circle cx="4" cy="4" r="4"></circle>
+                          </svg>
+                        </div>
+                        {category?.name}{" "}
+                        <span className="flex ml-auto gap-2">
+                          <span className="text-md">₪{category?.amount}</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </TooltipContent>
           )}
         </Tooltip>

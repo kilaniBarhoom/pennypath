@@ -1,5 +1,10 @@
 import { Schema, model } from 'mongoose';
 
+const categorySchema = new Schema({
+    name: { type: String, required: true },
+    amount: { type: Number, required: true, min: 0 }
+});
+
 const expenseSchema = new Schema({
     name: {
         type: String,
@@ -21,6 +26,12 @@ const expenseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    categories:
+    {
+        type: [categorySchema],
+        required: true
+    },
+
 }, { timestamps: true })
 
 expenseSchema.set("toJSON", {
@@ -30,6 +41,8 @@ expenseSchema.set("toJSON", {
         delete ret.__v;
     },
 });
+
+
 
 const Expense = model('Expense', expenseSchema)
 export default Expense

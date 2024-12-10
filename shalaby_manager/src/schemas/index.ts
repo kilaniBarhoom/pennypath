@@ -77,12 +77,16 @@ export const PaymentFormSchema = z.object({
 export type PaymentFormSchemaType = z.infer<typeof PaymentFormSchema>;
 //
 
+const categorySchema = z.object({
+  name: z.string().min(1, "Category name is required"),
+  amount: z.number().min(0, "Amount must be a positive number"),
+});
+
 export const ExpenseFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
-  amount: z.string({
-    required_error: "Amount is required",
-  }),
+  amount: z.number().min(0, "Amount must be positive"),
+  categories: z.array(categorySchema).optional(),
 });
 
 export type ExpenseFormSchemaType = z.infer<typeof ExpenseFormSchema>;

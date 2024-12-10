@@ -60,13 +60,14 @@ export const createExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { name, description, amount, images } = ExpenseSchema.parse(req.body);
+    const { name, description, amount, images, categories } = ExpenseSchema.parse(req.body);
 
     await Expense.create({
         name,
         description,
         amount,
         images,
+        categories,
         user: req.user.id,
     });
     res.status(statusCodes.CREATED).json({
@@ -95,7 +96,7 @@ export const editExpense = async (req, res, next) => {
             amount,
             images,
             user,
-        }, { new: true, runValidators: true });
+        }, { new: true, runValidators: true, strict: false });
 
         if (!expense) {
             return next(new ResponseError('Expense not found', statusCodes.NOT_FOUND));

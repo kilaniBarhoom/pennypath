@@ -20,6 +20,10 @@ export const ExpenseSchema = z.object({
     description: z.string().max(400, "Description could be at maximun 400 characters long").optional(),
     amount: z.number().min(1, "Amount must be at least 1"),
     images: z.array(z.string()).optional(),
+    categories: z.array(z.object({
+        name: z.string().min(1, "Name must be at least 1 characters long"),
+        amount: z.number().min(0, "Amount must be at least 1"),
+    })),
 });
 
 // attendance schema
