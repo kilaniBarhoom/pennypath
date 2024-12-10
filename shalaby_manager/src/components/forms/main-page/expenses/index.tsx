@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -9,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { ny } from "@/lib/utils";
 import { PlusCircle, Trash2 } from "lucide-react";
@@ -62,7 +62,7 @@ const ExpenseForm = ({
         onSubmit={expenseForm.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-10"
       >
-        <div className={ny("flex flex-col gap-y-3")}>
+        <div className={ny("flex flex-col gap-y-3 p-4")}>
           <FormField
             control={expenseForm.control}
             name="name"
@@ -190,12 +190,12 @@ const ExpenseForm = ({
             />
           </div>
         </div>
-        <DialogFooter className="flex bg-muted rounded-b-md flex-row fixed bottom-0 left-0 items-center justify-end gap-2 px-4 py-2 w-full">
-          <DialogClose asChild>
+        <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
+          <SheetClose asChild>
             <Button type="button" className="w-fit" variant={"outline"}>
               {t("Discard")}
             </Button>
-          </DialogClose>
+          </SheetClose>
           <Button
             loading={isLoading}
             disabled={isLoading}
@@ -204,7 +204,7 @@ const ExpenseForm = ({
           >
             {expense ? t("Save") : t("Add")}
           </Button>
-        </DialogFooter>
+        </SheetFooter>
       </form>
     </Form>
   );

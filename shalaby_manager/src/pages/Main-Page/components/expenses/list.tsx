@@ -7,7 +7,7 @@ import { ar, enGB } from "date-fns/locale";
 import { BellDot, CalendarIcon, CreditCard } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDeleteExpenseMutation } from "../../api/expenses";
-import AddEditExpenseDialogDrawer from "./add-edit-dialog-drawer";
+import AddEditExpenseDialogDrawer from "./add-edit-sheet";
 
 const ExpensesList = ({
   expenses,
@@ -228,7 +228,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
           {expense?.categories.map((category, ind: number) => (
             <div
               key={category.name}
-              className="flex w-full text-white gap-2 items-center"
+              className="flex w-full text-white gap-2 items-center md:text-base text-xs"
             >
               <div className="flex items-center gap-2">
                 <svg
@@ -246,8 +246,8 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
                 </svg>
               </div>
               {category?.name}
-              <span className="flex ml-auto">
-                <span className="text-md">₪{category?.amount}</span>
+              <span className="flex ml-auto md:text-base text-xs">
+                <span>₪{category?.amount}</span>
               </span>
             </div>
           ))}

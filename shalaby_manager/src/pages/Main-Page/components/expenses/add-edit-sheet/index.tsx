@@ -1,14 +1,14 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 import ExpenseForm from "@/components/forms/main-page/expenses";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useExpenseFormMutation } from "@/pages/Main-Page/api/expenses";
 import { ExpenseFormSchema, ExpenseFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,16 +16,16 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-type AddEditExpenseDialogDrawerProps = {
+type AddEditExpenseSheetProps = {
   children: React.ReactNode;
   expense?: ExpenseType;
 };
 
-const AddEditExpenseDialogDrawer = ({
+const AddEditExpenseSheet = ({
   children,
   expense,
-}: AddEditExpenseDialogDrawerProps) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+}: AddEditExpenseSheetProps) => {
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -56,7 +56,7 @@ const AddEditExpenseDialogDrawer = ({
         expenseId: expense?.id,
       });
       expenseForm.reset();
-      setDialogOpen(false);
+      setSheetOpen(false);
     } catch (error: any) {
       toast(t("Error"), {
         description: t(error?.response?.data?.[0]) || t("Something went wrong"),
@@ -67,16 +67,20 @@ const AddEditExpenseDialogDrawer = ({
   const isLoading = expenseForm.formState.isSubmitting;
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 p-0 sm:max-h-[min(600px,70vh)] sm:max-w-lg [&>button:last-child]:hidden relative pb-14">
-        <DialogHeader>
-          <DialogTitle>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent
+        disableBackdrop
+        className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
+        side={"right"}
+      >
+        <SheetHeader>
+          <SheetTitle>
             {expense ? t("Edit expense") : t("Add a new expense")}
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <div className="p-4 overflow-y-auto">
+          </SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
+        <div className="overflow-y-auto">
           <ExpenseForm
             expenseForm={expenseForm}
             isLoading={isLoading}
@@ -84,9 +88,9 @@ const AddEditExpenseDialogDrawer = ({
             expense={expense}
           />
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };
 
-export default AddEditExpenseDialogDrawer;
+export default AddEditExpenseSheet;

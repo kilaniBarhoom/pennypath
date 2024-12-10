@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import AddEditExpenseDialogDrawer from "../components/expenses/add-edit-dialog-drawer";
+import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
 import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 
 const Expenses = () => {
@@ -93,14 +93,14 @@ const Expenses = () => {
           {t("Expenses")}
         </Typography>
         <div className="flex items-center lg:w-fit w-full">
-          <AddEditExpenseDialogDrawer>
+          <AddEditExpenseSheet>
             <Button
               className="px-6 lg:py-4 py-6 lg:w-fit w-full border-2"
               Icon={Banknote}
             >
               {t("Add Expense")}
             </Button>
-          </AddEditExpenseDialogDrawer>
+          </AddEditExpenseSheet>
         </div>
       </div>
       <ExpensesWrapper />
