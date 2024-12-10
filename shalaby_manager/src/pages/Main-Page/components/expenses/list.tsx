@@ -37,78 +37,72 @@ const ExpensesList = ({
       {isLoading ? (
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
-        <div className="flex flex-col gap-2 w-full">
-          <div className="grid md:grid-cols-3 gap-2 sm:grid-cols-2 grid-cols-1">
-            {expenses.map((expense) => {
-              return (
-                <ExpenseCard expense={expense} key={expense.id}>
-                  <div
-                    dir={dir}
-                    className={ny(
-                      "p-4 border rounded-md grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
-                      new Date(expense.createdAt).getDate() ===
-                        new Date().getDate()
-                        ? "w-full  bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
-                        : "bg-background"
-                    )}
-                  >
-                    {expense?.description && (
-                      <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
-                    )}
+        <div className="grid md:grid-cols-3 w-full gap-2 sm:grid-cols-2 grid-cols-1 grid-flow-dense">
+          {expenses.map((expense) => {
+            return (
+              <ExpenseCard expense={expense} key={expense.id}>
+                <div
+                  dir={dir}
+                  className={ny(
+                    "p-4 border rounded-md w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
+                    new Date(expense.createdAt).getDate() ===
+                      new Date().getDate()
+                      ? "bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
+                      : "bg-background"
+                  )}
+                >
+                  {expense?.description && (
+                    <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
+                  )}
 
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 text-gray-500" />
-                      <Typography
-                        element="span"
-                        as="smallText"
-                        className="text-xs tracking-wider leading-none"
-                        color="white"
-                      >
-                        {expense?.name}
-                      </Typography>
-                      <div className="gap-3 flex-1 items-end justify-end flex">
-                        <div className="text-green-500 font-semibold tabular-nums">
-                          {expense.amount} <sup className="text-lg">₪</sup>
-                        </div>
+                  <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <CreditCard className="min-w-4 min-h-4 h-4 w-4 text-gray-500" />
+                    <Typography
+                      element="span"
+                      as="smallText"
+                      className="text-xs overflow-hidden text-ellipsis whitespace-nowrap tracking-wider leading-none"
+                      color="white"
+                    >
+                      {expense?.name}
+                    </Typography>
+                    <div className="gap-3 flex-1 items-end justify-end flex">
+                      <div className="text-green-500 font-semibold tabular-nums">
+                        {expense.amount} <sup className="text-lg">₪</sup>
                       </div>
                     </div>
-                    <div className="gap-3 flex items-center">
-                      <CalendarIcon className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm leading-none text-gray-500">
-                        {format(
-                          stringToDate(expense.createdAt),
-                          "eeee, d-MM-y",
-                          {
-                            locale: lang === "ar" ? ar : enGB,
-                          }
-                        )}
-                      </span>
-                    </div>
-                    <div className="justify-end flex items-center gap-2 mt-3">
-                      <AddEditExpenseDialogDrawer expense={expense}>
-                        <Button
-                          size={"link"}
-                          variant={"none"}
-                          className="text-muted-foreground hover:underline font-normal"
-                        >
-                          Edit
-                        </Button>
-                      </AddEditExpenseDialogDrawer>
-                      •
+                  </div>
+                  <div className="gap-2 flex items-center">
+                    <CalendarIcon className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm leading-none text-gray-500">
+                      {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
+                        locale: lang === "ar" ? ar : enGB,
+                      })}
+                    </span>
+                  </div>
+                  <div className="justify-end flex items-center gap-2 mt-3">
+                    <AddEditExpenseDialogDrawer expense={expense}>
                       <Button
                         size={"link"}
                         variant={"none"}
                         className="text-muted-foreground hover:underline font-normal"
-                        onClick={() => handleDeleteExpense(expense?.id)}
                       >
-                        Delete
+                        Edit
                       </Button>
-                    </div>
+                    </AddEditExpenseDialogDrawer>
+                    •
+                    <Button
+                      size={"link"}
+                      variant={"none"}
+                      className="text-muted-foreground hover:underline font-normal"
+                      onClick={() => handleDeleteExpense(expense?.id)}
+                    >
+                      Delete
+                    </Button>
                   </div>
-                </ExpenseCard>
-              );
-            })}
-          </div>
+                </div>
+              </ExpenseCard>
+            );
+          })}
         </div>
       ) : (
         <div className="p-4 flex items-center justify-center">
@@ -138,6 +132,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
@@ -153,7 +148,7 @@ function ExpenseCard({
   expense: ExpenseType;
 }) {
   return (
-    <div className="max-w-md text-sm">
+    <div>
       <div className="md:flex hidden">
         <TooltipProvider delayDuration={0}>
           <Tooltip>
@@ -162,7 +157,7 @@ function ExpenseCard({
               (expense?.categories && expense?.categories.length > 0)) && (
               <TooltipContent
                 align="start"
-                className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
+                className="py-3 w-[200px] border flex flex-col gap-2 items-start text-start justify-center"
               >
                 <Content expense={expense} />
               </TooltipContent>
@@ -176,7 +171,7 @@ function ExpenseCard({
           <PopoverContent
             align="start"
             side="top"
-            className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
+            className="py-3 w-[200px] border flex flex-col gap-2 items-start text-start justify-center"
           >
             <Content expense={expense} />
           </PopoverContent>
@@ -187,11 +182,32 @@ function ExpenseCard({
 }
 
 const Content = ({ expense }: { expense: ExpenseType }) => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language;
   return (
-    <div className="flex flex-col items-start w-full text-start justify-start">
+    <div className="flex flex-col gap-3 items-start w-full text-start justify-start">
+      <div className="gap-1 flex items-center">
+        <CalendarIcon className="h-3 w-3 text-white" />
+        <span className="text-xs leading-none text-white">
+          {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
+            locale: lang === "ar" ? ar : enGB,
+          })}
+        </span>
+      </div>
+      <Separator />
+      <div className="flex flex-col">
+        <span className="text-muted-foreground text-xs leading-none">Name</span>
+        <Typography
+          element="p"
+          className="text-xs text-wrap tracking-wide"
+          color="white"
+        >
+          {expense?.name}
+        </Typography>
+      </div>
       {expense?.description && (
-        <>
-          <span className="text-muted-foreground text-xs leading-5">
+        <div className="flex flex-col">
+          <span className="text-muted-foreground text-xs leading-none">
             Description
           </span>
           <Typography
@@ -201,15 +217,19 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
           >
             {expense?.description}
           </Typography>
-        </>
+        </div>
       )}
+      <Separator />
       {expense?.categories && expense?.categories?.length > 0 && (
         <div className="flex flex-col w-full ">
-          <span className="text-muted-foreground text-xs leading-5">
+          <span className="text-muted-foreground text-xs leading-none">
             Categories
           </span>
           {expense?.categories.map((category, ind: number) => (
-            <div key={category.name} className="flex w-full gap-2 items-center">
+            <div
+              key={category.name}
+              className="flex w-full text-white gap-2 items-center"
+            >
               <div className="flex items-center gap-2">
                 <svg
                   width="8"
@@ -225,8 +245,8 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
                   <circle cx="4" cy="4" r="4"></circle>
                 </svg>
               </div>
-              {category?.name}{" "}
-              <span className="flex ml-auto gap-2">
+              {category?.name}
+              <span className="flex ml-auto">
                 <span className="text-md">₪{category?.amount}</span>
               </span>
             </div>
