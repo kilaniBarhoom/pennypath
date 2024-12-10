@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ny } from "@/lib/utils";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -37,8 +37,8 @@ const ExpenseForm = ({
     name: "categories",
   });
 
+  // Update total when categories change
   const updateTotal = () => {
-    const mainAmount = expenseForm.getValues("amount") || 0;
     const categoriesTotal =
       expenseForm
         .getValues("categories")
@@ -47,9 +47,14 @@ const ExpenseForm = ({
             sum + (category.amount || 0),
           0
         ) || 0;
-    setTotal(mainAmount + categoriesTotal);
-    expenseForm.setValue("amount", categoriesTotal);
+
+    setTotal(categoriesTotal);
+    expenseForm.setValue("amount", categoriesTotal); // Auto-update hidden amount field
   };
+
+  useEffect(() => {
+    updateTotal();
+  }, [fields]);
 
   return (
     <Form {...expenseForm}>
@@ -78,31 +83,9 @@ const ExpenseForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={expenseForm.control}
-            name="amount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;{t("Amount")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(parseFloat(e.target.value));
-                      updateTotal();
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div>
             <h3 className="text-sm font-medium">
-              {t("Categorized Expenses")} ({t("Optional")})
+              {t("Categorized Expenses")} ({t("Required")})
             </h3>
             {fields.map((field: any, index: number) => (
               <div key={field.id} className="flex items-end space-x-2 mt-2">
@@ -117,7 +100,14 @@ const ExpenseForm = ({
                         {t("Category")}
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder={t("Category name")} />
+                        <Input
+                          {...field}
+                          placeholder={t("Category name")}
+                          error={
+                            !!expenseForm.formState.errors.categories?.[index]
+                              ?.name?.message
+                          }
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,9 +143,12 @@ const ExpenseForm = ({
                   variant="destructive"
                   size="icon"
                   onClick={() => {
-                    remove(index);
-                    updateTotal();
+                    if (fields.length > 1) {
+                      remove(index);
+                      updateTotal();
+                    }
                   }}
+                  disabled={fields.length === 1} // Prevent removing the last category
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -181,7 +174,7 @@ const ExpenseForm = ({
               control={expenseForm.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="flex-1 w-full">
+                <FormItem className="flex-1 w-full mt-2">
                   <FormLabel>{t("Description")}</FormLabel>
                   <FormControl>
                     <Textarea
@@ -197,13 +190,9 @@ const ExpenseForm = ({
             />
           </div>
         </div>
-        <DialogFooter className="flex items-center justify-end gap-2 p-0 w-full">
+        <DialogFooter className="flex bg-muted rounded-b-md flex-row fixed bottom-0 left-0 items-center justify-end gap-2 px-4 py-2 w-full">
           <DialogClose asChild>
-            <Button
-              type="button"
-              className="md:w-fit w-full"
-              variant={"outline"}
-            >
+            <Button type="button" className="w-fit" variant={"outline"}>
               {t("Discard")}
             </Button>
           </DialogClose>
@@ -211,7 +200,7 @@ const ExpenseForm = ({
             loading={isLoading}
             disabled={isLoading}
             type="submit"
-            className="px-8 md:w-fit w-full"
+            className="px-8 w-fit"
           >
             {expense ? t("Save") : t("Add")}
           </Button>

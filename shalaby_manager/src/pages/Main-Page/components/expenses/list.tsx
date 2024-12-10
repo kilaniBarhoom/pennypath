@@ -134,6 +134,11 @@ const ExpensesList = ({
 export default ExpensesList;
 
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -149,66 +154,85 @@ function ExpenseCard({
 }) {
   return (
     <div className="max-w-md text-sm">
-      <TooltipProvider delayDuration={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>{children}</TooltipTrigger>
-          {(expense?.description ||
-            (expense?.categories && expense?.categories.length > 0)) && (
-            <TooltipContent
-              align="start"
-              className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
-            >
-              <div className="flex flex-col items-start w-full text-start justify-start">
-                {expense?.description && (
-                  <>
-                    <span className="text-muted-foreground text-xs leading-5">
-                      Description
-                    </span>
-                    <Typography
-                      element="p"
-                      className="text-xs tracking-wide"
-                      color="white"
-                    >
-                      {expense?.description}
-                    </Typography>
-                  </>
-                )}
-                {expense?.categories && expense?.categories?.length > 0 && (
-                  <div className="flex flex-col w-full ">
-                    <span className="text-muted-foreground text-xs leading-5">
-                      Categories
-                    </span>
-                    {expense?.categories.map((category) => (
-                      <div
-                        key={category.name}
-                        className="flex w-full gap-2 items-center"
-                      >
-                        <div className="flex items-center gap-2">
-                          <svg
-                            width="8"
-                            height="8"
-                            fill="currentColor"
-                            viewBox="0 0 8 8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="shrink-0 text-rose-500"
-                            aria-hidden="true"
-                          >
-                            <circle cx="4" cy="4" r="4"></circle>
-                          </svg>
-                        </div>
-                        {category?.name}{" "}
-                        <span className="flex ml-auto gap-2">
-                          <span className="text-md">₪{category?.amount}</span>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </TooltipContent>
-          )}
-        </Tooltip>
-      </TooltipProvider>
+      <div className="md:flex hidden">
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>{children}</TooltipTrigger>
+            {(expense?.description ||
+              (expense?.categories && expense?.categories.length > 0)) && (
+              <TooltipContent
+                align="start"
+                className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
+              >
+                <Content expense={expense} />
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      <div className="md:hidden flex">
+        <Popover>
+          <PopoverTrigger asChild>{children}</PopoverTrigger>
+          <PopoverContent
+            align="start"
+            side="top"
+            className="py-3 w-[200px] border border-white flex flex-col gap-2 items-start text-start justify-center"
+          >
+            <Content expense={expense} />
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   );
 }
+
+const Content = ({ expense }: { expense: ExpenseType }) => {
+  return (
+    <div className="flex flex-col items-start w-full text-start justify-start">
+      {expense?.description && (
+        <>
+          <span className="text-muted-foreground text-xs leading-5">
+            Description
+          </span>
+          <Typography
+            element="p"
+            className="text-xs tracking-wide"
+            color="white"
+          >
+            {expense?.description}
+          </Typography>
+        </>
+      )}
+      {expense?.categories && expense?.categories?.length > 0 && (
+        <div className="flex flex-col w-full ">
+          <span className="text-muted-foreground text-xs leading-5">
+            Categories
+          </span>
+          {expense?.categories.map((category, ind: number) => (
+            <div key={category.name} className="flex w-full gap-2 items-center">
+              <div className="flex items-center gap-2">
+                <svg
+                  width="8"
+                  height="8"
+                  fill="currentColor"
+                  viewBox="0 0 8 8"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`shrink-0 text-${
+                    ind % 2 === 0 ? "rose" : "blue"
+                  }-500`}
+                  aria-hidden="true"
+                >
+                  <circle cx="4" cy="4" r="4"></circle>
+                </svg>
+              </div>
+              {category?.name}{" "}
+              <span className="flex ml-auto gap-2">
+                <span className="text-md">₪{category?.amount}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};

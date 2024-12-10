@@ -43,11 +43,16 @@ const AddEditExpenseDialogDrawer = ({
 
   const onSubmit = async (data: ExpenseFormSchemaType) => {
     try {
+      const updatedData = {
+        ...data,
+        categories: data.categories?.filter((category) => category.name.trim()),
+      };
+
       toast(t("Saving expense"), {
         description: "",
       });
       await mutateAsync({
-        data: data,
+        data: updatedData,
         expenseId: expense?.id,
       });
       expenseForm.reset();
@@ -64,14 +69,14 @@ const AddEditExpenseDialogDrawer = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="md:max-w-[500px]">
+      <DialogContent className="flex flex-col gap-0 p-0 sm:max-h-[min(600px,70vh)] sm:max-w-lg [&>button:last-child]:hidden relative pb-14">
         <DialogHeader>
           <DialogTitle>
             {expense ? t("Edit expense") : t("Add a new expense")}
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="p-4">
+        <div className="p-4 overflow-y-auto">
           <ExpenseForm
             expenseForm={expenseForm}
             isLoading={isLoading}

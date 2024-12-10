@@ -87,7 +87,7 @@ export const editExpense = async (req, res, next) => {
                 , statusCodes.BAD_REQUEST));
         }
 
-        const { name, description, amount, images } = ExpenseSchema.parse(req.body);
+        const { name, description, amount, images, categories } = ExpenseSchema.parse(req.body);
         const user = req.user.id;
 
         const expense = await Expense.findByIdAndUpdate(req.params.expenseId, {
@@ -96,6 +96,7 @@ export const editExpense = async (req, res, next) => {
             amount,
             images,
             user,
+            categories
         }, { new: true, runValidators: true, strict: false });
 
         if (!expense) {
