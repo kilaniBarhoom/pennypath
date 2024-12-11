@@ -18,7 +18,7 @@ export const getAnalytics = async (req, res, next) => {
     const totalPaymentsValue = totalPayments ? totalPayments.total : 0;
 
 
-    const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - 2000;
+    const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - 1000;
     const last3DaysExpenses = (await Expense.aggregate(queryHelper.getRencentExpensesTransactions({ loggedInUser: req.user })));
 
     for (let i = 0; i < last3DaysExpenses.length - 1; i++) {
