@@ -40,67 +40,67 @@ const ExpensesList = ({
         <div className="grid md:grid-cols-3 w-full gap-2 sm:grid-cols-2 grid-cols-1 grid-flow-dense">
           {expenses.map((expense) => {
             return (
-              <ExpenseCard expense={expense} key={expense.id}>
-                <div
-                  dir={dir}
-                  className={ny(
-                    "p-4 border rounded-sm w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
-                    new Date(expense.createdAt).getDate() ===
-                      new Date().getDate()
-                      ? "bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
-                      : "bg-background"
-                  )}
-                >
-                  {expense?.description && (
-                    <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
-                  )}
+              <div
+                key={expense.id}
+                dir={dir}
+                className={ny(
+                  "p-4 border rounded-sm w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
+                  new Date(expense.createdAt).getDate() === new Date().getDate()
+                    ? "bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
+                    : "bg-background"
+                )}
+              >
+                {expense?.description && (
+                  <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
+                )}
 
-                  <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <InfoCard expense={expense}>
                     <CreditCard className="min-w-4 min-h-4 h-4 w-4 text-gray-500" />
                     <Typography
                       element="span"
                       as="smallText"
-                      className="text-xs overflow-hidden text-ellipsis whitespace-nowrap tracking-wider leading-none"
+                      className="text-xs max-w-20 overflow-hidden text-ellipsis whitespace-nowrap tracking-wider leading-none"
                       color="white"
                     >
                       {expense?.name}
                     </Typography>
-                    <div className="gap-3 flex-1 items-end justify-end flex">
-                      <div className="text-green-500 font-semibold tabular-nums">
-                        {expense.amount} <sup className="text-lg">₪</sup>
-                      </div>
+                  </InfoCard>
+                  <div className="gap-3 flex-1 items-end justify-end flex">
+                    <div className="text-green-500 font-semibold tabular-nums">
+                      {expense.amount} <sup className="text-lg">₪</sup>
                     </div>
                   </div>
-                  <div className="gap-2 flex items-center">
-                    <CalendarIcon className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm leading-none text-gray-500">
-                      {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
-                        locale: lang === "ar" ? ar : enGB,
-                      })}
-                    </span>
-                  </div>
-                  <div className="justify-end flex items-center gap-2 mt-3">
-                    <AddEditExpenseDialogDrawer expense={expense}>
-                      <Button
-                        size={"link"}
-                        variant={"none"}
-                        className="text-muted-foreground hover:underline font-normal"
-                      >
-                        Edit
-                      </Button>
-                    </AddEditExpenseDialogDrawer>
-                    •
+                </div>
+                <div className="gap-2 flex items-center">
+                  <CalendarIcon className="h-4 w-4 text-gray-500" />
+                  <span className="text-sm leading-none text-gray-500">
+                    {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
+                      locale: lang === "ar" ? ar : enGB,
+                    })}
+                  </span>
+                </div>
+                <div className="justify-end flex items-center gap-2 mt-3">
+                  <AddEditExpenseDialogDrawer expense={expense}>
                     <Button
                       size={"link"}
                       variant={"none"}
                       className="text-muted-foreground hover:underline font-normal"
-                      onClick={() => handleDeleteExpense(expense?.id)}
                     >
-                      Delete
+                      Edit
                     </Button>
-                  </div>
+                  </AddEditExpenseDialogDrawer>
+                  •
+                  <Button
+                    size={"link"}
+                    variant={"none"}
+                    className="text-muted-foreground hover:underline font-normal"
+                    onClick={() => handleDeleteExpense(expense?.id)}
+                  >
+                    Delete
+                  </Button>
                 </div>
-              </ExpenseCard>
+              </div>
             );
           })}
         </div>
@@ -133,14 +133,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
-function ExpenseCard({
+function InfoCard({
   children,
   expense,
 }: {
@@ -148,36 +142,21 @@ function ExpenseCard({
   expense: ExpenseType;
 }) {
   return (
-    <div>
-      <div className="md:flex hidden">
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger asChild>{children}</TooltipTrigger>
-            {(expense?.description ||
-              (expense?.categories && expense?.categories.length > 0)) && (
-              <TooltipContent
-                align="start"
-                className="py-3 w-[200px] border flex flex-col gap-2 items-start text-start justify-center"
-              >
-                <Content expense={expense} />
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      <div className="md:hidden flex">
-        <Popover>
-          <PopoverTrigger asChild>{children}</PopoverTrigger>
-          <PopoverContent
-            align="start"
-            side="top"
-            className="py-3 w-[200px] border flex flex-col gap-2 items-start text-start justify-center"
-          >
-            <Content expense={expense} />
-          </PopoverContent>
-        </Popover>
-      </div>
-    </div>
+    <Popover>
+      <PopoverTrigger>
+        <Button variant={"link"} className="flex items-center gap-2 p-0">
+          {" "}
+          {children}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="start"
+        side="top"
+        className="py-3 w-[200px] border flex flex-col gap-2 items-start text-start justify-center"
+      >
+        <Content expense={expense} />
+      </PopoverContent>
+    </Popover>
   );
 }
 
@@ -185,7 +164,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
   const { i18n } = useTranslation();
   const lang = i18n.language;
   return (
-    <div className="flex flex-col gap-3 items-start w-full text-start justify-start">
+    <div className="flex flex-col gap-3 items-start break-words w-full text-start justify-start overflow-hidden">
       <div className="gap-1 flex items-center">
         <CalendarIcon className="h-3 w-3 text-white" />
         <span className="text-xs leading-none text-white">
@@ -195,13 +174,9 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
         </span>
       </div>
       <Separator />
-      <div className="flex flex-col">
+      <div className="flex flex-col break-words">
         <span className="text-muted-foreground text-xs leading-none">Name</span>
-        <Typography
-          element="p"
-          className="text-xs text-wrap tracking-wide"
-          color="white"
-        >
+        <Typography element="p" className="text-xs tracking-wide" color="white">
           {expense?.name}
         </Typography>
       </div>
@@ -238,7 +213,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
                   viewBox="0 0 8 8"
                   xmlns="http://www.w3.org/2000/svg"
                   className={`shrink-0 text-${
-                    ind % 2 === 0 ? "rose" : "blue"
+                    ind % 2 === 0 ? "red" : "blue"
                   }-500`}
                   aria-hidden="true"
                 >

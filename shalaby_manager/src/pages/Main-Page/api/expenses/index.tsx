@@ -2,9 +2,7 @@
 import useAxios from "@/hooks/use-axios";
 import { ExpenseFormSchemaType } from "@/schemas";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { toast } from "sonner";
 
 type SearchExpensesResponseType = {
   expenses: ExpenseType[];
@@ -75,7 +73,6 @@ export const useSearchExpensesQuery = () => {
 };
 
 export const useExpenseFormMutation = () => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const axios = useAxios();
 
@@ -104,12 +101,6 @@ export const useExpenseFormMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["expenses"],
-      });
-    },
-    onError: (error: any) => {
-      toast(t("Error"), {
-        description:
-          t(error.response.data?.message) || t("Something went wrong"),
       });
     },
   });

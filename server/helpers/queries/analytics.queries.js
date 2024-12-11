@@ -92,3 +92,38 @@ export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
 
     return filter;
 };
+
+export const getRencentExpensesTransactions = ({ loggedInUser }) => {
+    if (!loggedInUser) {
+        return [];
+    }
+
+    const filter = [
+        // Match expenses for the logged-in user
+        {
+            $match: {
+                user: ObjectID(loggedInUser.id),
+            },
+        },
+        // Sort by date in descending order
+        {
+            $sort: {
+                createdAt: -1,
+            },
+        },
+        // Limit to 5 transactions
+        {
+            $limit: 3,
+        },
+        // Project only the required fields
+        {
+            $project: {
+                _id: 0,
+                amount: 1,
+                createdAt: 1,
+                name: 1,
+            },
+        },
+    ];
+    return filter;
+}

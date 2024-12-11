@@ -1,18 +1,13 @@
 import TablePagiation from "@/components/shared/pagination";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import Typography from "@/components/ui/typography";
-import {
-  ChartBar,
-  ChartColumnBig,
-  ChartSpline,
-  ClockArrowUp,
-} from "lucide-react";
+import { ChartBar, ChartColumnBig, ChartSpline } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { useSearchExpensesQuery } from "../../api/expenses";
 import ExpensesFilters from "./filters";
 import ExpensesList from "./list";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PaymentsWrapper() {
   const {
@@ -41,7 +36,7 @@ export default function PaymentsWrapper() {
       ) : (
         <div className="flex flex-col border rounded-sm items-start bg-background p-4 gap-2 w-full">
           <div className="flex items-center gap-2">
-            <ChartBar className="w-10 h-10 border border-white rounded-full p-2 bg-muted text-white text-muted-foreground" />
+            <ChartBar className="w-10 h-10 border border-white rounded-full p-2 bg-green-500 text-black" />
             <Typography
               element="h2"
               className="md:text-3xl text-lg font-normal text-white"
@@ -85,9 +80,19 @@ export default function PaymentsWrapper() {
             </div>
           </div>
           <Separator />
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center lg:justify-normal justify-between gap-4 flex-wrap w-full">
             <div className="flex items-center gap-2">
-              <ChartColumnBig className="w-5 h-5 text-muted-foreground" />
+              <svg
+                width="8"
+                height="8"
+                fill="currentColor"
+                viewBox="0 0 8 8"
+                xmlns="http://www.w3.org/2000/svg"
+                className="shrink-0 text-blue-500"
+                aria-hidden="true"
+              >
+                <circle cx="4" cy="4" r="4"></circle>
+              </svg>
               <div className="flex items-center gap-1">
                 <span className="flex items-center">
                   <span>₪</span>
@@ -102,7 +107,17 @@ export default function PaymentsWrapper() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <ClockArrowUp className="w-5 h-5 text-muted-foreground" />
+              <svg
+                width="8"
+                height="8"
+                fill="currentColor"
+                viewBox="0 0 8 8"
+                xmlns="http://www.w3.org/2000/svg"
+                className="shrink-0 text-orange-500"
+                aria-hidden="true"
+              >
+                <circle cx="4" cy="4" r="4"></circle>
+              </svg>
               <div className="flex items-center gap-1">
                 <span className="flex items-center">
                   <span>₪</span>

@@ -12,12 +12,14 @@ const LanguageSelect = () => {
     <div className="flex h-12 items-center gap-2">
       <Button
         variant={"outline"}
-        className="font-sans"
+        className="font-sans max-sm:px-2"
         // size="/
         Icon={Languages}
         onClick={() => changeLanguage(i18n.language === "ar" ? "en" : "ar")}
       >
-        {i18n.language === "ar" ? t("English") : t("Arabic")}
+        <span className="max-sm:sr-only">
+          {i18n.language === "ar" ? t("English") : t("Arabic")}
+        </span>
       </Button>
     </div>
   );

@@ -32,8 +32,13 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-2">
         <ThemeSelector />
-        <Button onClick={handleLogout} variant={"destructive"} Icon={LogOut}>
-          {t("Log Out")}
+        <Button
+          onClick={handleLogout}
+          variant={"destructive"}
+          className="max-sm:px-2"
+          Icon={LogOut}
+        >
+          <span className="max-sm:sr-only">{t("Log Out")}</span>
         </Button>
       </div>
     </>

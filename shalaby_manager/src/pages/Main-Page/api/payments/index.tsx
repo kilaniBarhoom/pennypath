@@ -3,9 +3,7 @@ import useAxios from "@/hooks/use-axios";
 import { stringToDate } from "@/lib/utils";
 import { PaymentFormSchemaType } from "@/schemas";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { toast } from "sonner";
 
 type SearchPaymentsResponseType = {
   payments: PaymentType[];
@@ -68,7 +66,6 @@ export const useSearchPaymentsQuery = () => {
 };
 
 export const usePaymentFormMutation = () => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const axios = useAxios();
 
@@ -99,12 +96,6 @@ export const usePaymentFormMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments"],
-      });
-    },
-    onError: (error: any) => {
-      toast(t("Error"), {
-        description:
-          t(error.response.data?.message) || t("Something went wrong"),
       });
     },
   });
