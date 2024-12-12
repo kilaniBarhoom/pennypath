@@ -7,6 +7,8 @@ import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 import Expense from '../models/expense.js';
 import Payment from '../models/payment.js';
 
+const FIXED_DEDUCTION = 1045;
+
 export const getAnalytics = async (req, res, next) => {
     const { startDate, endDate } = ReqQueryHelper(req.query);
     const totalSpentMonthly = (await Expense.aggregate(queryHelper.getAnalyticsOfExpenses({ startDate, endDate, loggedInUser: req.user })))[0];
@@ -18,7 +20,7 @@ export const getAnalytics = async (req, res, next) => {
     const totalPaymentsValue = totalPayments ? totalPayments.total : 0;
 
 
-    const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - 1000;
+    const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - FIXED_DEDUCTION;
     const last3DaysExpenses = (await Expense.aggregate(queryHelper.getRencentExpensesTransactions({ loggedInUser: req.user })));
 
     for (let i = 0; i < last3DaysExpenses.length - 1; i++) {
