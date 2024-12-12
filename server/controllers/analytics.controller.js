@@ -7,7 +7,7 @@ import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 import Expense from '../models/expense.js';
 import Payment from '../models/payment.js';
 
-const FIXED_DEDUCTION = 1045;
+const FIXED_DEDUCTION = 1035;
 
 export const getAnalytics = async (req, res, next) => {
     const { startDate, endDate } = ReqQueryHelper(req.query);
