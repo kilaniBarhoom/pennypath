@@ -30,7 +30,7 @@ const NavElements = ({
                   variant: pathname === item.path ? "navBtn" : "secondary",
                   size: "lg",
                 }),
-                "justify-between flex gap-2 p-2  h-12 group border-primary items-center text-lg border font-semibold ltr:border-l-[7px] rtl:border-r-[7px]"
+                "justify-between flex gap-2 p-2  h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
               )}
             >
               {t(item.title)}

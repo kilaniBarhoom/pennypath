@@ -1,4 +1,4 @@
-import { Home, School2, User2, Settings, Banknote } from "lucide-react";
+import { Home, User2, Banknote } from "lucide-react";
 
 export type NavItem = {
   title: string;
@@ -14,12 +14,12 @@ export const SideNavItems: NavItem[] = [
     icon: <Home size={24} />,
     unAuthorizedRoles: [],
   },
-  {
-    title: "Attendance",
-    path: "/attendance",
-    icon: <School2 size={24} />,
-    unAuthorizedRoles: [],
-  },
+  // {
+  //   title: "Attendance",
+  //   path: "/attendance",
+  //   icon: <School2 size={24} />,
+  //   unAuthorizedRoles: [],
+  // },
   {
     title: "Payments",
     path: "/payments",
@@ -38,15 +38,15 @@ export const SideNavItems: NavItem[] = [
     icon: <User2 size={24} />,
     unAuthorizedRoles: ["user", "spectator"],
   },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: (
-      <Settings
-        className="group-hover:rotate-180 transition-all duration-200 ease-in-out"
-        size={24}
-      />
-    ),
-    unAuthorizedRoles: ["user", "spectator", "admin"],
-  },
+  // {
+  //   title: "Settings",
+  //   path: "/settings",
+  //   icon: (
+  //     <Settings
+  //       className="group-hover:rotate-180 transition-all duration-200 ease-in-out"
+  //       size={24}
+  //     />
+  //   ),
+  //   unAuthorizedRoles: ["user", "spectator", "admin"],
+  // },
 ];
