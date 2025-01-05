@@ -17,14 +17,24 @@ import { Label, Pie, PieChart } from "recharts";
 
 // Chart colors array for dynamic category assignment
 const chartColors = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
-  "hsl(var(--chart-6))",
-  "hsl(var(--chart-7))",
-  "hsl(var(--chart-8))",
+  // random alot of colors
+  "#36A2EB",
+  "#FFCE56",
+  "#E91E63",
+  "#9966FF",
+  "#607D8B",
+  // greenish
+  "#8BC34A",
+  "#FF6384",
+  "#FF9F40",
+  "#4BC0C0",
+  // purpleish
+  "#9C27B0",
+  "#4CAF50",
+  // pinkish
+  "#F44336",
+  // greyish
+  "#9E9E9E",
 ];
 
 export default function CategoryExpensesCard({
@@ -76,7 +86,7 @@ export default function CategoryExpensesCard({
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[220px]"
+          className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
             <ChartTooltip

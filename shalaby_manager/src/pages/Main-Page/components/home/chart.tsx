@@ -5,11 +5,10 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  XAxis,
   LabelList,
   ResponsiveContainer,
+  XAxis,
 } from "recharts";
-import { TrendingUp } from "lucide-react";
 
 import {
   Card,
@@ -79,12 +78,6 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const visibleData = chartData.slice(0, visibleMonths);
 
   const totalAmount = chartData.reduce((sum, item) => sum + item.amount, 0);
-  const previousMonthAmount = chartData[chartData.length - 2]?.amount || 0;
-  const currentMonthAmount = chartData[chartData.length - 1]?.amount || 0;
-  const percentageChange =
-    previousMonthAmount !== 0
-      ? ((currentMonthAmount - previousMonthAmount) / previousMonthAmount) * 100
-      : 0;
 
   return (
     <Card className="w-full">
@@ -127,7 +120,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
+        {/* <div className="flex gap-2 font-medium leading-none">
           {percentageChange > 0 ? "Trending up" : "Trending down"} by{" "}
           {Math.abs(percentageChange).toFixed(1)}% this month
           <TrendingUp
@@ -135,7 +128,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
               percentageChange >= 0 ? "text-green-500" : "text-red-500"
             }`}
           />
-        </div>
+        </div> */}
         <div className="leading-none text-muted-foreground">
           Total spent: ₪{totalAmount.toFixed(2)}
         </div>

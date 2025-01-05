@@ -1,6 +1,5 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
 import { Button } from "@/components/ui/button";
-import Typography from "@/components/ui/typography";
 import { dateToString } from "@/lib/utils";
 import { Banknote } from "lucide-react";
 import { useEffect } from "react";
@@ -9,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
 import ExpensesWrapper from "../components/expenses/expenses-wrapper";
+import PageTitleWithIcon from "../components/PageTitleWithIcon";
 
 const Expenses = () => {
   const { t } = useTranslation();
@@ -83,15 +83,10 @@ const Expenses = () => {
         </ul>
       </nav> */}
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
-        <Typography
-          className="flex items-center gap-2"
-          element="h4"
-          as="h4"
-          color="secondary"
-        >
-          <Banknote size={35} fill="#99BFC5" stroke="#000" />
-          {t("Expenses")}
-        </Typography>
+        <PageTitleWithIcon
+          title={t("Expenses")}
+          icon={<Banknote size={35} fill="#99BFC5" stroke="#000" />}
+        />
         <div className="flex items-center lg:w-fit w-full">
           <AddEditExpenseSheet>
             <Button

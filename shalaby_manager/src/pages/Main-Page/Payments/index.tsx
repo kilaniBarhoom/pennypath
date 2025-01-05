@@ -1,14 +1,14 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
 import { Button } from "@/components/ui/button";
-import Typography from "@/components/ui/typography";
+import { dateToString } from "@/lib/utils";
 import { Banknote } from "lucide-react";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { dateToString } from "@/lib/utils";
-import { useEffect } from "react";
-import PaymentsWrapper from "../components/payments/payments-wrapper";
+import PageTitleWithIcon from "../components/PageTitleWithIcon";
 import AddEditPaymentDialogDrawer from "../components/payments/add-edit-dialog-drawer";
+import PaymentsWrapper from "../components/payments/payments-wrapper";
 
 const Payments = () => {
   const { t } = useTranslation();
@@ -49,15 +49,10 @@ const Payments = () => {
         currentPage={"All"}
       />
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
-        <Typography
-          className="flex items-center gap-2"
-          element="h4"
-          as="h4"
-          color="secondary"
-        >
-          <Banknote size={35} fill="#99BFC5" stroke="#000" />
-          {t("Payments")}
-        </Typography>
+        <PageTitleWithIcon
+          title={t("Payments")}
+          icon={<Banknote size={35} fill="#99BFC5" stroke="#000" />}
+        />
         <div className="flex items-center lg:w-fit w-full">
           <AddEditPaymentDialogDrawer>
             <Button
