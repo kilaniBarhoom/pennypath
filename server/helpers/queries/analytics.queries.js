@@ -93,7 +93,7 @@ export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
     return filter;
 };
 
-export const getRencentExpensesTransactions = ({ loggedInUser }) => {
+export const getRecentExpensesTransactions = ({ loggedInUser }) => {
     if (!loggedInUser) {
         return [];
     }
@@ -125,5 +125,53 @@ export const getRencentExpensesTransactions = ({ loggedInUser }) => {
             },
         },
     ];
+    return filter;
+}
+
+export const getExpensesGroupedByDateAndWeekLimited = ({ loggedInUser }) => {
+    if (!loggedInUser) {
+        return [];
+    }
+
+    const filter = [];
+
+    filter.push({
+        $match: {
+            user: ObjectID(loggedInUser.id),
+        },
+    })
+
+    filter.push({
+        $group: {
+            _id: {
+                $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$createdAt"
+                }
+            },
+            amount: {
+                $sum: "$amount"
+            },
+        }
+    })
+
+    filter.push({
+        $sort: {
+            _id: -1,
+        }
+    })
+
+    filter.push({
+        $limit: 7,
+    })
+
+    filter.push({
+        $project: {
+            _id: 0,
+            date: "$_id",
+            amount: 1,
+            name: 1,
+        }
+    })
     return filter;
 }

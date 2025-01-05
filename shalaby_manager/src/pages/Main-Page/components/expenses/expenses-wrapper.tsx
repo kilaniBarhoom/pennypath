@@ -134,8 +134,11 @@ export default function PaymentsWrapper() {
           </div>
         </div>
       )}
-      <div className="border flex flex-col gap-4 p-4 rounded-sm">
+      <Separator />
+      <div className="flex flex-col gap-2 rounded-sm">
         <ExpensesFilters />
+        <Separator />
+
         <ExpensesList
           expenses={searchExpensesResponse?.expenses ?? []}
           isLoading={isLoadingToFetchExpensesData}

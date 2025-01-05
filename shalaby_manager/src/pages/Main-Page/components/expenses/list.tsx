@@ -37,7 +37,7 @@ const ExpensesList = ({
       {isLoading ? (
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
-        <div className="grid md:grid-cols-3 w-full gap-2 sm:grid-cols-2 grid-cols-1 grid-flow-dense">
+        <div className="grid md:grid-cols-2 w-full gap-2 grid-cols-1 grid-flow-dense">
           {expenses.map((expense) => {
             return (
               <div
@@ -46,7 +46,7 @@ const ExpensesList = ({
                 className={ny(
                   "p-4 border rounded-sm w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
                   new Date(expense.createdAt).getDate() === new Date().getDate()
-                    ? "bg-gradient-to-tr from-primary-500 to-primary-600 border-white"
+                    ? "bg-gradient-to-tr from-primary/80 to-primary/20 border-secondary-foreground"
                     : "bg-background"
                 )}
               >
@@ -59,9 +59,7 @@ const ExpensesList = ({
                     <CreditCard className="min-w-4 min-h-4 h-4 w-4 text-gray-500" />
                     <Typography
                       element="span"
-                      as="smallText"
-                      className="text-xs max-w-20 overflow-hidden text-ellipsis whitespace-nowrap tracking-wider leading-none"
-                      color="white"
+                      className="text-base max-w-60 overflow-hidden text-ellipsis whitespace-nowrap font-semibold tracking-normal leading-none text-secondary-foreground"
                     >
                       {expense?.name}
                     </Typography>
@@ -145,7 +143,6 @@ function InfoCard({
     <Popover>
       <PopoverTrigger>
         <Button variant={"link"} className="flex items-center gap-2 p-0">
-          {" "}
           {children}
         </Button>
       </PopoverTrigger>
@@ -164,10 +161,10 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
   const { i18n } = useTranslation();
   const lang = i18n.language;
   return (
-    <div className="flex flex-col gap-3 items-start break-words w-full text-start justify-start overflow-hidden">
+    <div className="flex flex-col gap-3 items-start break-words max-h-40 overflow-auto w-full text-start justify-start">
       <div className="gap-1 flex items-center">
-        <CalendarIcon className="h-3 w-3 text-white" />
-        <span className="text-xs leading-none text-white">
+        <CalendarIcon className="h-3 w-3 text-secondary-foreground" />
+        <span className="text-xs leading-none text-secondary-foreground">
           {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
             locale: lang === "ar" ? ar : enGB,
           })}
@@ -176,7 +173,10 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
       <Separator />
       <div className="flex flex-col break-words">
         <span className="text-muted-foreground text-xs leading-none">Name</span>
-        <Typography element="p" className="text-xs tracking-wide" color="white">
+        <Typography
+          element="p"
+          className="text-xs tracking-wide text-secondary-foreground"
+        >
           {expense?.name}
         </Typography>
       </div>
@@ -187,8 +187,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
           </span>
           <Typography
             element="p"
-            className="text-xs tracking-wide"
-            color="white"
+            className="text-xs tracking-wide text-secondary-foreground"
           >
             {expense?.description}
           </Typography>
@@ -203,7 +202,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
           {expense?.categories.map((category, ind: number) => (
             <div
               key={category.name}
-              className="flex w-full text-white gap-2 items-center md:text-base text-xs"
+              className="flex w-full text-secondary-foreground gap-2 items-center md:text-base text-xs"
             >
               <div className="flex items-center gap-2">
                 <svg

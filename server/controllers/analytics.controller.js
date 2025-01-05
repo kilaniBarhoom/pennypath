@@ -6,8 +6,7 @@ import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
 import Expense from '../models/expense.js';
 import Payment from '../models/payment.js';
-
-const FIXED_DEDUCTION = 1035;
+const FIXED_DEDUCTION = +process.env.FIXED_DEDUCTION || 0;
 
 export const getAnalytics = async (req, res, next) => {
     const { startDate, endDate } = ReqQueryHelper(req.query);
@@ -21,16 +20,20 @@ export const getAnalytics = async (req, res, next) => {
 
 
     const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - FIXED_DEDUCTION;
-    const last3DaysExpenses = (await Expense.aggregate(queryHelper.getRencentExpensesTransactions({ loggedInUser: req.user })));
+    const last3DaysExpenses = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })));
 
     for (let i = 0; i < last3DaysExpenses.length - 1; i++) {
         last3DaysExpenses[i]["diff"] = last3DaysExpenses[i + 1]["amount"] - last3DaysExpenses[i]["amount"];
     }
 
+    const groupedByDayExpenses = (await Expense.aggregate(queryHelper.getExpensesGroupedByDateAndWeekLimited({ loggedInUser: req.user })));
+
     const analytics = {
         totalSpentMonthly: totalSpentMonthly.totals,
         walletBalance,
         last3DaysExpenses,
+        groupedByDayExpenses,
+        maxEstimatedDailyExpenses
     };
 
     return res.status(statusCodes.OK).json({
