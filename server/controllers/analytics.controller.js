@@ -33,7 +33,6 @@ export const getAnalytics = async (req, res, next) => {
         walletBalance,
         last3DaysExpenses,
         groupedByDayExpenses,
-        maxEstimatedDailyExpenses
     };
 
     return res.status(statusCodes.OK).json({
