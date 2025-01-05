@@ -1,6 +1,6 @@
 import ObjectID from "../../utils/ObjectID.js";
 
-export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser, pageNumber }) => {
+export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser, pageNumber, limit }) => {
     const filter = [];
 
     if (!loggedInUser) {
@@ -84,9 +84,9 @@ export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser,
         }
     });
     filter.push({
-        $skip: pageNumber * 20
+        $skip: pageNumber * limit
     },
-        { $limit: 20 })
+        { $limit: limit })
 
     return filter;
 };
@@ -112,6 +112,7 @@ export const findValueSum = (_id) => {
 };
 
 export const totalSumCategorizedQuery = ({ _id, loggedInUser }) => {
+
     if (!loggedInUser) {
         return [];
     }
@@ -120,8 +121,12 @@ export const totalSumCategorizedQuery = ({ _id, loggedInUser }) => {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay());
+
+    // set the date of the start of the week to the prev saturday
+    startOfWeek.setDate(startOfWeek.getDate() - (startOfWeek.getDay() + 1) % 7);
+
     startOfWeek.setHours(0, 0, 0, 0);
+
 
 
     const filter = [
@@ -202,3 +207,5 @@ export const totalSumCategorizedQuery = ({ _id, loggedInUser }) => {
 
     return filter;
 };
+
+
