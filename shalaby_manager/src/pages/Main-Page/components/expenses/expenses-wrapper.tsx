@@ -62,7 +62,7 @@ export default function PaymentsWrapper() {
           <div className="flex-1 flex gap-2 items-center">
             <ChartSpline className="w-5 h-5 text-muted-foreground" />
             <div className="flex items-center gap-1">
-              <span className="animate-pulse text-base text-red-500 flex items-center">
+              <span className="animate-pulse text-base bg-rose-500 text-white py-1 px-2 rounded-sm flex items-center">
                 <span>₪</span>
                 {searchExpensesResponse?.mostSpentInADay ?? 0}
               </span>
