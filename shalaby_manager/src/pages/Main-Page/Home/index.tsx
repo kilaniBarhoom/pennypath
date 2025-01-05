@@ -1,8 +1,10 @@
+import LoadingComponent from "@/components/shared/Loading-component";
 import { useSearchAnalyticsQuery } from "../api/analytics";
 import { AnalyticsChart1 } from "../components/home/chart";
+import RecentTransactionsCard from "../components/home/RecentTransactionsCard";
 import WalletBalanceCard from "../components/home/wallet-balance-card";
-import LoadingComponent from "@/components/shared/Loading-component";
 import WalletSkeleton from "../components/home/WalletSkeleton";
+import CategoryExpensesCard from "../components/home/CategoryExpensesCard";
 
 const Home = () => {
   const { data: analytics, isLoading: isLoadingToFetchAnalyticsData } =
@@ -18,9 +20,13 @@ const Home = () => {
           <WalletSkeleton />
         </div>
       ) : (
-        <div className="grid gap-2">
-          <AnalyticsChart1 data={analytics?.totalSpentMonthly} />
+        <div className="flex gap-2 items-center flex-wrap">
           <WalletBalanceCard analytics={analytics} />
+          <div className="flex max-md:flex-col gap-2 w-full">
+            <RecentTransactionsCard analytics={analytics} />
+            <CategoryExpensesCard analytics={analytics} />
+          </div>
+          <AnalyticsChart1 data={analytics?.totalSpentMonthly} />
         </div>
       )}
     </div>

@@ -37,7 +37,7 @@ const ExpensesList = ({
       {isLoading ? (
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
-        <div className="grid md:grid-cols-2 w-full gap-2 grid-cols-1 grid-flow-dense">
+        <div className="grid w-full gap-2 grid-cols-1 grid-flow-dense">
           {expenses.map((expense) => {
             return (
               <div
@@ -64,10 +64,8 @@ const ExpensesList = ({
                       {expense?.name}
                     </Typography>
                   </InfoCard>
-                  <div className="gap-3 flex-1 items-end justify-end flex">
-                    <div className="text-green-500 font-semibold tabular-nums">
-                      {expense.amount} <sup className="text-lg">₪</sup>
-                    </div>
+                  <div className="gap-1 flex-1 items-end text-xl justify-end flex text-green-500 font-semibold tabular-nums">
+                    {expense.amount} <sup className="text-lg">₪</sup>
                   </div>
                 </div>
                 <div className="gap-2 flex items-center">
@@ -90,9 +88,9 @@ const ExpensesList = ({
                   </AddEditExpenseDialogDrawer>
                   •
                   <Button
-                    size={"link"}
-                    variant={"none"}
-                    className="text-muted-foreground hover:underline font-normal"
+                    size={"sm"}
+                    variant={"destructive"}
+                    className=" font-normal"
                     onClick={() => handleDeleteExpense(expense?.id)}
                   >
                     Delete

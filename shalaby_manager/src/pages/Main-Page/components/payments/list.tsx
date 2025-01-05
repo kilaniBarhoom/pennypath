@@ -52,10 +52,10 @@ const PaymentsList = ({
               <div className="rounded-full bg-secondary border p-2">
                 <CreditCard className="h-6 w-6 text-gray-500" />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 <Typography
                   element="span"
-                  className="scroll-m-20 font-semibold tracking-tight text-xl"
+                  className="scroll-m-20 font-normal tracking-tight text-lg"
                 >
                   {lang === "ar"
                     ? payment?.user?.fullNameArabic
@@ -73,15 +73,17 @@ const PaymentsList = ({
             </div>
             <div className="flex md:w-fit w-full md:justify-normal justify-between items-center gap-2 h-10">
               <div className="text-center items-center flex gap-4">
-                <Badge size={"lg"} className="text-xl">
+                <span className="text-xl text-green-500 flex gap-1 font-semibold tabular-nums">
                   {payment.amount} <sup className="text-lg">₪</sup>
-                </Badge>
+                </span>
                 <Badge
-                  size={"lg"}
+                  size={"sm"}
                   variant={"leftBordered"}
-                  className={ny("text-xl", {
-                    "border-green-400 text-white": payment?.type === "full",
-                    "border-orange-400 text-white": payment?.type === "advance",
+                  className={ny("text-sm", {
+                    "border-green-400 text-secondary-foreground":
+                      payment?.type === "full",
+                    "border-orange-400 text-secondary-foreground":
+                      payment?.type === "advance",
                   })}
                 >
                   {t(payment?.type)}

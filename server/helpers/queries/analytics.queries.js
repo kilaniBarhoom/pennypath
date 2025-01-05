@@ -175,3 +175,70 @@ export const getExpensesGroupedByDateAndWeekLimited = ({ loggedInUser }) => {
     })
     return filter;
 }
+
+export const getExpensesGroupedByCategory = ({ loggedInUser }) => {
+    if (!loggedInUser) {
+        return [];
+    }
+
+    const filter = [];
+
+    filter.push({
+        $match: {
+            user: ObjectID(loggedInUser.id),
+        },
+    })
+
+    //    no category table, the expense have categories as array of objects, name and amount, so we need to group by name and sum the amount, so take all the categories and group by name and sum the amount, then sort by amount descending, limit to 5, and project only the name and amount
+    filter.push({
+        $unwind: "$categories",
+    })
+    filter.push({
+        $group: {
+            _id: "$categories.name",
+            amount: {
+                $sum: "$categories.amount"
+            },
+        }
+    })
+    filter.push({
+        $sort: {
+            amount: -1,
+        }
+    })
+    filter.push({
+        $project: {
+            _id: 0,
+            name: "$_id",
+            amount: 1,
+        }
+    })
+    filter.push({
+        $group: {
+            _id: null,
+            categories: {
+                $push: {
+                    k: "$name",
+                    v: "$amount",
+                },
+            },
+        },
+    })
+
+    filter.push({
+        $project: {
+            _id: 0,
+            categories: {
+                $arrayToObject: "$categories",
+            },
+        },
+    })
+
+    filter.push({
+        $project: {
+            categories: 1,
+        }
+    })
+
+    return filter;
+}
