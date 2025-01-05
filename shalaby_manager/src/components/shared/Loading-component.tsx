@@ -15,7 +15,7 @@ const LoadingComponent = ({
         className
       )}
     >
-      <Loader2 size={size} className="text-primary animate-spin" />
+      <Loader2 size={size} className="text-primary animate-spin duration-300" />
     </div>
   );
 };
