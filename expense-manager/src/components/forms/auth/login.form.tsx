@@ -95,8 +95,9 @@ const LoginForm = () => {
               <FormControl>
                 <Input
                   {...field}
+                  noRing
                   autoComplete="email"
-                  className="hover:bg-secondary hover:border-secondary-foreground"
+                  className="hover:border-primary focus-within:border-primary duration-500 border"
                   defaultValue="ibrahim-kelani@hotmail.com"
                   icon={<Mail size={20} />}
                   placeholder="john@doe.com"
@@ -119,11 +120,12 @@ const LoginForm = () => {
                 <Trans i18nKey={"passwordInput"}>
                   <div className="relative">
                     <Input
-                      className="hover:bg-secondary hover:border-secondary-foreground"
                       type={showPassword ? "text" : "password"}
                       {...field}
+                      noRing
                       autoComplete="password"
                       placeholder="********"
+                      className="hover:border-primary focus-within:border-primary duration-500 border"
                       defaultValue="55555555"
                       icon={<Lock size={20} />}
                     />
@@ -150,11 +152,11 @@ const LoginForm = () => {
                 </Trans>
               </FormControl>
               <FormMessage className="text-start" />
-              <div className="text-end">
+              {/* <div className="text-end">
                 <Button variant={"link"} size={"link"}>
                   {t("Forgot your password?")}
                 </Button>
-              </div>
+              </div> */}
             </FormItem>
           )}
         />

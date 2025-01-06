@@ -52,7 +52,11 @@ export const getAllExpenses = async (req, res, next) => {
 }
 
 export const createExpense = async (req, res, next) => {
-    const isValidationError = ExpenseSchema.safeParse(req.body);
+
+    const { date: oldDate } = req.body;
+
+
+    const isValidationError = ExpenseSchema.safeParse({ ...req.body, date: new Date(oldDate) });
 
     if (!isValidationError.success) {
         return next(new ResponseError(
@@ -60,13 +64,18 @@ export const createExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { name, description, amount, images, categories } = ExpenseSchema.parse(req.body);
+    const { date, name, description, amount, categories } = ExpenseSchema.parse(req.body);
+
+    const isValidUser = await User.findById(user);
+    if (!isValidUser) {
+        return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
+    }
 
     await Expense.create({
         name,
         description,
         amount,
-        images,
+        date,
         categories,
         user: req.user.id,
     });
@@ -77,40 +86,46 @@ export const createExpense = async (req, res, next) => {
 }
 
 export const editExpense = async (req, res, next) => {
-    try {
 
-        // validate the request body using the schema
-        const isValidationError = ExpenseSchema.safeParse(req.body);
-        if (!isValidationError.success) {
-            return next(new ResponseError(
-                isValidationError.error.errors[0].message
-                , statusCodes.BAD_REQUEST));
-        }
+    const { date: oldDate } = req.body;
 
-        const { name, description, amount, images, categories } = ExpenseSchema.parse(req.body);
-        const user = req.user.id;
-
-        const expense = await Expense.findByIdAndUpdate(req.params.expenseId, {
-            name,
-            description,
-            amount,
-            images,
-            user,
-            categories
-        }, { new: true, runValidators: true, strict: false });
-
-        if (!expense) {
-            return next(new ResponseError('Expense not found', statusCodes.NOT_FOUND));
-        }
-
-        res.status(statusCodes.OK).json({
-            status: 'success',
-            message: 'Expense updated successfully',
-        });
+    const isValidationError = ExpenseSchema.safeParse(
+        { ...req.body, date: new Date(oldDate) }
+    );
+    if (!isValidationError.success) {
+        return next(new ResponseError(
+            isValidationError.error.errors[0].message
+            , statusCodes.BAD_REQUEST));
     }
-    catch (error) {
-        next(new ResponseError(error.message, statusCodes.BAD_REQUEST));
+
+    const { name, description, amount, date, categories } = ExpenseSchema.parse(req.body);
+
+    const user = req.user.id;
+
+    if (!isValidationError.success) {
+        return next(new ResponseError(
+            isValidationError.error.errors[0].message
+            , statusCodes.BAD_REQUEST));
     }
+
+
+    const expense = await Expense.findByIdAndUpdate(req.params.expenseId, {
+        name,
+        description,
+        amount,
+        date,
+        user,
+        categories
+    }, { new: true, runValidators: true, strict: false });
+
+    if (!expense) {
+        return next(new ResponseError('Expense not found', statusCodes.NOT_FOUND));
+    }
+
+    res.status(statusCodes.OK).json({
+        status: 'success',
+        message: 'Expense updated successfully',
+    });
 }
 
 export const deleteExpense = async (req, res, next) => {
@@ -121,24 +136,24 @@ export const deleteExpense = async (req, res, next) => {
     });
 }
 
-export const uploadExpenseImage = async (req, res, next) => {
-    const { file } = req;
-    if (!file) {
-        return next(
-            new ResponseError(
-                "Please upload a file",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
+// export const uploadExpenseImage = async (req, res, next) => {
+//     const { file } = req;
+//     if (!file) {
+//         return next(
+//             new ResponseError(
+//                 "Please upload a file",
+//                 statusCodes.BAD_REQUEST
+//             )
+//         )
+//     }
 
-    const { path } = file;
-    const { secure_url, public_id } = await cloudinary.uploader.upload(path, {
-        folder: process.env.CLOUDINARY_POSTS_FOLDER
-    });
-    // return the res as a string not a json
-    res.status(statusCodes.OK).send(secure_url);
-}
+//     const { path } = file;
+//     const { secure_url, public_id } = await cloudinary.uploader.upload(path, {
+//         folder: process.env.CLOUDINARY_POSTS_FOLDER
+//     });
+//     // return the res as a string not a json
+//     res.status(statusCodes.OK).send(secure_url);
+// }
 
 export const getSingleExpense = async (req, res, next) => {
     const expense = await Expense.findById(req.params.expenseId).populate('user', 'fullNameEnglish fullNameArabic email role');
@@ -151,11 +166,11 @@ export const getSingleExpense = async (req, res, next) => {
     });
 }
 
-export const createExpensePDF = (req, res, next) => {
-    const { expenses, from, to, rangeTotalValue, allTimeTotalValue } = req.body;
-    const pdfBuffer = buildPDF(expenses, from, to, rangeTotalValue, allTimeTotalValue);
+// export const createExpensePDF = (req, res, next) => {
+//     const { expenses, from, to, rangeTotalValue, allTimeTotalValue } = req.body;
+//     const pdfBuffer = buildPDF(expenses, from, to, rangeTotalValue, allTimeTotalValue);
 
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=expenses.pdf');
-    res.send(Buffer.concat(pdfBuffer));
-}
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'attachment; filename=expenses.pdf');
+//     res.send(Buffer.concat(pdfBuffer));
+// }

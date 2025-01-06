@@ -19,8 +19,9 @@ const expenseSchema = new Schema({
         type: Number,
         required: [true, 'Status must have an amount'],
     },
-    images: {
-        type: [String],
+    date: {
+        type: Date,
+        required: [true, 'Status must have a date'],
     },
     user: {
         type: Schema.Types.ObjectId,

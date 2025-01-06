@@ -19,13 +19,6 @@ const Login = () => {
           alt="website logo"
           className="object-cover w-20"
         />
-        <Typography
-          element="h2"
-          as="h3"
-          className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-700"
-        >
-          {t("Welcome Back")}
-        </Typography>
         <Typography element="p" as="mutedText">
           {t("Enter your credentials to access your account")}
         </Typography>

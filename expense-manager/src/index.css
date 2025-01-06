@@ -15,8 +15,8 @@
     --card-foreground: 189 56% 3%;
     --border: 189 2% 68%;
     --input: 189 2% 68%;
-    --primary: 189 40% 76%;
-    --primary-foreground: 189 40% 16%;
+    --primary: 215 91% 46%;
+    --primary-foreground: 189 50% 99%;
     --secondary: 189 17% 84%;
     --secondary-foreground: 189 17% 0%;
     --accent: 189 23% 75%;
@@ -43,8 +43,8 @@
     --card-foreground: 0 0% 100%;
     --border: 189 2% 13%;
     --input: 189 2% 13%;
-    --primary: 189 40% 76%;
-    --primary-foreground: 189 40% 16%;
+    --primary: 215 91% 46%;
+    --primary-foreground: 189 50% 99%;
     --secondary: 0 0% 17%;
     --secondary-foreground: 0 0% 77%;
     --accent: 0 6% 24%;
@@ -65,7 +65,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground ltr:font-poppins rtl:font-noto_sans;
+    @apply bg-background text-foreground ltr:font-raleway rtl:font-noto_sans;
   }
 }
 

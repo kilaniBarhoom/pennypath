@@ -41,7 +41,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <input
               type={type}
               className={ny(
-                "flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+                "flex h-10 w-full rounded-sm border tracking-wide border-input bg-background px-3 py-2 text-sm ring-offset-background transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
                 className,
                 iconPosition !== "right" ? "pl-10 pr-4" : "pl-4 pr-10",
                 error ? "border-destructive" : "",
