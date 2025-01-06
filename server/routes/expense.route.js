@@ -1,9 +1,8 @@
 import express from "express";
 import { OK } from '../constants/status.constants.js';
 import * as controller from '../controllers/expense.controller.js';
-import { auth, hasRole } from '../middleware/auth.middleware.js';
+import { auth } from '../middleware/auth.middleware.js';
 import catcher from '../middleware/catcher.middleware.js';
-import Roles from "../utils/authRoles.js";
 import fileUpload, { fileValidation } from '../utils/multer.js';
 
 const router = express.Router()

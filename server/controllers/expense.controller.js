@@ -91,7 +91,7 @@ export const editExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { name, description, amount, date, categories } = ExpenseSchema.parse(req.body);
+    const { name, description, amount, date, categories } = req.body
 
     const user = req.user.id;
 
@@ -167,3 +167,4 @@ export const getSingleExpense = async (req, res, next) => {
 //     res.setHeader('Content-Disposition', 'attachment; filename=expenses.pdf');
 //     res.send(Buffer.concat(pdfBuffer));
 // }
+
