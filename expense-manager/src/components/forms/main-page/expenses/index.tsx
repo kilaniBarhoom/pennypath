@@ -111,7 +111,7 @@ const ExpenseForm = ({
                       )}
                     >
                       {field.value ? (
-                        format(stringToDate(field.value), "dd-LL-y", {
+                        format(stringToDate(field.value), "dd-LL-yy", {
                           locale: language === "ar" ? ar : enGB,
                         })
                       ) : (

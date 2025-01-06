@@ -15,6 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
+import { stringToDate } from "@/lib/utils";
 
 type AddEditExpenseSheetProps = {
   children: React.ReactNode;
@@ -32,9 +34,13 @@ const AddEditExpenseSheet = ({
   const expenseForm = useForm<ExpenseFormSchemaType>({
     resolver: zodResolver(ExpenseFormSchema),
     defaultValues: expense
-      ? { ...expense, description: expense.description ?? "" }
+      ? {
+          ...expense,
+          date: stringToDate(expense.date ?? new Date()),
+          description: expense.description ?? "",
+        }
       : {
-          name: "",
+          name: `${format(new Date(), "eeee")}`,
           description: "",
           amount: 0,
           categories: [],
