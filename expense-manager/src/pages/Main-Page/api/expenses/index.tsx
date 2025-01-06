@@ -88,12 +88,14 @@ export const useExpenseFormMutation = () => {
         const dataToSend = {
           ...data,
           amount: data.amount ? +data.amount : 0,
+          date: new Date(data.date),
         };
         return axios.post(`expense`, dataToSend);
       } else {
         return axios.put(`expense/${expenseId}`, {
           ...data,
           amount: data.amount ? +data.amount : 0,
+          date: new Date(data.date),
           id: expenseId,
         });
       }

@@ -86,6 +86,9 @@ export const ExpenseFormSchema = z.object({
   name: z.string().min(1, "Expense name is required"),
   description: z.string().optional(),
   amount: z.number().nonnegative().default(0),
+  date: z.date({
+    required_error: "Date is required",
+  }),
   categories: z
     .array(
       z.object({

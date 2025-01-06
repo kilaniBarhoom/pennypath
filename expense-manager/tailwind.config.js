@@ -13,7 +13,7 @@ export default {
 					"var(--font-sans)",
 					"sans-serif"
 				],
-				raleway: ["Raleway", "serif"],
+				poppins: ["Poppins", "sans-serif"],
 				noto_sans: ["Noto Sans Arabic", "sans-serif"],
 			},
 			borderRadius: {

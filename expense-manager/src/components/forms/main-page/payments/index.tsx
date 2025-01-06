@@ -156,7 +156,7 @@ const PaymentForm = ({
                       )}
                     >
                       {field.value ? (
-                        format(stringToDate(field.value), "dd/LL/y", {
+                        format(stringToDate(field.value), "dd-LL-y", {
                           locale: language === "ar" ? ar : enGB,
                         })
                       ) : (

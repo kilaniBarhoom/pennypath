@@ -1,3 +1,4 @@
+import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,8 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { ny } from "@/lib/utils";
-import { PlusCircle, Trash2 } from "lucide-react";
+import { ny, stringToDate } from "@/lib/utils";
+import { format } from "date-fns";
+import { ar, enGB } from "date-fns/locale";
+import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -29,7 +32,8 @@ const ExpenseForm = ({
   onSubmit,
   expense,
 }: ExpenseFormProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
   const [total, setTotal] = useState(expense?.amount || 0);
 
   const { fields, append, remove } = useFieldArray({
@@ -78,6 +82,44 @@ const ExpenseForm = ({
                     autoComplete="name"
                     error={!!expenseForm.formState.errors.name?.message}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={expenseForm.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem className="flex-1 w-full">
+                <FormLabel>
+                  <span className="text-red-500">*</span>&nbsp;
+                  {t("Date")}
+                </FormLabel>
+                <FormControl>
+                  <DatePicker
+                    selected={field.value}
+                    onSelect={(value: Date) => {
+                      field.onChange(value);
+                    }}
+                  >
+                    <Button
+                      variant={"outline"}
+                      className={ny(
+                        "pl-3 text-left font-normal text-base flex-1 w-full hover:scale-100 active:scale-100",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(stringToDate(field.value), "dd-LL-y", {
+                          locale: language === "ar" ? ar : enGB,
+                        })
+                      ) : (
+                        <span>{t("Date")}</span>
+                      )}
+                      <CalendarIcon className="ltr:ml-auto rtl:mr-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </DatePicker>
                 </FormControl>
                 <FormMessage />
               </FormItem>

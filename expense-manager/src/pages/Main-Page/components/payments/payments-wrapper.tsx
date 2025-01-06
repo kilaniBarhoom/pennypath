@@ -25,16 +25,14 @@ export default function PaymentsWrapper() {
           <sup className="text-lg">₪</sup>
         </Badge>
       </div>
-      <div className="md:w-fit w-full">
-        <LocalSearchBar
-          route="/payments"
-          placeholder="Search for a payment"
-          otherClasses="md:w-fit w-full"
-        />
-        {/* <div className="flex gap-2 items-center">
-          <PaymentsFilters />
-        </div> */}
-      </div>
+      <LocalSearchBar
+        route="/payments"
+        placeholder="Search for a payment"
+        otherClasses="md:w-fit w-full"
+      />
+      {/* <div className="flex gap-2 items-center">
+        <PaymentsFilters />
+      </div> */}
       <PaymentsList
         payments={searchPaymentsResponse?.payments ?? []}
         isLoading={isLoadingToFetchPaymentsData}

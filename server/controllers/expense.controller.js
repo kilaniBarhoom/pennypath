@@ -2,10 +2,8 @@ import * as statusCodes from '../constants/status.constants.js';
 import * as queryHelper from "../helpers/queries/expense.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
-import { buildPDF } from '../helpers/buildPDF.js';
 import Expense from '../models/expense.js';
 import { ExpenseSchema } from '../schemas/index.js';
-import cloudinary from '../utils/cloudinary.js';
 import ResponseError from '../utils/respErr.js';
 
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
@@ -64,12 +62,7 @@ export const createExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { date, name, description, amount, categories } = ExpenseSchema.parse(req.body);
-
-    const isValidUser = await User.findById(user);
-    if (!isValidUser) {
-        return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
-    }
+    const { date, name, description, amount, categories } = req.body;
 
     await Expense.create({
         name,

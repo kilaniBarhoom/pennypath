@@ -46,7 +46,7 @@ const ExpensesList = ({
                 className={ny(
                   "p-4 border rounded-sm w-full grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group",
                   new Date(expense.createdAt).getDate() === new Date().getDate()
-                    ? "bg-gradient-to-tr from-primary/80 to-primary/20 border-secondary-foreground"
+                    ? "bg-background border-secondary-foreground"
                     : "bg-background"
                 )}
               >
@@ -71,7 +71,7 @@ const ExpensesList = ({
                 <div className="gap-2 flex items-center">
                   <CalendarIcon className="h-4 w-4 text-gray-500" />
                   <span className="text-sm leading-none text-gray-500">
-                    {format(stringToDate(expense.createdAt), "eeee, d-MM-y", {
+                    {format(stringToDate(expense.date), "eeee, d-MM-y", {
                       locale: lang === "ar" ? ar : enGB,
                     })}
                   </span>

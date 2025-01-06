@@ -28,7 +28,7 @@ const SideNav = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-col bg-primary/50 rounded-sm border w-full">
+      <div className="flex flex-col bg-secondary rounded-sm border w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
           <Avatar className="size-28">
             <AvatarImage src="/assets/userprofile.png" />

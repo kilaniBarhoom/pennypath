@@ -50,7 +50,7 @@ export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser,
             description: 1,
             name: 1,
             user: 1,
-            images: 1,
+            date: 1,
             categories: 1,
         },
     });

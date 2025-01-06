@@ -31,12 +31,15 @@ const AddEditExpenseSheet = ({
 
   const expenseForm = useForm<ExpenseFormSchemaType>({
     resolver: zodResolver(ExpenseFormSchema),
-    defaultValues: {
-      name: expense?.name || "",
-      description: expense?.description || "",
-      amount: expense?.amount || 0,
-      categories: expense?.categories || [],
-    },
+    defaultValues: expense
+      ? { ...expense, description: expense.description ?? "" }
+      : {
+          name: "",
+          description: "",
+          amount: 0,
+          categories: [],
+          date: new Date(),
+        },
   });
 
   const { mutateAsync } = useExpenseFormMutation();
@@ -47,13 +50,12 @@ const AddEditExpenseSheet = ({
         ...data,
         categories: data.categories?.filter((category) => category.name.trim()),
       };
-
-      toast(t("Saving expense"), {
-        description: "",
-      });
       await mutateAsync({
         data: updatedData,
         expenseId: expense?.id,
+      });
+      toast(t("Expense Saved"), {
+        description: "",
       });
       expenseForm.reset();
       setSheetOpen(false);

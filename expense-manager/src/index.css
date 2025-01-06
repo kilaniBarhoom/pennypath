@@ -65,7 +65,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground ltr:font-raleway rtl:font-noto_sans;
+    @apply bg-background text-foreground ltr:font-poppins rtl:font-noto_sans;
   }
 }
 

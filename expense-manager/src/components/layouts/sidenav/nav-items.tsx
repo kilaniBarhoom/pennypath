@@ -1,4 +1,4 @@
-import { Home, User2, Banknote } from "lucide-react";
+import { Home, User2, Banknote, DollarSign } from "lucide-react";
 
 export type NavItem = {
   title: string;
@@ -29,7 +29,7 @@ export const SideNavItems: NavItem[] = [
   {
     title: "Expenses",
     path: "/expenses",
-    icon: <Banknote className="rotate-45" size={24} />,
+    icon: <DollarSign size={24} />,
     unAuthorizedRoles: ["spectator"],
   },
   {
