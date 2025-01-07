@@ -27,8 +27,8 @@ const SideBar = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 lg:p-2 border-r">
-      <div className="flex flex-col bg-secondary rounded-sm border w-full">
+    <div className="flex flex-col gap-2 lg:p-2 border rounded-sm">
+      <div className="flex flex-col bg-muted border rounded-lg w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
           <Avatar className="size-28">
             <AvatarImage src="/assets/userprofile.png" />

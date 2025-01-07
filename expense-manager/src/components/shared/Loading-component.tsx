@@ -15,10 +15,7 @@ const LoadingComponent = ({
         className
       )}
     >
-      <LoadingSpinner
-        size={size}
-        className="text-primary animate-spin duration-300"
-      />
+      <LoadingSpinner size={size} />
     </div>
   );
 };

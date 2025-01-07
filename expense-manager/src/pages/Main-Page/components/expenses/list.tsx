@@ -37,7 +37,7 @@ const ExpensesList = ({
       {isLoading ? (
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
-        <div className="grid w-full gap-2 grid-cols-1 grid-flow-dense">
+        <div className="grid w-full gap-2 grid-cols-1 xl:grid-cols-2 grid-flow-dense">
           {expenses.map((expense) => {
             return (
               <div
@@ -54,12 +54,12 @@ const ExpensesList = ({
                   <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
                 )}
 
-                <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                <div className="flex items-center overflow-hidden text-ellipsis whitespace-nowrap">
                   <InfoCard expense={expense}>
                     <CreditCard className="min-w-4 min-h-4 h-4 w-4 text-gray-500" />
                     <Typography
                       element="span"
-                      className="text-base max-w-60 overflow-hidden text-ellipsis whitespace-nowrap font-semibold tracking-normal leading-none text-secondary-foreground"
+                      className="scroll-m-20 font-normal tracking-tight text-lg"
                     >
                       {expense?.name}
                     </Typography>
@@ -217,7 +217,7 @@ const Content = ({ expense }: { expense: ExpenseType }) => {
                   <circle cx="4" cy="4" r="4"></circle>
                 </svg>
               </div>
-              {category?.name}
+              <span className="text-sm tracking-wide">{category?.name}</span>
               <span className="flex ml-auto md:text-base text-xs">
                 <span>₪{category?.amount}</span>
               </span>
