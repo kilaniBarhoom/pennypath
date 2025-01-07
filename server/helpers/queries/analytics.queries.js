@@ -1,5 +1,4 @@
 import ObjectID from "../../utils/ObjectID.js";
-
 export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
     if (!loggedInUser) {
         return [];
@@ -113,7 +112,7 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
         },
         // Limit to 5 transactions
         {
-            $limit: 3,
+            $limit: 5,
         },
         // Project only the required fields
         {

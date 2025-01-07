@@ -13,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Separator } from "@/components/ui/separator";
 import { Label, Pie, PieChart } from "recharts";
 
 // Chart colors array for dynamic category assignment
@@ -78,11 +79,12 @@ export default function CategoryExpensesCard({
   };
 
   return (
-    <Card className="w-full">
+    <Card className="lg:w-[30%]">
       <CardHeader>
-        <CardTitle>Category Expenses</CardTitle>
+        <CardTitle className="text-lg">Category Expenses</CardTitle>
         <CardDescription>Your expenses grouped by category</CardDescription>
       </CardHeader>
+      <Separator />
       <CardContent>
         <ChartContainer
           config={chartConfig}

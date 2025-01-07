@@ -6,10 +6,7 @@ function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={ny(
-        "dark:bg-primary/10 bg-secondary animate-pulse rounded-sm",
-        className
-      )}
+      className={ny("bg-secondary/40 animate-pulse rounded-sm", className)}
       {...props}
     />
   );

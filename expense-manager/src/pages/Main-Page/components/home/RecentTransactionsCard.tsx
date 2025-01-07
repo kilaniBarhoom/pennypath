@@ -4,13 +4,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { ny } from "@/lib/utils";
 import { format } from "date-fns";
-import { ArrowDownLeft, ArrowUpRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function RecentTransactionsCard({
@@ -19,15 +19,26 @@ export default function RecentTransactionsCard({
   analytics: any;
 }) {
   return (
-    <Card className="w-full">
+    <Card className="lg:w-[30%]">
       <CardHeader>
-        <CardTitle>Recent Transactions</CardTitle>
-        <CardDescription>
-          Your recent transactions and their details
-        </CardDescription>
+        <div className="flex items-center justify-between flex-row">
+          <CardTitle className="text-lg">Recent Transactions</CardTitle>
+          <Link
+            to="/expenses"
+            className={ny(
+              buttonVariants({ size: "sm" }),
+              "font-normal flex items-center"
+            )}
+          >
+            See all
+            <ExternalLink className="inline h-3 w-3 ml-1" />
+          </Link>
+        </div>
+        <CardDescription></CardDescription>
       </CardHeader>
+      <Separator />
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-5">
           {analytics &&
             analytics.last3DaysExpenses.map(
               (expense: ExpenseType & { diff: number }) => {
@@ -55,35 +66,13 @@ export default function RecentTransactionsCard({
                         </div>
                       </div>
                     </div>
-                    <div
-                      className={`font-medium ${
-                        expense.diff >= 0 ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {expense.diff < 0 ? (
-                        <ArrowUpRight className="inline h-4 w-4" />
-                      ) : (
-                        <ArrowDownLeft className="inline h-4 w-4" />
-                      )}
-                      ₪{expense.amount?.toFixed(2) ?? 0}
-                    </div>
+                    <div>₪&nbsp;{expense.amount?.toFixed(2) ?? 0}</div>
                   </div>
                 );
               }
             )}
         </div>
       </CardContent>
-      <CardFooter>
-        <Link
-          to="/expenses"
-          className={ny(
-            buttonVariants({ variant: "link" }),
-            "w-fit ml-auto px-0"
-          )}
-        >
-          View all transactions <ExternalLink className="inline h-4 w-4 ml-1" />
-        </Link>
-      </CardFooter>
     </Card>
   );
 }

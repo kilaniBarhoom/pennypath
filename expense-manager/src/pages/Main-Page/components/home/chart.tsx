@@ -80,7 +80,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const totalAmount = chartData.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <Card className="w-full">
+    <Card className=" lg:w-[70%]">
       <CardHeader>
         <CardTitle>Total Spent By Month</CardTitle>
         <CardDescription>
