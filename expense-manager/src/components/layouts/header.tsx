@@ -1,14 +1,18 @@
-import { LogOut, Menu } from "lucide-react";
-import { Button } from "../ui/button";
 import { useLogout } from "@/providers/auth-provider";
+import { LogOut, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
-import SideNavSheet from "./sidenav/side-nav-sheet";
-import ThemeSelector from "../shared/theme-selector";
-import LanguageSelect from "../shared/language-select";
 import { useTranslation } from "react-i18next";
+import LanguageSelect from "../shared/language-select";
+import ThemeSelector from "../shared/theme-selector";
+import SideNavSheet from "./sidebar/sidebar-sheet";
 
-const Header = () => {
+const Header = ({
+  setIsSideBarOpen,
+}: {
+  setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const logout = useLogout();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -21,13 +25,23 @@ const Header = () => {
     }
   };
   return (
-    <>
+    <div className="flex py-1 px-2 justify-between w-full items-center gap-4">
       <div className="flex items-center gap-2">
         <SideNavSheet>
           <Button className="lg:hidden flex" size="icon" variant="secondary">
             <Menu />
           </Button>
         </SideNavSheet>
+        <Button
+          onClick={() => {
+            setIsSideBarOpen((prev: boolean) => !prev);
+          }}
+          className="max-lg:hidden"
+          size="icon"
+          variant="secondary"
+        >
+          <Menu />
+        </Button>
         <LanguageSelect />
       </div>
       <div className="flex items-center gap-2">
@@ -41,7 +55,7 @@ const Header = () => {
           <span className="max-sm:sr-only">{t("Log Out")}</span>
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

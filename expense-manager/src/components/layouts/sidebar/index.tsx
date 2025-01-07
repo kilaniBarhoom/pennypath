@@ -7,7 +7,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import NavElements from "./nav-elements";
 
-const SideNav = ({
+const SideBar = ({
   setOpen,
 }: {
   setOpen?: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +27,7 @@ const SideNav = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 lg:p-2 border-r">
       <div className="flex flex-col bg-secondary rounded-sm border w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
           <Avatar className="size-28">
@@ -59,4 +59,4 @@ const SideNav = ({
   );
 };
 
-export default SideNav;
+export default SideBar;

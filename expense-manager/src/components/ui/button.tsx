@@ -3,19 +3,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { ny } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "../shared/icons/loading-icon";
 
 const buttonVariants = cva(
-  "inline-flex items-center tracking-wider active:scale-95 transition-all duration-200 ease-in-out justify-center rounded-sm text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center tracking-wider transition-all duration-50 ease-in-out justify-center rounded-sm text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-primary font-bold text-primary-foreground hover:bg-primary/90",
+          "text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary/50 font-medium rounded-sm focus:outline-none",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border dark:border-primary-foreground border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -76,7 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <Icon className="ltr:mr-2 rtl:ml-2 size-5" />
         )}
         {loading ? (
-          <Loader2 className="ltr:mr-2 rtl:ml-2 h-4 w-4 animate-spin" />
+          <LoadingSpinner className="ltr:mr-2 rtl:ml-2 h-4 w-4 animate-spin" />
         ) : (
           children
         )}

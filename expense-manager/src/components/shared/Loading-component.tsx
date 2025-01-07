@@ -1,5 +1,5 @@
 import { ny } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "./icons/loading-icon";
 
 const LoadingComponent = ({
   size = 10,
@@ -15,7 +15,10 @@ const LoadingComponent = ({
         className
       )}
     >
-      <Loader2 size={size} className="text-primary animate-spin duration-300" />
+      <LoadingSpinner
+        size={size}
+        className="text-primary animate-spin duration-300"
+      />
     </div>
   );
 };

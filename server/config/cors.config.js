@@ -1,4 +1,6 @@
-export const allowedOrigins = [process.env.CLIENT_URL.split(" ")];
+// export const allowedOrigins = [process.env.CLIENT_URL.split(" ")];
+// export const allowedOrigins = [process.env.CLIENT_URL.split(" ")];
+export const allowedOrigins = ["http://localhost:5173",];
 
 
 const corsOptions = {

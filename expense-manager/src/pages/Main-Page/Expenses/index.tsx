@@ -1,7 +1,7 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
 import { Button } from "@/components/ui/button";
 import { dateToString } from "@/lib/utils";
-import { Banknote } from "lucide-react";
+import { Banknote, DollarSign } from "lucide-react";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -85,12 +85,12 @@ const Expenses = () => {
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
         <PageTitleWithIcon
           title={t("Expenses")}
-          icon={<Banknote size={35} fill="#99BFC5" stroke="#000" />}
+          icon={<DollarSign size={35} />}
         />
         <div className="flex items-center lg:w-fit w-full">
           <AddEditExpenseSheet>
             <Button
-              className="px-6 lg:py-4 py-6 lg:w-fit w-full border-2"
+              className="px-6 xl:py-4 py-6 xl:w-fit w-full"
               Icon={Banknote}
             >
               {t("Add Expense")}

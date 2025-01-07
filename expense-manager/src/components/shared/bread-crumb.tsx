@@ -30,28 +30,28 @@ const BreadcrumbComponent = ({
   return (
     <div
       className={ny(
-        "mb-1  z-30 transition-all duration-300 ease-in-out",
+        "mb-1 z-30 transition-all duration-300 ease-in-out",
         className
       )}
     >
       <Breadcrumb>
-        <BreadcrumbList>
+        <BreadcrumbList className="py-1 lg:text-lg text-sm max-lg:w-full px-2 bg-secondary border w-fit rounded-sm">
           <BreadcrumbItem>
             <BreadcrumbLink
-              className="cursor-pointer text-sm font-semibold"
+              className="cursor-pointer  "
               onClick={() => navigate("/home")} // Add a conditional operator to provide a default value if item.link is undefined
             >
               {t("Home")}
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="ltr:ml-2 rtl:mr-2">
+          <BreadcrumbSeparator className="">
             <Slash className="-rotate-12" size={18} />
           </BreadcrumbSeparator>
           {tree?.map((item, index) => (
             <div className="flex items-center" key={index}>
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  className="cursor-pointer text-sm font-semibold"
+                  className="cursor-pointer "
                   onClick={() => navigate(item.link || "")} // Add a conditional operator to provide a default value if item.link is undefined
                 >
                   {t(`${item.title}`)}
@@ -63,9 +63,7 @@ const BreadcrumbComponent = ({
             </div>
           ))}
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-sm font-semibold">
-              {t(`${currentPage}`)}
-            </BreadcrumbPage>
+            <BreadcrumbPage className="">{t(`${currentPage}`)}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

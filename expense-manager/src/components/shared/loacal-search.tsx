@@ -59,26 +59,29 @@ const LocalSearchBar = ({
   }, [query, search, route, pathname, searchParams]);
 
   return (
-    <div className="p-5 bg-secondary flex items-center justify-center rounded-md">
+    <div className="p-5 bg-secondary border flex items-center gap-10 justify-center rounded-md">
       {variant === "search" ? (
-        <Input
-          aria-label="search"
-          type="text"
-          placeholder={t(placeholder)}
-          value={search}
-          icon={
-            Icon ? (
-              <Icon size={20} className="mt-2" />
-            ) : (
-              <Search size={20} className="mt-2" />
-            )
-          }
-          onChange={(e) => setSearch(e.target.value)}
-          className={ny(
-            "md:min-w-96 font-normal bg-muted h-12 text-lg border-secondary-foreground/20",
-            otherClasses
-          )}
-        />
+        <>
+          <span className="text-2xl max-lg:hidden">{t("Search: ")}</span>
+          <Input
+            aria-label="search"
+            type="text"
+            placeholder={t(placeholder)}
+            value={search}
+            icon={
+              Icon ? (
+                <Icon size={20} className="mt-2" />
+              ) : (
+                <Search size={20} className="mt-2" />
+              )
+            }
+            onChange={(e) => setSearch(e.target.value)}
+            className={ny(
+              "md:min-w-96 font-normal bg-muted h-12 text-lg border-secondary-foreground/20",
+              otherClasses
+            )}
+          />
+        </>
       ) : (
         <NumberField
           defaultValue={undefined}

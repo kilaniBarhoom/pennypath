@@ -56,7 +56,7 @@ const Payments = () => {
         <div className="flex items-center lg:w-fit w-full">
           <AddEditPaymentDialogDrawer>
             <Button
-              className="px-6 lg:py-4 py-6 lg:w-fit w-full border-2"
+              className="px-6 lg:py-4 py-6 xl:w-fit w-full"
               Icon={Banknote}
             >
               {t("Add Payment")}

@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import SideNav from ".";
 import { useTranslation } from "react-i18next";
 
-const SideNavSheet = ({ children }: { children: React.ReactNode }) => {
+const SideBarSheet = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
   const { i18n } = useTranslation();
   return (
@@ -30,4 +30,4 @@ const SideNavSheet = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default SideNavSheet;
+export default SideBarSheet;
