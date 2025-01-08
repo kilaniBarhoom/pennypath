@@ -50,21 +50,45 @@ export default function OverView({ analytics }: { analytics: any }) {
             title="Wallet Balance"
             description="Your current balance in your wallet"
             amount={analytics?.walletBalance}
-            Icon={<CreditCard />}
+            Icon={
+              <motion.span
+                className={`p-2 bg-secondary rounded-full`}
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CreditCard />
+              </motion.span>
+            }
             main
           />
           <CardDetails
             title="Expenses"
             description="How much you spent"
             amount={analytics?.allTimeTotalExpensesValue}
-            Icon={<TrendingDown />}
+            Icon={
+              <motion.span
+                className={`p-2 bg-red-500 rounded-full`}
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TrendingDown className="text-white" />
+              </motion.span>
+            }
             cta="expenses"
           />
           <CardDetails
             title="Earned"
             description="How much you earned"
             amount={analytics?.totalPaymentsValue}
-            Icon={<TrendingUp />}
+            Icon={
+              <motion.span
+                className={`p-2 bg-green-500 rounded-full`}
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TrendingUp className="text-black" />
+              </motion.span>
+            }
             cta="payments"
           />
         </CardContent>
@@ -102,13 +126,7 @@ function CardDetails({
         } p-4 grid gap-4 w-full h-40 ${className}`}
       >
         <CardHeader className="flex-row items-center gap-2 p-0">
-          <motion.span
-            className={`p-2 bg-secondary rounded-full`}
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.5 }}
-          >
-            {Icon}
-          </motion.span>
+          {Icon}
           <div>
             <CardTitle
               className={`${main ? "text-white" : "text-secondary-foreground"}`}

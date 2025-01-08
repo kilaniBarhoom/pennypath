@@ -13,7 +13,11 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen w-full flex gap-2 items-start bg-background">
       <ScrollToTop />
-      <div className={ny("w-full bg-secondary/40  p-2 rounded-sm")}>
+      <div
+        className={ny(
+          "w-full p-2 rounded-sm  h-screen bg-secondary/40 overflow-auto"
+        )}
+      >
         <aside
           className={ny(
             {
@@ -30,7 +34,7 @@ export default function MainLayout() {
             {
               "xl:pl-[calc(16rem+8px)]": isSideBarOpen,
             },
-            "flex-1 flex flex-col gap-2 min-w-0 transition-all duration-200 ease-in-out max-w-screen-2xl w-full mx-auto h-screen"
+            "flex-1 flex flex-col gap-2 min-w-0 transition-all duration-200 ease-in-out max-w-screen-2xl w-full mx-auto max-lg:p-2"
           )}
         >
           <header className="bg-secondary border h-14 rounded-sm">

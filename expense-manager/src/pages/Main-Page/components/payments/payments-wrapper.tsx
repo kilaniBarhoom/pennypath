@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import Typography from "@/components/ui/typography";
 import { useTranslation } from "react-i18next";
 import { useSearchPaymentsQuery } from "../../api/payments";
-import PaymentsList from "./list";
+import PaymentsTable from "./table";
 
 export default function PaymentsWrapper() {
   const {
@@ -30,12 +30,9 @@ export default function PaymentsWrapper() {
         placeholder="Search for a payment"
         otherClasses="md:w-fit w-full"
       />
-      {/* <div className="flex gap-2 items-center">
-        <PaymentsFilters />
-      </div> */}
-      <PaymentsList
+      <PaymentsTable
         payments={searchPaymentsResponse?.payments ?? []}
-        isLoading={isLoadingToFetchPaymentsData}
+        isLoadingToFetchPayments={isLoadingToFetchPaymentsData}
       />
       <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
         <TablePagiation totalPages={searchPaymentsResponse?.totalPages ?? 1} />
