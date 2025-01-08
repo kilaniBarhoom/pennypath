@@ -12,9 +12,13 @@ import { Link } from "react-router-dom";
 
 export default function OverView({ analytics }: { analytics: any }) {
   return (
-    <div className="bg-card rounded-sm p-4 border grid gap-2 lg:w-[70%]">
-      <span className="text-5xl max-lg:text-3xl tracking-wide">Overview</span>
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-2 items-center flex-1 ">
+    <Card className="lg:w-[70%]">
+      <CardHeader className="text-5xl max-lg:text-3xl tracking-wide">
+        Overview
+      </CardHeader>
+      <CardDescription></CardDescription>
+      <Separator />
+      <CardContent className="grid grid-cols-2 w-full gap-2">
         <CardDetails
           title="Wallet Balance"
           description="Your current balance in your wallet"
@@ -22,7 +26,6 @@ export default function OverView({ analytics }: { analytics: any }) {
           Icon={<CreditCard />}
           main
         />
-
         <CardDetails
           title="Expenses"
           description="How much you spent"
@@ -32,26 +35,25 @@ export default function OverView({ analytics }: { analytics: any }) {
         />
         <CardDetails
           title="Earned"
-          description="How much you earned from your payments"
+          description="How much you earned"
           amount={analytics?.totalPaymentsValue}
           Icon={<TrendingUp />}
         />
-        <CardDetails
+        {/* <CardDetails
           title="Saving Plan"
           description="Your saving plan"
           amount={analytics?.walletBalance}
           Icon={<CreditCard />}
           className="select-none  relative"
         >
-          {/* <div className="absolute top-0 left-0 w-full h-full z-10 bg-neutral-300/30 " /> */}
           <div className="absolute top-0 left-0 w-full h-full z-50 flex items-center justify-center backdrop-blur-sm">
             <p className="text-2xl font-semibold text-secondary-foreground">
               Coming Soon
             </p>
           </div>
-        </CardDetails>
-      </div>
-    </div>
+        </CardDetails> */}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -77,17 +79,12 @@ function CardDetails({
   return (
     <Card
       className={`${
-        main ? "bg-primary" : " bg-secondary/40"
-      } p-4 grid gap-4 border-${main ? "0" : "2"} ${className}`}
+        main ? "bg-primary border-white w-full col-span-2" : "bg-secondary/40"
+      } p-4 grid gap-4 border w-full h-40 ${className}`}
+      style={main ? { background: "" } : {}}
     >
       <CardHeader className="flex-row items-center gap-2 p-0">
-        <span
-          className={`p-2 ${
-            main ? "bg-white text-muted" : "bg-secondary"
-          } rounded-full`}
-        >
-          {Icon}
-        </span>
+        <span className={`p-2 bg-secondary rounded-full`}>{Icon}</span>
         <div>
           <CardTitle
             className={`${main ? "text-white" : "text-secondary-foreground"}`}
@@ -103,11 +100,10 @@ function CardDetails({
           </CardDescription>
         </div>
       </CardHeader>
-      <Separator className="h-[1px]" />
       <CardContent className="flex items-center flex-row justify-between gap-2 p-0">
         <div
-          className={`text-2xl font-semibold ${
-            main ? "text-white" : "text-foreground"
+          className={`font-semibold ${
+            main ? "text-white text-3xl" : "text-foreground text-2xl"
           }`}
         >
           <span>₪</span>
