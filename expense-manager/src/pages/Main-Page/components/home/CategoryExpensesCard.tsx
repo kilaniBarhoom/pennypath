@@ -1,6 +1,6 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -8,10 +8,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ny } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Label, Pie, PieChart } from "recharts";
+import CategoriesDialog from "./CategoriesDialog";
 
 // Chart colors array for dynamic category assignment
 const chartColors = [
@@ -79,12 +78,16 @@ export default function CategoryExpensesCard({
     <Card className="lg:w-[30%]">
       <CardHeader className="flex items-center justify-between flex-row">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
-        <Link
-          to="/expenses"
-          className={ny(buttonVariants({ size: "sm" }), "self-end mb-3")}
+        <CategoriesDialog
+          categories={Object.entries(categories).map(([name, amount]) => ({
+            name,
+            amount,
+          }))}
         >
-          See all <ExternalLink className="inline h-3 w-3 ml-1" />
-        </Link>
+          <Button Icon={ExternalLink} iconPosition="right" size="sm">
+            See all
+          </Button>
+        </CategoriesDialog>
       </CardHeader>
       <CardContent>
         <ChartContainer

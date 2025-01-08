@@ -73,15 +73,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {Icon && iconPosition === "left" && (
-          <Icon className="ltr:mr-2 rtl:ml-2 size-5" />
+          <Icon className="ltr:mr-2 rtl:ml-2 size-4" />
         )}
-        {loading ? (
+        {loading && (
           <LoadingSpinner className="ltr:mr-2 rtl:ml-2 h-4 w-4 animate-spin" />
-        ) : (
-          children
         )}
+        {children}
         {Icon && iconPosition === "right" && (
-          <Icon className="rtl:mr-2 ltr:ml-2 size-5" />
+          <Icon className="rtl:mr-2 ltr:ml-2 size-4" />
         )}
       </Comp>
     );
