@@ -1,9 +1,9 @@
 import { useSearchAnalyticsQuery } from "../api/analytics";
-import { AnalyticsChart1 } from "../components/home/chart";
-import RecentTransactionsCard from "../components/home/RecentTransactionsCard";
-import Overview from "../components/home/Overview";
-import CategoryExpensesCard from "../components/home/CategoryExpensesCard";
 import AnalyticsSkeleton from "../components/home/AnalyticsSkeleton";
+import CategoryExpensesCard from "../components/home/CategoryExpensesCard";
+import { AnalyticsChart1 } from "../components/home/chart";
+import Overview from "../components/home/Overview";
+import RecentTransactionsCard from "../components/home/RecentTransactionsCard";
 
 const Home = () => {
   const { data: analytics, isLoading: isLoadingToFetchAnalyticsData } =

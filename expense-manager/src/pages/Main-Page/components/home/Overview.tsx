@@ -97,10 +97,9 @@ function CardDetails({
       <Card
         className={`${
           main
-            ? "bg-gradient-to-r from-primary dark:from-primary/30 to-primary/80 dark:to-primary/60 w-full col-span-2"
+            ? "bg-gradient-to-r from-primary dark:from-primary/30 to-primary/80 dark:to-primary/60 w-full"
             : "bg-secondary/50"
         } p-4 grid gap-4 w-full h-40 ${className}`}
-        style={main ? { background: "" } : {}}
       >
         <CardHeader className="flex-row items-center gap-2 p-0">
           <motion.span
