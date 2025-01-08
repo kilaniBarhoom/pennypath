@@ -39,9 +39,9 @@ const BreadcrumbComponent = ({
           <BreadcrumbItem>
             <BreadcrumbLink
               className="cursor-pointer  "
-              onClick={() => navigate("/home")} // Add a conditional operator to provide a default value if item.link is undefined
+              onClick={() => navigate("/dashboard")} // Add a conditional operator to provide a default value if item.link is undefined
             >
-              {t("Home")}
+              {t("Dashboard")}
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="">

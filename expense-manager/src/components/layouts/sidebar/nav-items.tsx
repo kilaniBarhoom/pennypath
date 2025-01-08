@@ -1,4 +1,4 @@
-import { Home, User2, Banknote, DollarSign } from "lucide-react";
+import { Banknote, DollarSign, Home, User2 } from "lucide-react";
 
 export type NavItem = {
   title: string;
@@ -9,8 +9,8 @@ export type NavItem = {
 
 export const SideNavItems: NavItem[] = [
   {
-    title: "Home",
-    path: "/home",
+    title: "Dashboard",
+    path: "/dashboard",
     icon: <Home size={24} />,
     unAuthorizedRoles: [],
   },

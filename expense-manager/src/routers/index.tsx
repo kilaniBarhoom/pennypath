@@ -67,7 +67,7 @@ const router = createBrowserRouter(
               <Route index element={<Expenses />} />
               <Route path="plan" element={<SavingPlan />} />
             </Route>
-            <Route path="/home" element={<Home />} />
+            <Route path="/dashboard" element={<Home />} />
           </Route>
         </Route>
         <Route path="/users" element={<MainLayout />}>

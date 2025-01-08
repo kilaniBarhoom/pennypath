@@ -24,9 +24,11 @@ const ErrorHandler = ({
       >
         {status}
       </Typography>
-      <h2 className="font-bold text-white">{t(title)}</h2>
+      <h2 className="font-bold text-secondary-foreground">{t(title)}</h2>
       {children ?? (
-        <Button onClick={() => navigate("/home")}>{t("Back To Home")}</Button>
+        <Button onClick={() => navigate("/dashboard")}>
+          {t("Back To Home")}
+        </Button>
       )}
     </div>
   );

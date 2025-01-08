@@ -30,7 +30,7 @@ export default function MainLayout() {
             {
               "xl:pl-[calc(16rem+8px)]": isSideBarOpen,
             },
-            "flex-1 flex flex-col gap-2 min-w-0 transition-all duration-200 ease-in-out max-w-screen-2xl w-full mx-auto"
+            "flex-1 flex flex-col gap-2 min-w-0 transition-all duration-200 ease-in-out max-w-screen-2xl w-full mx-auto h-screen"
           )}
         >
           <header className="bg-secondary border h-14 rounded-sm">

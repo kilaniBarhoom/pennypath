@@ -40,7 +40,7 @@ const LoginForm = () => {
   const from =
     pathname && !["/unauthorized"].includes(pathname)
       ? `${pathname}${search}`
-      : "/home";
+      : "/dashboard";
   const { user, setUser, setAccessToken } = useAuth();
   const { setError } = useError();
   const { t, i18n } = useTranslation();
@@ -74,7 +74,7 @@ const LoginForm = () => {
   }
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      navigate("/dashboard");
     }
   }, []);
   return (
