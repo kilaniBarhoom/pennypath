@@ -23,13 +23,9 @@ export const getAnalytics = async (req, res, next) => {
     const FIXED_DEDUCTION = +(process.env.FIXED_DEDUCTION ?? 0);
 
     const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - FIXED_DEDUCTION;
-    const last3DaysExpenses = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })));
+    const recentExpensesTransactions = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })))[0];
 
     const expensesGroupedByCategory = (await Expense.aggregate(queryHelper.getExpensesGroupedByCategory({ loggedInUser: req.user })));
-
-    for (let i = 0; i < last3DaysExpenses.length - 1; i++) {
-        last3DaysExpenses[i]["diff"] = last3DaysExpenses[i + 1]["amount"] - last3DaysExpenses[i]["amount"];
-    }
 
     const groupedByDayExpenses = (await Expense.aggregate(queryHelper.getExpensesGroupedByDateAndWeekLimited({ loggedInUser: req.user })));
     const analytics = {
@@ -37,7 +33,7 @@ export const getAnalytics = async (req, res, next) => {
         walletBalance,
         allTimeTotalExpensesValue,
         totalPaymentsValue,
-        last3DaysExpenses,
+        recentExpensesTransactions,
         groupedByDayExpenses,
         expensesGroupedByCategory
     };

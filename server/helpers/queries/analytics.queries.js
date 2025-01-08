@@ -110,19 +110,18 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
                 createdAt: -1,
             },
         },
-        // Limit to 5 transactions
         {
-            $limit: 5,
+            $limit: 1,
         },
-        // Project only the required fields
+        // get only the categories of the latest transaction
         {
             $project: {
                 _id: 0,
-                amount: 1,
-                createdAt: 1,
-                name: 1,
+                name: "$name",
+                amount: "$amount",
+                categories: "$categories",
             },
-        },
+        }
     ];
     return filter;
 }

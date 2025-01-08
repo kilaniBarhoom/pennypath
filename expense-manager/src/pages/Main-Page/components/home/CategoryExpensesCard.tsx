@@ -1,19 +1,16 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Separator } from "@/components/ui/separator";
+import { ny } from "@/lib/utils";
+import { ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Label, Pie, PieChart } from "recharts";
 
 // Chart colors array for dynamic category assignment
@@ -80,11 +77,15 @@ export default function CategoryExpensesCard({
 
   return (
     <Card className="lg:w-[30%]">
-      <CardHeader>
+      <CardHeader className="flex items-center justify-between flex-row">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
-        <CardDescription>Your expenses grouped by category</CardDescription>
+        <Link
+          to="/expenses"
+          className={ny(buttonVariants({ size: "sm" }), "self-end mb-3")}
+        >
+          See all <ExternalLink className="inline h-3 w-3 ml-1" />
+        </Link>
       </CardHeader>
-      <Separator />
       <CardContent>
         <ChartContainer
           config={chartConfig}
@@ -127,6 +128,21 @@ export default function CategoryExpensesCard({
             </Pie>
           </PieChart>
         </ChartContainer>
+        <div className="flex items-center gap-2">
+          {Object.entries(categories)
+            .slice(0, 3)
+            .map(([name, amount]) => (
+              <div
+                key={name}
+                className="grid items-center flex-1 bg-secondary py-2 px-4 rounded-md"
+              >
+                <div className="flex items-center">{name}</div>
+                <div className="text-muted-foreground">
+                  ₪&nbsp;{amount.toFixed(1)}
+                </div>
+              </div>
+            ))}
+        </div>
       </CardContent>
     </Card>
   );
