@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ArrowRight, CreditCard, TrendingDown, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -17,7 +16,6 @@ export default function OverView({ analytics }: { analytics: any }) {
         Overview
       </CardHeader>
       <CardDescription></CardDescription>
-      <Separator />
       <CardContent className="grid grid-cols-2 w-full gap-2">
         <CardDetails
           title="Wallet Balance"
@@ -79,8 +77,8 @@ function CardDetails({
   return (
     <Card
       className={`${
-        main ? "bg-primary border-white w-full col-span-2" : "bg-secondary/40"
-      } p-4 grid gap-4 border w-full h-40 ${className}`}
+        main ? "bg-primary w-full col-span-2" : "bg-secondary/40"
+      } p-4 grid gap-4 w-full h-40 ${className}`}
       style={main ? { background: "" } : {}}
     >
       <CardHeader className="flex-row items-center gap-2 p-0">
