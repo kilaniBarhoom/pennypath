@@ -36,62 +36,118 @@ export const findExpenses = ({ startDate, endDate, search, amount, loggedInUser,
             },
         });
     }
-    filter.push({
-        $sort: {
-            createdAt: -1,
-        },
-    });
+
     filter.push({
         $project: {
             _id: 0,
             id: "$_id",
-            createdAt: 1,
             amount: 1,
             description: 1,
+            date: 1,
             name: 1,
             user: 1,
-            date: 1,
-            categories: 1,
+            createdAt: 1,
+            category: 1,
+        },
+    });
+
+    // Populate user details
+    filter.push({
+        $lookup: {
+            from: "users",
+            localField: "user",
+            foreignField: "_id",
+            as: "userDetails",
         },
     });
 
     filter.push({
-        $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'userDetails'
-        }
-    });
-
-    filter.push({
-        $unwind: '$userDetails'
+        $unwind: "$userDetails",
     });
 
     filter.push({
         $addFields: {
-            'user.id': '$userDetails._id',
-            'user.fullNameEnglish': '$userDetails.fullNameEnglish',
-            'user.fullNameArabic': '$userDetails.fullNameArabic',
-            'user.email': '$userDetails.email',
-            'user.role': '$userDetails.role',
-        }
+            "user.id": "$userDetails._id",
+            "user.fullNameEnglish": "$userDetails.fullNameEnglish",
+            "user.fullNameArabic": "$userDetails.fullNameArabic",
+            "user.email": "$userDetails.email",
+            "user.role": "$userDetails.role",
+        },
+    });
+
+    // Populate category details
+    filter.push({
+        $lookup: {
+            from: "categories", // Replace with your categories collection name
+            localField: "category",
+            foreignField: "_id",
+            as: "categoryDetails",
+        },
+    });
+
+    filter.push({
+        $unwind: {
+            path: "$categoryDetails",
+            preserveNullAndEmptyArrays: true, // Allow null if no category is matched
+        },
+    });
+
+    filter.push({
+        $addFields: {
+            "category.id": "$categoryDetails._id",
+            "category.name": "$categoryDetails.name",
+        },
     });
 
     filter.push({
         $project: {
-            userDetails: 0
-        }
+            userDetails: 0, // Remove the temporary joined user data
+            categoryDetails: 0, // Remove the temporary joined category data
+        },
     });
+
+    // Add formattedDate
     filter.push({
-        $skip: pageNumber * limit
-    },
-        { $limit: limit })
+        $addFields: {
+            formattedDate: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+        },
+    });
+
+    // Sort all expenses by createdAt (latest first)
+    filter.push({
+        $sort: { date: -1 },
+    });
+
+    // Group by the same day
+    filter.push({
+        $group: {
+            _id: "$formattedDate",
+            totalAmount: { $sum: "$amount" },
+            expenses: { $push: "$$ROOT" },
+        },
+    });
+
+    // Sort grouped dates
+    filter.push({
+        $sort: { _id: -1 }, // Sort dates in ascending order (earliest first); change to -1 for descending
+    });
+
+    filter.push({
+        $skip: pageNumber * limit,
+    });
+
+    filter.push({
+        $limit: limit,
+    });
 
     return filter;
 };
 
-export const findValueSum = (_id) => {
+
+
+
+
+export const findSumOfExpenses = (_id) => {
     const filter = [
         {
             $group: {
@@ -111,7 +167,9 @@ export const findValueSum = (_id) => {
     return filter;
 };
 
-export const totalSumCategorizedQuery = ({ _id, loggedInUser }) => {
+
+// Get the total sum of expenses grouped by week / month / most spend in a day / all time 
+export const findAnalyticsOfExpenses = ({ _id, loggedInUser }) => {
 
     if (!loggedInUser) {
         return [];

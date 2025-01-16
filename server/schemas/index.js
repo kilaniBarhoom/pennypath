@@ -22,10 +22,12 @@ export const ExpenseSchema = z.object({
     date: z.date({
         required_error: "Date is required",
     }),
-    categories: z.array(z.object({
-        name: z.string().min(1, "Name must be at least 1 characters long").trim(),
-        amount: z.number().min(0, "Amount must be at least 1"),
-    })),
+    category: z.string().min(1, "Exppense must belong to a category"),
+});
+
+export const CategorySchema = z.object({
+    name: z.string().min(1, "Name must be at least 3 characters long").trim(),
+    description: z.string().max(400, "Description could be at maximun 400 characters long").optional(),
 });
 
 // attendance schema

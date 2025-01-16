@@ -111,7 +111,35 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
             },
         },
         {
-            $limit: 1,
+            $lookup: {
+                from: "categories", // Replace with your categories collection name
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryDetails",
+            },
+        },
+
+        {
+            $unwind: {
+                path: "$categoryDetails",
+                preserveNullAndEmptyArrays: true, // Allow null if no category is matched
+            },
+        },
+        {
+            $addFields: {
+                "category.id": "$categoryDetails._id",
+                "category.name": "$categoryDetails.name",
+            }
+        },
+
+        {
+            $project: {
+                categoryDetails: 0, // Remove the temporary joined category data
+            }
+        },
+
+        {
+            $limit: 5,
         },
         // get only the categories of the latest transaction
         {
@@ -119,7 +147,7 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
                 _id: 0,
                 name: "$name",
                 amount: "$amount",
-                categories: "$categories",
+                category: "$category",
             },
         }
     ];

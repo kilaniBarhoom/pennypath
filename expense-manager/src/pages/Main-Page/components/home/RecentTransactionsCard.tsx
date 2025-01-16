@@ -38,40 +38,41 @@ export default function RecentTransactionsCard({
       <CardContent>
         <div className="space-y-2">
           {analytics &&
-            analytics.recentExpensesTransactions?.categories
-              ?.slice(0, 5)
+            analytics.recentExpensesTransactions?.length > 0 &&
+            analytics.recentExpensesTransactions
+              .slice(0, 5)
               .map(
                 (
-                  category: { name: string; amount: number; createdAt?: Date },
+                  expense: { name: string; amount: number; createdAt?: Date },
                   ind: number
                 ) => {
                   return (
                     <div
                       key={ind}
-                      className="flex items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap rounded-sm bg-secondary p-2"
+                      className="flex items-center justify-between rounded-sm bg-secondary p-2"
                     >
                       <div className="flex items-center space-x-3">
                         <Avatar className="h-9 w-9">
                           <AvatarImage
-                            src={`https://avatar.vercel.sh/${category.name}`}
-                            alt={category.name}
+                            src={`https://avatar.vercel.sh/${expense.name}`}
+                            alt={expense.name}
                           />
                           <AvatarFallback>
-                            {category.name?.charAt(0) ?? ""}
+                            {expense.name?.charAt(0) ?? ""}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="font-medium text-ellipsis whitespace-nowrap overflow-hidden max-w-20">
-                            {category.name}
+                            {expense.name}
                           </div>
-                          {category?.createdAt && (
+                          {expense?.createdAt && (
                             <div className="text-sm text-muted-foreground">
-                              {format(category.createdAt, "eee, dd/MM HH:mm")}
+                              {format(expense.createdAt, "eee, dd/MM HH:mm")}
                             </div>
                           )}
                         </div>
                       </div>
-                      <div>₪&nbsp;{category.amount?.toFixed(2) ?? 0}</div>
+                      <div>₪&nbsp;{expense.amount?.toFixed(2) ?? 0}</div>
                     </div>
                   );
                 }

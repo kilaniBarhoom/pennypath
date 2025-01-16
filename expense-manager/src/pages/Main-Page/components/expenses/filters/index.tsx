@@ -2,11 +2,13 @@ import LocalSearchBar from "@/components/shared/loacal-search";
 
 const ExpensesFilters = () => {
   return (
-    <LocalSearchBar
-      route="/expenses"
-      placeholder="Search for an expense"
-      otherClasses="md:w-80 w-full"
-    />
+    <div className="mb-2">
+      <LocalSearchBar
+        route="/expenses"
+        placeholder="Search for an expense"
+        otherClasses=" w-full"
+      />
+    </div>
   );
 };
 

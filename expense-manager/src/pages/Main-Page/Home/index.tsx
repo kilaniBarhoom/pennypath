@@ -1,8 +1,6 @@
 import { useSearchAnalyticsQuery } from "../api/analytics";
 import AlertBanner from "../components/home/AlertBanner";
 import AnalyticsSkeleton from "../components/home/AnalyticsSkeleton";
-import CategoryExpensesCard from "../components/home/CategoryExpensesCard";
-import { AnalyticsChart1 } from "../components/home/chart";
 import Overview from "../components/home/Overview";
 import RecentTransactionsCard from "../components/home/RecentTransactionsCard";
 
@@ -13,6 +11,7 @@ const Home = () => {
   const alerts: { message: string }[] = [];
   if (!isLoadingToFetchAnalyticsData) {
     if (
+      analytics?.expensesGroupedByCategory.length > 0 &&
       Object.entries(analytics?.expensesGroupedByCategory[0].categories)
         .length > 10
     )
@@ -31,10 +30,10 @@ const Home = () => {
           {alerts.length > 0 && <AlertBanner alerts={alerts} />}
           <div className="flex max-lg:flex-col gap-2 w-full">
             <Overview analytics={analytics} />
-            <CategoryExpensesCard analytics={analytics} />
+            {/* <CategoryExpensesCard analytics={analytics} /> */}
           </div>
           <div className="flex max-lg:flex-col gap-2 w-full">
-            <AnalyticsChart1 data={analytics?.totalSpentMonthly} />
+            {/* <AnalyticsChart1 data={analytics?.totalSpentMonthly} /> */}
             <RecentTransactionsCard analytics={analytics} />
           </div>
         </div>

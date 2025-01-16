@@ -2,6 +2,7 @@ import * as statusCodes from '../constants/status.constants.js';
 import * as queryHelper from "../helpers/queries/expense.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
+import Category from '../models/category.js';
 import Expense from '../models/expense.js';
 import { ExpenseSchema } from '../schemas/index.js';
 import ResponseError from '../utils/respErr.js';
@@ -12,34 +13,28 @@ export const getAllExpenses = async (req, res, next) => {
 
     const expenseDocuments = await Expense.countDocuments();
 
-    const totalPages = Math.ceil(expenseDocuments / 10);
+    const totalPages = Math.ceil(expenseDocuments / 7);
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 7 }));
+    const groupedExpenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 1 }));
 
-    const _id = expenses.map(({ _id }) => _id);
+    // const _id = groupedExpenses.map(({ _id }) => _id);
 
-    let allTimeTotal = (await Expense.aggregate(queryHelper.findValueSum()))[0];
+    let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses()))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
-    let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.totalSumCategorizedQuery({ loggedInUser: req.user })))[0];
+    // let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.findAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
 
-    const weekTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.weekTotal : 0;
-    const monthTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.monthTotal : 0;
-    const mostSpentInADay = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.mostSpentInADay : 0;
+    // const weekTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.weekTotal : 0;
+    // const monthTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.monthTotal : 0;
+    // const mostSpentInADay = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.mostSpentInADay : 0;
 
-    let rangeTotal = (await Expense.aggregate(queryHelper.findValueSum(_id)))[0];
-    const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
 
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
-            expenses,
+            groupedExpenses,
             allTimeTotalValue,
-            rangeTotalValue,
-            weekTotal,
-            monthTotal,
-            mostSpentInADay,
             from,
             to,
             search,
@@ -62,14 +57,21 @@ export const createExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { date, name, description, amount, categories } = req.body;
+    const { date, name, description, amount, category } = req.body;
+
+    const fetchedCategory = await Category.findById(category);
+
+    if (!fetchedCategory) {
+        return next(new ResponseError('Category not found', statusCodes.NOT_FOUND));
+    }
+
 
     await Expense.create({
         name,
         description,
         amount,
         date,
-        categories,
+        category,
         user: req.user.id,
     });
     res.status(statusCodes.CREATED).json({
@@ -91,7 +93,13 @@ export const editExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { name, description, amount, date, categories } = req.body
+    const { name, description, amount, date, category } = req.body
+
+    const fetchedCategory = await Category.findById(category);
+
+    if (!fetchedCategory) {
+        return next(new ResponseError('Category not found', statusCodes.NOT_FOUND));
+    }
 
     const user = req.user.id;
 
@@ -108,7 +116,7 @@ export const editExpense = async (req, res, next) => {
         amount,
         date,
         user,
-        categories
+        category
     }, { new: true, runValidators: true, strict: false });
 
     if (!expense) {

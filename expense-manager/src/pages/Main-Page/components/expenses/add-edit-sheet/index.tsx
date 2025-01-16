@@ -9,14 +9,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { stringToDate } from "@/lib/utils";
 import { useExpenseFormMutation } from "@/pages/Main-Page/api/expenses";
 import { ExpenseFormSchema, ExpenseFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { format } from "date-fns";
-import { stringToDate } from "@/lib/utils";
 
 type AddEditExpenseSheetProps = {
   children: React.ReactNode;
@@ -38,12 +37,13 @@ const AddEditExpenseSheet = ({
           ...expense,
           date: stringToDate(expense.date ?? new Date()),
           description: expense.description ?? "",
+          category: expense.category.id,
         }
       : {
-          name: `${format(new Date(), "eeee")}`,
+          name: "",
           description: "",
           amount: 0,
-          categories: [],
+          category: "678408c6debdfad37ae65a3e",
           date: new Date(),
         },
   });
@@ -52,12 +52,8 @@ const AddEditExpenseSheet = ({
 
   const onSubmit = async (data: ExpenseFormSchemaType) => {
     try {
-      const updatedData = {
-        ...data,
-        categories: data.categories?.filter((category) => category.name.trim()),
-      };
       await mutateAsync({
-        data: updatedData,
+        data,
         expenseId: expense?.id,
       });
       toast(t("Expense Saved"), {

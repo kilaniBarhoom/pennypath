@@ -1,6 +1,6 @@
 import * as statusCodes from '../constants/status.constants.js';
 import * as queryHelper from "../helpers/queries/analytics.queries.js";
-import { findValueSum as expensesSum } from "../helpers/queries/expense.queries.js";
+import { findSumOfExpenses as expensesSum } from "../helpers/queries/expense.queries.js";
 import { findValueSum as paymentsSum } from "../helpers/queries/payment.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
@@ -23,7 +23,7 @@ export const getAnalytics = async (req, res, next) => {
     const FIXED_DEDUCTION = +(process.env.FIXED_DEDUCTION ?? 0);
 
     const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - FIXED_DEDUCTION;
-    const recentExpensesTransactions = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })))[0];
+    const recentExpensesTransactions = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })));
 
     const expensesGroupedByCategory = (await Expense.aggregate(queryHelper.getExpensesGroupedByCategory({ loggedInUser: req.user })));
 

@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 
 type SearchExpensesResponseType = {
-  expenses: ExpenseType[];
+  groupedExpenses: GroupedExpensesType[];
   startDate: Date;
   endDate: Date;
   allTimeTotalValue: number;
@@ -88,14 +88,14 @@ export const useExpenseFormMutation = () => {
         const dataToSend = {
           ...data,
           amount: data.amount ? +data.amount : 0,
-          date: new Date(data.date),
+          date: new Date(data.date).setUTCHours(0, 0, 0, 0),
         };
         return axios.post(`expense`, dataToSend);
       } else {
         return axios.put(`expense/${expenseId}`, {
           ...data,
           amount: data.amount ? +data.amount : 0,
-          date: new Date(data.date),
+          date: new Date(data.date).setUTCHours(0, 0, 0, 0),
           id: expenseId,
         });
       }
