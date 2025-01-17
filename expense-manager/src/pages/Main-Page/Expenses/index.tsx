@@ -1,6 +1,7 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
+import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
-import { Banknote, DollarSign } from "lucide-react";
+import { Banknote } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
@@ -27,37 +28,46 @@ const Expenses = () => {
   // };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       <Helmet>
         <title>Expenses</title>
       </Helmet>
-
-      <BreadcrumbComponent
-        tree={[
-          {
-            title: "Expenses",
-          },
-        ]}
-        currentPage={"All"}
-      />
-      <div className="w-full flex items-center flex-wrap justify-between gap-2">
-        <PageTitleWithIcon
-          title={t("Expenses")}
-          icon={<DollarSign size={35} />}
+      <div className="flex md:items-center max-md:flex-col gap-2 justify-between ">
+        <BreadcrumbComponent
+          tree={[
+            {
+              title: "Expenses",
+            },
+          ]}
+          currentPage={"All"}
         />
-        <div className="flex items-center">
-          {/* <DateRangePicker
-            showCompare={false}
-            onUpdate={({ range }) => {
-              setDateRange(dateToString(range.from), dateToString(range.to));
-            }}
-          /> */}
+        <div className="flex items-center gap-2 max-md:w-full">
+          <Button
+            Icon={Icons.exportIcon}
+            variant={"none"}
+            className="p-4 bg-green-500 max-md:w-full text-white"
+          >
+            {t("Export")}
+          </Button>
           <AddEditExpenseSheet>
-            <Button className="p-4" Icon={Banknote}>
+            <Button className="p-4 max-md:w-full" Icon={Banknote}>
               {t("Add Expense")}
             </Button>
           </AddEditExpenseSheet>
         </div>
+      </div>
+      <div className="w-full flex items-center flex-wrap justify-between gap-2 mt-4">
+        <PageTitleWithIcon
+          title={t("Expenses")}
+          icon={<Icons.expenseMoney />}
+        />
+        {/* <DateRangePicker
+          showCompare={false}
+          onUpdate={({ range }) => {
+            setDateRange(dateToString(range.from), dateToString(range.to));
+          }}
+        /> */}
+        <Button variant={"secondary"}>{t("Options")}</Button>
       </div>
       <ExpensesWrapper />
     </div>

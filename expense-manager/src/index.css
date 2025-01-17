@@ -24,7 +24,7 @@
     --destructive: 11 89% 42%;
     --destructive-foreground: 0 0% 100%;
     --ring: 189 40% 56%;
-    --radius: 1rem;
+    --radius: 0.6rem;
     --chart-1: 189 40% 76%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -46,7 +46,7 @@
     --primary: 215 91% 46%;
     --primary-foreground: 189 50% 99%;
     --secondary: 0 0% 17%;
-    --secondary-foreground: 0 0% 77%;
+    --secondary-foreground: 0 0% 100%;
     --accent: 0 6% 24%;
     --accent-foreground: 0 6% 84%;
     --destructive: 11 89% 49%;

@@ -12,7 +12,7 @@ export default function PageTitleWithIcon({
 
   return (
     <Typography
-      className="flex items-center font-normal text-3xl gap-2"
+      className="flex items-center font-normal text-xl lg:text-4xl gap-2"
       element="p"
       color="secondary"
     >

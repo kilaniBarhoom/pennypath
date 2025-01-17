@@ -155,34 +155,34 @@ const ExpenseForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={expenseForm.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem className="flex-1 w-full">
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;
-                  {t("Category")}
-                </FormLabel>
-                <FormControl>
-                  <SelectNative {...field}>
-                    {loadingToFetchCategories ? (
-                      <option value="" disabled>
-                        <LoadingComponent />
-                      </option>
-                    ) : (
-                      categories.map((category) => (
+          {loadingToFetchCategories ? (
+            <div className="h-20 w-full flex items-center justify-center">
+              <LoadingComponent />
+            </div>
+          ) : (
+            <FormField
+              control={expenseForm.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="flex-1 w-full">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;
+                    {t("Category")}
+                  </FormLabel>
+                  <FormControl>
+                    <SelectNative {...field} defaultValue={categories[0]?.id}>
+                      {categories.map((category) => (
                         <option key={category.id} value={category.id}>
                           {category.name}
                         </option>
-                      ))
-                    )}
-                  </SelectNative>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                      ))}
+                    </SelectNative>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
         <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
           <SheetClose asChild>

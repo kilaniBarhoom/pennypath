@@ -70,7 +70,7 @@ export default function CategoryExpensesCard({
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex h-fit flex-col">
       <CardHeader className="flex items-center justify-between flex-row gap-4">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
         <CategoriesDialog
@@ -88,7 +88,7 @@ export default function CategoryExpensesCard({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] w-full"
+          className="mx-auto aspect-square max-h-min w-full"
         >
           <PieChart>
             <ChartTooltip
@@ -100,6 +100,7 @@ export default function CategoryExpensesCard({
               nameKey="name"
               label
               labelLine
+              fontSize={20}
             />
           </PieChart>
         </ChartContainer>

@@ -248,6 +248,12 @@ export const getExpensesGroupedByCategory = ({ loggedInUser }) => {
     });
 
     filter.push({
+        $sort: {
+            amount: -1,
+        }
+    })
+
+    filter.push({
         $project: {
             _id: 0,
             category: 1,
