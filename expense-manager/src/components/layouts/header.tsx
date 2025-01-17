@@ -28,7 +28,7 @@ const Header = ({
     <div className="flex py-1 px-2 justify-between w-full items-center gap-4">
       <div className="flex items-center gap-2">
         <SideNavSheet>
-          <Button className="lg:hidden flex" size="icon" variant="secondary">
+          <Button className="xl:hidden flex" size="icon" variant="secondary">
             <Menu />
           </Button>
         </SideNavSheet>
@@ -36,7 +36,7 @@ const Header = ({
           onClick={() => {
             setIsSideBarOpen((prev: boolean) => !prev);
           }}
-          className="max-lg:hidden"
+          className="max-xl:hidden"
           size="icon"
           variant="secondary"
         >
