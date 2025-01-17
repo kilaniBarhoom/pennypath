@@ -45,7 +45,7 @@ const Expenses = () => {
           title={t("Expenses")}
           icon={<DollarSign size={35} />}
         />
-        <div className="flex items-center lg:w-fit w-full">
+        <div className="flex items-center">
           {/* <DateRangePicker
             showCompare={false}
             onUpdate={({ range }) => {
@@ -53,10 +53,7 @@ const Expenses = () => {
             }}
           /> */}
           <AddEditExpenseSheet>
-            <Button
-              className="px-6 xl:py-4 py-6 xl:w-fit w-full"
-              Icon={Banknote}
-            >
+            <Button className="p-4" Icon={Banknote}>
               {t("Add Expense")}
             </Button>
           </AddEditExpenseSheet>

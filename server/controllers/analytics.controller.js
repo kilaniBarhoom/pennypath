@@ -29,7 +29,7 @@ export const getAnalytics = async (req, res, next) => {
 
     const groupedByDayExpenses = (await Expense.aggregate(queryHelper.getExpensesGroupedByDateAndWeekLimited({ loggedInUser: req.user })));
     const analytics = {
-        totalSpentMonthly: totalSpentMonthly.totals,
+        totalSpentMonthly: totalSpentMonthly?.totals,
         walletBalance,
         allTimeTotalExpensesValue,
         totalPaymentsValue,

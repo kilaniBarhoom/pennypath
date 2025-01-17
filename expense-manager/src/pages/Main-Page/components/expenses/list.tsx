@@ -33,7 +33,7 @@ const ExpensesList = ({
             <img
               src="/assets/noexpenses.png"
               alt="no data"
-              className=" object-cover w-28"
+              className=" object-cover w-56"
             />
             <Typography
               element="span"
