@@ -6,7 +6,7 @@ import ResponseError from '../utils/respErr.js';
 
 
 export const getAllCategories = async (req, res, next) => {
-    const categories = await Category.find();
+    const categories = await Category.find().sort({ amount: -1 });
 
     return res.status(statusCodes.OK).json({
         success: true,

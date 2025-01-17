@@ -16,6 +16,10 @@ import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import useAxios from "@/hooks/use-axios";
+import { toast } from "sonner";
+import LoadingComponent from "@/components/shared/Loading-component";
 
 type ExpenseFormProps = {
   expenseForm: any;
@@ -34,6 +38,31 @@ const ExpenseForm = ({
   const language = i18n.language;
 
   // Update total when categories change
+
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [loadingToFetchCategories, setLoadingToFetchCategories] =
+    useState(false);
+  const axios = useAxios();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoadingToFetchCategories(true);
+        const { data: response } = await axios.get("/category");
+        const { data: categories } = response;
+
+        setCategories(categories);
+      } catch (error) {
+        toast(t("Error"), {
+          description: t("Failed to fetch categories"),
+        });
+      } finally {
+        setLoadingToFetchCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <Form {...expenseForm}>
@@ -113,6 +142,7 @@ const ExpenseForm = ({
                   <Input
                     {...field}
                     type="number"
+                    min={1}
                     placeholder="e.g. 100"
                     onChange={(e) => {
                       field.onChange(parseFloat(e.target.value));
@@ -136,12 +166,17 @@ const ExpenseForm = ({
                 </FormLabel>
                 <FormControl>
                   <SelectNative {...field}>
-                    <option value="" disabled>
-                      Select A Category
-                    </option>
-                    <option value="1">1 to 5</option>
-                    <option value="2">5 to 10</option>
-                    <option value="3">More than 10</option>
+                    {loadingToFetchCategories ? (
+                      <option value="" disabled>
+                        <LoadingComponent />
+                      </option>
+                    ) : (
+                      categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))
+                    )}
                   </SelectNative>
                 </FormControl>
                 <FormMessage />

@@ -40,12 +40,12 @@ export default function OverView({ analytics }: { analytics: any }) {
       className="w-full"
       variants={containerVariants}
     >
-      <Card className="">
+      <Card>
         <CardHeader className="text-5xl max-lg:text-3xl tracking-wide">
           Overview
         </CardHeader>
         <CardDescription></CardDescription>
-        <CardContent className="grid lg:grid-cols-3 w-full gap-2">
+        <CardContent className="grid md:grid-cols-2 w-full gap-2">
           <CardDetails
             title="Wallet Balance"
             description="Your current balance in your wallet"

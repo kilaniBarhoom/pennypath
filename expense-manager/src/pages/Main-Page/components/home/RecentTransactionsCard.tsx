@@ -18,7 +18,7 @@ export default function RecentTransactionsCard({
   analytics: any;
 }) {
   return (
-    <Card className="lg:w-[30%]">
+    <Card>
       <CardHeader>
         <div className="flex items-center justify-between flex-row">
           <CardTitle className="text-lg">Recent Transactions</CardTitle>

@@ -1,6 +1,5 @@
 "use client";
 
-import ShekelIcon from "@/components/shared/icons/shekel-icon";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -53,9 +52,7 @@ export default function CategoryExpensesCard({
   }));
 
   // Calculate total amount for footer
-  const totalAmount = categories.reduce((sum, item) => sum + item.amount, 0);
 
-  // Generate dynamic chart config based on categories
   const chartConfig: ChartConfig = {
     amount: {
       label: "Amount",
@@ -82,9 +79,9 @@ export default function CategoryExpensesCard({
             amount: item.amount,
           }))}
         >
-          <Button variant="outline" size="sm">
+          <Button className="font-normal flex items-center" size="sm">
             See all
-            <ExternalLink className="ml-2 h-4 w-4" />
+            <ExternalLink className="inline h-3 w-3 ml-1" />
           </Button>
         </CategoriesDialog>
       </CardHeader>
@@ -102,18 +99,12 @@ export default function CategoryExpensesCard({
               dataKey="amount"
               nameKey="name"
               label
-              labelLine={false}
-            ></Pie>
+              labelLine
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          <span className="text-muted-foreground">Total Expenses:</span>
-          <ShekelIcon />
-          {totalAmount.toLocaleString()}
-        </div>
-      </CardFooter>
+      <CardFooter></CardFooter>
     </Card>
   );
 }

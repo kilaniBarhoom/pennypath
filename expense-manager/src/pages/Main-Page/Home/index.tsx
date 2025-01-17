@@ -24,13 +24,18 @@ const Home = () => {
       {isLoadingToFetchAnalyticsData ? (
         <AnalyticsSkeleton />
       ) : (
-        <div className="flex gap-2 items-center flex-wrap">
-          <Overview analytics={analytics} />
-          {alerts.length > 0 && <AlertBanner alerts={alerts} />}
-          <div className="flex max-lg:flex-col gap-2 w-full">
-            {/* <AnalyticsChart1 data={analytics?.totalSpentMonthly} /> */}
+        <div className="grid lg:grid-cols-3 gap-2 w-full">
+          <div className="lg:col-span-2 grid gap-2">
+            <Overview analytics={analytics} />
+            {/* alerts */}
+            {alerts.length > 0 && <AlertBanner alerts={alerts} />}
+            <div className="flex max-lg:flex-col gap-2 w-full">
+              {/* <AnalyticsChart1 data={analytics?.totalSpentMonthly} /> */}
+              <CategoryExpensesCard analytics={analytics} />
+            </div>
+          </div>
+          <div>
             <RecentTransactionsCard analytics={analytics} />
-            <CategoryExpensesCard analytics={analytics} />
           </div>
         </div>
       )}
