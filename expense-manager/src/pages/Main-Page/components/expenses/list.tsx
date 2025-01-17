@@ -24,7 +24,7 @@ const ExpensesList = ({
       ) : expenses && expenses.length > 0 ? (
         <div className="grid w-full gap-2 grid-flow-dense">
           {expenses.map((expense) => {
-            return <ExpenseCard expense={expense} />;
+            return <ExpenseCard key={expense?.id} expense={expense} />;
           })}
         </div>
       ) : (

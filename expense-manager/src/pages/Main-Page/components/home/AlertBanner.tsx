@@ -1,7 +1,13 @@
 import { ny } from "@/lib/utils";
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+} from "@/components/ui/accordion";
+
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { Plus } from "lucide-react";
 
 export default function AlertBanner({
   alerts = [],
@@ -10,26 +16,34 @@ export default function AlertBanner({
     message: string;
   }[];
 }) {
-  const [hiddenBanner, setHiddenBanner] = useState(false);
-
   return (
     <AnimatePresence>
-      {!hiddenBanner && (
-        <motion.div
-          id="marketing-banner"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-          className={ny(
-            "z-50 overflow-hidden flex flex-col md:flex-row justify-between w-full p-4 bg-secondary border rounded-sm shadow-sm"
-          )}
-        >
-          <div className="flex flex-col items-start mb-3 me-4 md:items-center md:flex-row md:mb-0">
-            <div className="grid gap-2">
-              <span className="self-center text-xl lg:text-3xl leading-6 tracking-wide whitespace-nowrap text-secondary-foreground">
-                Alerts
-              </span>
+      <motion.div
+        id="marketing-banner"
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.3 }}
+        className={ny(
+          "z-50 overflow-hidden flex flex-col relative md:flex-row justify-between w-full p-2 bg-background shadow rounded-sm"
+        )}
+      >
+        <Accordion type="single" collapsible className="w-full space-y-2">
+          <AccordionItem value={"1"} className="px-4">
+            <AccordionPrimitive.Header className="flex">
+              <AccordionPrimitive.Trigger className="flex flex-1 items-center justify-between py-2 transition-all [&>svg>path:last-child]:origin-center text-start [&>svg>path:last-child]:transition-all [&>svg>path:last-child]:duration-200 [&[data-state=open]>svg>path:last-child]:rotate-90 [&[data-state=open]>svg>path:last-child]:opacity-0 [&[data-state=open]>svg]:rotate-180">
+                <span className="text-xl text-red-500 w-full lg:text-3xl leading-6 tracking-wide whitespace-nowrap">
+                  Alerts
+                </span>
+                <Plus
+                  size={16}
+                  strokeWidth={2}
+                  className="shrink-0 opacity-60 transition-transform duration-200"
+                  aria-hidden="true"
+                />
+              </AccordionPrimitive.Trigger>
+            </AccordionPrimitive.Header>
+            <AccordionContent className="pb-2 grid gap-2 w-full text-muted-foreground">
               {alerts.map((alert, index) => (
                 <motion.div
                   key={index}
@@ -42,19 +56,10 @@ export default function AlertBanner({
                   <span className="font-medium w-full">{alert.message}</span>
                 </motion.div>
               ))}
-            </div>
-          </div>
-          <button
-            data-dismiss-target="#marketing-banner"
-            type="button"
-            onClick={() => setHiddenBanner(true)}
-            className="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-sm text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <X className="w-4 h-4" />
-            <span className="sr-only">Close banner</span>
-          </button>
-        </motion.div>
-      )}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </motion.div>
     </AnimatePresence>
   );
 }
