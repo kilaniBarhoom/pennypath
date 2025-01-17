@@ -51,7 +51,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const [visibleMonths, setVisibleMonths] = useState(12);
 
   useEffect(() => {
-    if (!data || data.length === 0) return;
+    if (!data || Object.keys(data).length === 0) return;
     const updatedChartData = initialChartData.map((item) => ({
       ...item,
       amount: data[item.month] || 0,
@@ -78,19 +78,19 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const visibleData = chartData.slice(0, visibleMonths);
 
   return (
-    <Card className="h-full w-full">
+    <Card className="h-full w-full overflow-hidden">
       <CardHeader>
         <CardTitle>Total Spent By Month</CardTitle>
         <CardDescription>
           January - December {new Date().getFullYear()}
         </CardDescription>
       </CardHeader>
-      <CardContent className="w-full">
+      <CardContent className="p-0 sm:p-6">
         <ChartContainer className="h-[300px] w-full" config={chartConfig}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={visibleData}
-              margin={{ top: 20, right: 0, left: 0, bottom: 0 }}
+              margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
             >
               <CartesianGrid vertical={false} />
               <XAxis
@@ -99,6 +99,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
                 tickMargin={10}
                 axisLine={false}
                 tickFormatter={(value) => value.slice(0, 3)}
+                interval={0}
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <Bar
@@ -109,8 +110,8 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
                 <LabelList
                   dataKey="amount"
                   position="top"
-                  formatter={(value: number) => `₪${value.toFixed(2)}`}
-                  className="fill-foreground text-xs"
+                  formatter={(value: number) => `₪${value.toFixed(0)}`}
+                  className="fill-foreground text-[10px] sm:text-xs"
                 />
               </Bar>
             </BarChart>

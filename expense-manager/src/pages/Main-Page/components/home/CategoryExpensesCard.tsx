@@ -88,9 +88,9 @@ export default function CategoryExpensesCard({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[200px] w-full"
+          className="mx-auto aspect-square max-h-[230px] w-full"
         >
-          <PieChart className="max-h-[200px] w-full">
+          <PieChart className="w-full">
             <ChartTooltip
               content={<ChartTooltipContent nameKey="name" hideLabel />}
             />
