@@ -10,8 +10,8 @@ import Payment from '../models/payment.js';
 
 
 export const getAnalytics = async (req, res, next) => {
-    const { startDate, endDate } = ReqQueryHelper(req.query);
-    const totalSpentMonthly = (await Expense.aggregate(queryHelper.getAnalyticsOfExpenses({ startDate, endDate, loggedInUser: req.user })))[0];
+    const { analytics_interval } = ReqQueryHelper(req.query);
+    const totalSpentMonthly = (await Expense.aggregate(queryHelper.getAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
     let allTimeTotalExpenses = (await Expense.aggregate(expensesSum()))[0];
     const allTimeTotalExpensesValue = allTimeTotalExpenses ? allTimeTotalExpenses.total : 0;
@@ -22,12 +22,16 @@ export const getAnalytics = async (req, res, next) => {
 
     const FIXED_DEDUCTION = +(process.env.FIXED_DEDUCTION ?? 0);
 
+    // get the wallet balance and deduct a static amount if the user has any
     const walletBalance = totalPaymentsValue - allTimeTotalExpensesValue - FIXED_DEDUCTION;
+
+    // get the latest transactions
     const recentExpensesTransactions = (await Expense.aggregate(queryHelper.getRecentExpensesTransactions({ loggedInUser: req.user })));
 
+    // get the categories grouped 
     const expensesGroupedByCategory = (await Expense.aggregate(queryHelper.getExpensesGroupedByCategory({ loggedInUser: req.user })));
 
-    const groupedByDayExpenses = (await Expense.aggregate(queryHelper.getExpensesGroupedByDateAndWeekLimited({ loggedInUser: req.user })));
+    const groupedByDayExpenses = (await Expense.aggregate(queryHelper.getExpensesGroupedByDateAndWeekLimited({ analytics_interval: "week", loggedInUser: req.user })));
     const analytics = {
         totalSpentMonthly: totalSpentMonthly?.totals,
         walletBalance,
@@ -35,7 +39,8 @@ export const getAnalytics = async (req, res, next) => {
         totalPaymentsValue,
         recentExpensesTransactions,
         groupedByDayExpenses,
-        expensesGroupedByCategory
+        expensesGroupedByCategory,
+        analytics_interval
     };
 
     return res.status(statusCodes.OK).json({

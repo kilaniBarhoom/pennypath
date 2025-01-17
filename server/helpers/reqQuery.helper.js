@@ -2,13 +2,14 @@ import * as statusCode from "../constants/status.constants.js";
 import ResponseError from "../utils/respErr.js";
 
 export default (query) => {
-    const { from, to, analyticsInterval } = query;
+    const { from, to, analytics_interval } = query;
     let search = query.search || "";
     let amount = query.amount || null;
     let grouped = query.grouped || false;
     let pageNumber = query.pageNumber || 1;
     search = search.trim();
 
+    let analyticsInterval = "month";
     let startDate = null;
     let endDate = null;
 
@@ -49,13 +50,24 @@ export default (query) => {
         amount = parseFloat(amount);
     }
 
+    if (analytics_interval) {
+        if (analytics_interval === "month" || analytics_interval === "week") {
+            analyticsInterval = analytics_interval;
+        } else {
+            throw new ResponseError(
+                "Please provide a valid chart analytics interval",
+                statusCode.BAD_REQUEST
+            );
+        }
+    }
+
     return {
         from: startDate,
         to: endDate,
         search,
         amount,
         grouped,
-        analyticsInterval,
+        analytics_interval: analyticsInterval,
         pageNumber
     };
 };

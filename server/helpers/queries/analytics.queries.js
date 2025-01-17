@@ -154,7 +154,7 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
     return filter;
 }
 
-export const getExpensesGroupedByDateAndWeekLimited = ({ loggedInUser }) => {
+export const getExpensesGroupedByDateAndWeekLimited = ({ analytics_interval, loggedInUser }) => {
     if (!loggedInUser) {
         return [];
     }
@@ -165,43 +165,94 @@ export const getExpensesGroupedByDateAndWeekLimited = ({ loggedInUser }) => {
         $match: {
             user: ObjectID(loggedInUser.id),
         },
-    })
+    });
 
-    filter.push({
-        $group: {
-            _id: {
-                $dateToString: {
-                    format: "%Y-%m-%d",
-                    date: "$createdAt"
-                }
+    if (analytics_interval === 'week') {
+        // Adjust the starting day of the week to Saturday
+        filter.push({
+            $addFields: {
+                adjustedDate: {
+                    $dateFromParts: {
+                        year: { $year: "$date" },
+                        month: { $month: "$date" },
+                        day: {
+                            $subtract: [
+                                { $dayOfWeek: "$date" }, // MongoDB dayOfWeek starts from Sunday (1)
+                                1, // Adjust to start from Saturday
+                            ],
+                        },
+                    },
+                },
             },
-            amount: {
-                $sum: "$amount"
+        });
+
+        filter.push({
+            $group: {
+                _id: {
+                    $dateToString: {
+                        format: "%Y-%m-%d",
+                        date: "$adjustedDate",
+                    },
+                },
+                amount: {
+                    $sum: "$amount",
+                },
             },
-        }
-    })
+        });
 
-    filter.push({
-        $sort: {
-            _id: -1,
-        }
-    })
+        filter.push({
+            $sort: {
+                _id: -1,
+            },
+        });
 
-    filter.push({
-        $limit: 7,
-    })
+        filter.push({
+            $limit: 7,
+        });
 
-    filter.push({
-        $project: {
-            _id: 0,
-            date: "$_id",
-            amount: 1,
-            name: 1,
-        }
-    })
+        filter.push({
+            $project: {
+                _id: 0,
+                date: "$_id",
+                amount: 1,
+            },
+        });
+    } else if (analytics_interval === 'month') {
+        filter.push({
+            $group: {
+                _id: {
+                    $dateToString: {
+                        format: "%Y-%m-%d",
+                        date: "$date",
+                    },
+                },
+                amount: {
+                    $sum: "$amount",
+                },
+            },
+        });
+
+        filter.push({
+            $sort: {
+                _id: -1,
+            },
+        });
+
+        filter.push({
+            $limit: 7,
+        });
+
+        filter.push({
+            $project: {
+                _id: 0,
+                date: "$_id",
+                amount: 1,
+            },
+        });
+    }
+
     return filter;
-}
-
+};
 export const getExpensesGroupedByCategory = ({ loggedInUser }) => {
     if (!loggedInUser) {
         return [];

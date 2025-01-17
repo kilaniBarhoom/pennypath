@@ -14,7 +14,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -52,6 +51,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const [visibleMonths, setVisibleMonths] = useState(12);
 
   useEffect(() => {
+    if (!data || data.length === 0) return;
     const updatedChartData = initialChartData.map((item) => ({
       ...item,
       amount: data[item.month] || 0,
@@ -77,10 +77,8 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
 
   const visibleData = chartData.slice(0, visibleMonths);
 
-  const totalAmount = chartData.reduce((sum, item) => sum + item.amount, 0);
-
   return (
-    <Card className=" lg:w-[70%]">
+    <Card className="h-full w-full">
       <CardHeader>
         <CardTitle>Total Spent By Month</CardTitle>
         <CardDescription>
@@ -119,20 +117,6 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        {/* <div className="flex gap-2 font-medium leading-none">
-          {percentageChange > 0 ? "Trending up" : "Trending down"} by{" "}
-          {Math.abs(percentageChange).toFixed(1)}% this month
-          <TrendingUp
-            className={`h-4 w-4 ${
-              percentageChange >= 0 ? "text-green-500" : "text-red-500"
-            }`}
-          />
-        </div> */}
-        <div className="leading-none text-muted-foreground">
-          Total spent: ₪{totalAmount.toFixed(2)}
-        </div>
-      </CardFooter>
     </Card>
   );
 }

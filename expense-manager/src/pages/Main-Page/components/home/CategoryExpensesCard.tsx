@@ -70,7 +70,7 @@ export default function CategoryExpensesCard({
   };
 
   return (
-    <Card className="flex h-fit flex-col">
+    <Card className="flex h-fit flex-col flex-1">
       <CardHeader className="flex items-center justify-between flex-row gap-4">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
         <CategoriesDialog

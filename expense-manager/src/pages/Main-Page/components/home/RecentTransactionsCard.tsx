@@ -18,7 +18,7 @@ export default function RecentTransactionsCard({
   analytics: any;
 }) {
   return (
-    <Card className="min-h-60 flex flex-col">
+    <Card className="min-h-60 flex-[2] flex flex-col">
       <CardHeader>
         <div className="flex items-center justify-between flex-row">
           <CardTitle className="text-lg">Recent Transactions</CardTitle>
@@ -35,7 +35,7 @@ export default function RecentTransactionsCard({
         </div>
         <CardDescription></CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2 flex flex-1 flex-col items-center justify-center h-full">
+      <CardContent className="space-y-2 flex flex-1 flex-col items-center justify-start h-full">
         {analytics && analytics.recentExpensesTransactions?.length > 0 ? (
           analytics.recentExpensesTransactions
             .slice(0, 5)

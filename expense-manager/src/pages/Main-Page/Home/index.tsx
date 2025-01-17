@@ -2,6 +2,7 @@ import { useSearchAnalyticsQuery } from "../api/analytics";
 // import AlertBanner from "../components/home/AlertBanner";
 import AnalyticsSkeleton from "../components/home/AnalyticsSkeleton";
 import CategoryExpensesCard from "../components/home/CategoryExpensesCard";
+import { AnalyticsChart1 } from "../components/home/chart";
 import Overview from "../components/home/Overview";
 import RecentTransactionsCard from "../components/home/RecentTransactionsCard";
 
@@ -24,19 +25,15 @@ const Home = () => {
       {isLoadingToFetchAnalyticsData ? (
         <AnalyticsSkeleton />
       ) : (
-        <div className="grid lg:grid-cols-3 gap-2 w-full">
-          <div className="lg:col-span-2 grid gap-2">
-            <Overview analytics={analytics} />
-            {/* alerts */}
-            {/* {alerts.length > 0 && <AlertBanner alerts={alerts} />} */}
-            <div className="flex max-lg:flex-col gap-2 w-full">
-              {/* <AnalyticsChart1 data={analytics?.totalSpentMonthly} /> */}
-            </div>
-          </div>
-          <div className="grid gap-2">
+        <div className="grid gap-2 w-full">
+          <Overview analytics={analytics} />
+          {/* alerts */}
+          {/* {alerts.length > 0 && <AlertBanner alerts={alerts} />} */}
+          <div className="flex max-lg:flex-col gap-2 w-full">
             <RecentTransactionsCard analytics={analytics} />
             <CategoryExpensesCard analytics={analytics} />
           </div>
+          <AnalyticsChart1 data={analytics?.totalSpentMonthly} />
         </div>
       )}
     </div>
