@@ -47,7 +47,7 @@ export default function RecentTransactionsCard({
                 return (
                   <div
                     key={ind}
-                    className="flex items-center justify-between rounded-sm bg-secondary p-2"
+                    className="flex w-full items-center justify-between rounded-sm bg-secondary p-2"
                   >
                     <div className="flex items-center space-x-3">
                       <Avatar className="h-9 w-9">
