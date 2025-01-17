@@ -2,18 +2,17 @@ import ShekelIcon from "@/components/shared/icons/shekel-icon";
 import LoadingComponent from "@/components/shared/Loading-component";
 import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
-import { stringToDate } from "@/lib/utils";
-import { format } from "date-fns";
-import { BellDot, Calendar } from "lucide-react";
+import { BellDot } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDeleteExpenseMutation } from "../../api/expenses";
 import AddEditExpenseDialogDrawer from "./add-edit-sheet";
+import { format } from "date-fns";
 
 const ExpensesList = ({
-  groupedExpenses,
+  expenses,
   isLoading,
 }: {
-  groupedExpenses: GroupedExpensesType[] | [];
+  expenses: ExpenseType[];
   isLoading: boolean;
 }) => {
   const { t } = useTranslation();
@@ -22,34 +21,10 @@ const ExpensesList = ({
     <>
       {isLoading ? (
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
-      ) : groupedExpenses && groupedExpenses.length > 0 ? (
+      ) : expenses && expenses.length > 0 ? (
         <div className="grid w-full gap-2 grid-flow-dense">
-          {groupedExpenses.map((groupedExpense) => {
-            return (
-              <div className="w-full bg-background border shadow-lg rounded-sm p-4 grid gap-2">
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    {format(
-                      stringToDate(groupedExpense._id),
-                      "eeee, dd/MM/yyyy"
-                    )}
-                  </span>
-                  <div className="gap-1 flex-1 items-end text-xl justify-end flex font-semibold text-red-400 tabular-nums">
-                    <span className="text-secondary-foreground">total:</span>{" "}
-                    {groupedExpense.totalAmount}
-                    <sup>
-                      <ShekelIcon />
-                    </sup>
-                  </div>
-                </div>
-                <div className="grid gap-2 lg:grid-cols-2 w-full">
-                  {groupedExpense.expenses.map((expense) => (
-                    <ExpenseCard expense={expense} />
-                  ))}
-                </div>
-              </div>
-            );
+          {expenses.map((expense) => {
+            return <ExpenseCard expense={expense} />;
           })}
         </div>
       ) : (
@@ -118,8 +93,9 @@ const ExpenseCard = ({ expense }: { expense: ExpenseType }) => {
       <span className="leading-none text-muted-foreground">
         {expense.category.name}
       </span>
-      <div className="justify-end flex items-center gap-2 mt-3">
-        <div className="justify-end flex items-center gap-2">
+      <div className="justify-between flex items-center gap-2 mt-3">
+        <span>{format(expense?.date, "eeee, dd/MM/yyyy")}</span>
+        <div className="flex items-center gap-2">
           <AddEditExpenseDialogDrawer expense={expense}>
             <Button
               size={"link"}

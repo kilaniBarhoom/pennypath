@@ -10,14 +10,13 @@ import ResponseError from '../utils/respErr.js';
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
     const { from, to, search, amount, pageNumber } = ReqQueryHelper(req.query);
-
     const expenseDocuments = await Expense.countDocuments();
 
     const totalPages = Math.ceil(expenseDocuments / 7);
 
-    const groupedExpenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 1 }));
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 7 }));
 
-    // const _id = groupedExpenses.map(({ _id }) => _id);
+    // const _id = expenses.map(({ _id }) => _id);
 
     let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses()))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
@@ -33,7 +32,7 @@ export const getAllExpenses = async (req, res, next) => {
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
-            groupedExpenses,
+            expenses,
             allTimeTotalValue,
             from,
             to,
@@ -70,7 +69,7 @@ export const createExpense = async (req, res, next) => {
         name,
         description,
         amount,
-        date,
+        date: new Date(date).setUTCHours(0, 0, 0, 0),
         category,
         user: req.user.id,
     });
@@ -114,7 +113,7 @@ export const editExpense = async (req, res, next) => {
         name,
         description,
         amount,
-        date,
+        date: new Date(date).setUTCHours(0, 0, 0, 0),
         user,
         category
     }, { new: true, runValidators: true, strict: false });
@@ -137,24 +136,6 @@ export const deleteExpense = async (req, res, next) => {
     });
 }
 
-// export const uploadExpenseImage = async (req, res, next) => {
-//     const { file } = req;
-//     if (!file) {
-//         return next(
-//             new ResponseError(
-//                 "Please upload a file",
-//                 statusCodes.BAD_REQUEST
-//             )
-//         )
-//     }
-
-//     const { path } = file;
-//     const { secure_url, public_id } = await cloudinary.uploader.upload(path, {
-//         folder: process.env.CLOUDINARY_POSTS_FOLDER
-//     });
-//     // return the res as a string not a json
-//     res.status(statusCodes.OK).send(secure_url);
-// }
 
 export const getSingleExpense = async (req, res, next) => {
     const expense = await Expense.findById(req.params.expenseId).populate('user', 'fullNameEnglish fullNameArabic email role');
@@ -166,13 +147,3 @@ export const getSingleExpense = async (req, res, next) => {
         data: expense,
     });
 }
-
-// export const createExpensePDF = (req, res, next) => {
-//     const { expenses, from, to, rangeTotalValue, allTimeTotalValue } = req.body;
-//     const pdfBuffer = buildPDF(expenses, from, to, rangeTotalValue, allTimeTotalValue);
-
-//     res.setHeader('Content-Type', 'application/pdf');
-//     res.setHeader('Content-Disposition', 'attachment; filename=expenses.pdf');
-//     res.send(Buffer.concat(pdfBuffer));
-// }
-

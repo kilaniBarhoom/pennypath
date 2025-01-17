@@ -118,7 +118,7 @@ export default function PaymentsWrapper() {
         {/* <ExpensesFilters /> */}
 
         <ExpensesList
-          groupedExpenses={searchExpensesResponse?.groupedExpenses ?? []}
+          expenses={searchExpensesResponse?.expenses ?? []}
           isLoading={isLoadingToFetchExpensesData}
         />
         <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
