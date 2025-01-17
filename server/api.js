@@ -8,6 +8,7 @@ const router = express.Router();
 import analyticsRoutes from "./routes/analytics.route.js";
 import attendanceRoutes from "./routes/attendance.route.js";
 import authRoutes from "./routes/auth.route.js";
+import categoryRoutes from "./routes/category.route.js";
 import expenseRoutes from "./routes/expense.route.js";
 import paymentRoutes from "./routes/payment.route.js";
 import sessionRoutes from "./routes/session.route.js";
@@ -45,6 +46,9 @@ router.use("/payment", paymentRoutes);
 router.use("/settings", settingsRoutes);
 //analytics Routes
 router.use("/analytics", analyticsRoutes);
+
+//category Routes
+router.use("/category", categoryRoutes);
 
 
 //  Undefined Routes

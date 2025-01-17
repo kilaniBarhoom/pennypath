@@ -30,12 +30,12 @@ const BreadcrumbComponent = ({
   return (
     <div
       className={ny(
-        "mb-1 z-30 transition-all duration-300 ease-in-out",
+        "my-2 z-30 transition-all duration-300 ease-in-out",
         className
       )}
     >
       <Breadcrumb>
-        <BreadcrumbList className="py-1 lg:text-lg text-sm max-lg:w-full px-2 bg-secondary border w-fit rounded-sm">
+        <BreadcrumbList className="py-1 lg:text-lg  max-lg:w-full px-2 bg-secondary border w-fit rounded-sm">
           <BreadcrumbItem>
             <BreadcrumbLink
               className="cursor-pointer  "

@@ -1,5 +1,6 @@
 // import { toast } from "sonner";
 import useAxios from "@/hooks/use-axios";
+import { dateToString } from "@/lib/utils";
 import { ExpenseFormSchemaType } from "@/schemas";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
@@ -25,10 +26,10 @@ export const useSearchExpensesQuery = () => {
   const PageSize = searchParams.get("PageSize") || "30";
   const PageNumber = searchParams.get("PageNumber") || "1";
   // const hasOverTime = searchParams.get("hasOverTime") || "";
-  const from = searchParams.get("from") || "";
-  const to = searchParams.get("to") || "";
+  const from = searchParams.get("from");
+  const to = searchParams.get("to");
   const search = searchParams.get("q") || "";
-  const amount = searchParams.get("amount") || "";
+  const amount = searchParams.get("amount");
 
   return useQuery({
     queryKey: [
@@ -88,14 +89,14 @@ export const useExpenseFormMutation = () => {
         const dataToSend = {
           ...data,
           amount: data.amount ? +data.amount : 0,
-          date: new Date(data.date),
+          date: dateToString(data.date),
         };
         return axios.post(`expense`, dataToSend);
       } else {
         return axios.put(`expense/${expenseId}`, {
           ...data,
           amount: data.amount ? +data.amount : 0,
-          date: new Date(data.date),
+          date: dateToString(data.date),
           id: expenseId,
         });
       }

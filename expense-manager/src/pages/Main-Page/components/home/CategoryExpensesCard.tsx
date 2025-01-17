@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -9,29 +15,19 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ExternalLink } from "lucide-react";
-import { Label, Pie, PieChart } from "recharts";
+import { Pie, PieChart } from "recharts";
 import CategoriesDialog from "./CategoriesDialog";
 
 // Chart colors array for dynamic category assignment
 const chartColors = [
-  // random alot of colors
-  "#36A2EB",
-  "#FFCE56",
-  "#E91E63",
-  "#9966FF",
-  "#607D8B",
-  // greenish
-  "#8BC34A",
-  "#FF6384",
-  "#FF9F40",
-  "#4BC0C0",
-  // purpleish
-  "#9C27B0",
-  "#4CAF50",
-  // pinkish
-  "#F44336",
-  // greyish
-  "#9E9E9E",
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--chart-6))",
+  "hsl(var(--chart-7))",
+  "hsl(var(--chart-8))",
 ];
 
 export default function CategoryExpensesCard({
@@ -39,34 +35,33 @@ export default function CategoryExpensesCard({
 }: {
   analytics: {
     expensesGroupedByCategory: Array<{
-      categories: { [key: string]: number };
+      amount: number;
+      category: {
+        id: string;
+        name: string;
+      };
     }>;
   };
 }) {
   // Transform categories data into chart format
-  const categories = analytics.expensesGroupedByCategory[0].categories;
-  const chartData = Object.entries(categories).map(([name, amount]) => ({
-    name,
-    amount,
-    fill: `var(--color-${name.toLowerCase()})`,
+  const categories = analytics.expensesGroupedByCategory;
+  const chartData = categories.map((item, index) => ({
+    name: item.category.name,
+    amount: item.amount,
+    fill: chartColors[index % chartColors.length],
   }));
 
-  // Calculate total amount for center label
-  const totalAmount = Object.values(categories).reduce(
-    (sum, amount) => sum + amount,
-    0
-  );
+  // Calculate total amount for footer
 
-  // Generate dynamic chart config based on categories
   const chartConfig: ChartConfig = {
     amount: {
       label: "Amount",
     },
-    ...Object.keys(categories).reduce(
-      (config, category, index) => ({
+    ...categories.reduce(
+      (config, item, index) => ({
         ...config,
-        [category.toLowerCase()]: {
-          label: category,
+        [item.category.name.toLowerCase()]: {
+          label: item.category.name,
           color: chartColors[index % chartColors.length],
         },
       }),
@@ -75,78 +70,41 @@ export default function CategoryExpensesCard({
   };
 
   return (
-    <Card className="lg:w-[30%]">
-      <CardHeader className="flex items-center justify-between flex-row">
+    <Card className="flex flex-col">
+      <CardHeader className="flex items-center justify-between flex-row gap-4">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
         <CategoriesDialog
-          categories={Object.entries(categories).map(([name, amount]) => ({
-            name,
-            amount,
+          categories={categories.map((item) => ({
+            name: item.category.name,
+            amount: item.amount,
           }))}
         >
-          <Button Icon={ExternalLink} iconPosition="right" size="sm">
+          <Button className="font-normal flex items-center" size="sm">
             See all
+            <ExternalLink className="inline h-3 w-3 ml-1" />
           </Button>
         </CategoriesDialog>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[250px] w-full"
         >
           <PieChart>
             <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent nameKey="name" hideLabel />}
             />
             <Pie
               data={chartData}
               dataKey="amount"
               nameKey="name"
-              innerRadius={60}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
-                        >
-                          {totalAmount.toLocaleString()}
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
+              label
+              labelLine
+            />
           </PieChart>
         </ChartContainer>
-        <div className="flex items-center gap-2">
-          {Object.entries(categories)
-            .slice(0, 3)
-            .map(([name, amount]) => (
-              <div
-                key={name}
-                className="grid items-center flex-1 bg-secondary py-2 px-4 rounded-md"
-              >
-                <div className="flex items-center">{name}</div>
-                <div className="text-muted-foreground">
-                  ₪&nbsp;{amount.toFixed(1)}
-                </div>
-              </div>
-            ))}
-        </div>
       </CardContent>
+      <CardFooter></CardFooter>
     </Card>
   );
 }

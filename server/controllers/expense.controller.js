@@ -2,6 +2,7 @@ import * as statusCodes from '../constants/status.constants.js';
 import * as queryHelper from "../helpers/queries/expense.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
+import Category from '../models/category.js';
 import Expense from '../models/expense.js';
 import { ExpenseSchema } from '../schemas/index.js';
 import ResponseError from '../utils/respErr.js';
@@ -9,37 +10,30 @@ import ResponseError from '../utils/respErr.js';
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
     const { from, to, search, amount, pageNumber } = ReqQueryHelper(req.query);
-
     const expenseDocuments = await Expense.countDocuments();
 
-    const totalPages = Math.ceil(expenseDocuments / 10);
+    const totalPages = Math.ceil(expenseDocuments / 7);
 
     const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 7 }));
 
-    const _id = expenses.map(({ _id }) => _id);
+    // const _id = expenses.map(({ _id }) => _id);
 
-    let allTimeTotal = (await Expense.aggregate(queryHelper.findValueSum()))[0];
+    let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses()))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
-    let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.totalSumCategorizedQuery({ loggedInUser: req.user })))[0];
+    // let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.findAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
 
-    const weekTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.weekTotal : 0;
-    const monthTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.monthTotal : 0;
-    const mostSpentInADay = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.mostSpentInADay : 0;
+    // const weekTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.weekTotal : 0;
+    // const monthTotal = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.monthTotal : 0;
+    // const mostSpentInADay = totalSumCategorizedAmounts ? totalSumCategorizedAmounts.mostSpentInADay : 0;
 
-    let rangeTotal = (await Expense.aggregate(queryHelper.findValueSum(_id)))[0];
-    const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
 
     return res.status(statusCodes.OK).json({
         success: true,
         data: {
             expenses,
             allTimeTotalValue,
-            rangeTotalValue,
-            weekTotal,
-            monthTotal,
-            mostSpentInADay,
             from,
             to,
             search,
@@ -62,14 +56,21 @@ export const createExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { date, name, description, amount, categories } = req.body;
+    const { date, name, description, amount, category } = req.body;
+
+    const fetchedCategory = await Category.findById(category);
+
+    if (!fetchedCategory) {
+        return next(new ResponseError('Category not found', statusCodes.NOT_FOUND));
+    }
+
 
     await Expense.create({
         name,
         description,
         amount,
-        date,
-        categories,
+        date: new Date(date).setUTCHours(0, 0, 0, 0),
+        category,
         user: req.user.id,
     });
     res.status(statusCodes.CREATED).json({
@@ -91,7 +92,13 @@ export const editExpense = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    const { name, description, amount, date, categories } = req.body
+    const { name, description, amount, date, category } = req.body
+
+    const fetchedCategory = await Category.findById(category);
+
+    if (!fetchedCategory) {
+        return next(new ResponseError('Category not found', statusCodes.NOT_FOUND));
+    }
 
     const user = req.user.id;
 
@@ -106,9 +113,9 @@ export const editExpense = async (req, res, next) => {
         name,
         description,
         amount,
-        date,
+        date: new Date(date).setUTCHours(0, 0, 0, 0),
         user,
-        categories
+        category
     }, { new: true, runValidators: true, strict: false });
 
     if (!expense) {
@@ -129,24 +136,6 @@ export const deleteExpense = async (req, res, next) => {
     });
 }
 
-// export const uploadExpenseImage = async (req, res, next) => {
-//     const { file } = req;
-//     if (!file) {
-//         return next(
-//             new ResponseError(
-//                 "Please upload a file",
-//                 statusCodes.BAD_REQUEST
-//             )
-//         )
-//     }
-
-//     const { path } = file;
-//     const { secure_url, public_id } = await cloudinary.uploader.upload(path, {
-//         folder: process.env.CLOUDINARY_POSTS_FOLDER
-//     });
-//     // return the res as a string not a json
-//     res.status(statusCodes.OK).send(secure_url);
-// }
 
 export const getSingleExpense = async (req, res, next) => {
     const expense = await Expense.findById(req.params.expenseId).populate('user', 'fullNameEnglish fullNameArabic email role');
@@ -158,13 +147,3 @@ export const getSingleExpense = async (req, res, next) => {
         data: expense,
     });
 }
-
-// export const createExpensePDF = (req, res, next) => {
-//     const { expenses, from, to, rangeTotalValue, allTimeTotalValue } = req.body;
-//     const pdfBuffer = buildPDF(expenses, from, to, rangeTotalValue, allTimeTotalValue);
-
-//     res.setHeader('Content-Type', 'application/pdf');
-//     res.setHeader('Content-Disposition', 'attachment; filename=expenses.pdf');
-//     res.send(Buffer.concat(pdfBuffer));
-// }
-

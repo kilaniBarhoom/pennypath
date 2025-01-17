@@ -107,11 +107,39 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
         // Sort by date in descending order
         {
             $sort: {
-                createdAt: -1,
+                date: -1,
             },
         },
         {
-            $limit: 1,
+            $lookup: {
+                from: "categories", // Replace with your categories collection name
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryDetails",
+            },
+        },
+
+        {
+            $unwind: {
+                path: "$categoryDetails",
+                preserveNullAndEmptyArrays: true, // Allow null if no category is matched
+            },
+        },
+        {
+            $addFields: {
+                "category.id": "$categoryDetails._id",
+                "category.name": "$categoryDetails.name",
+            }
+        },
+
+        {
+            $project: {
+                categoryDetails: 0, // Remove the temporary joined category data
+            }
+        },
+
+        {
+            $limit: 5,
         },
         // get only the categories of the latest transaction
         {
@@ -119,7 +147,7 @@ export const getRecentExpensesTransactions = ({ loggedInUser }) => {
                 _id: 0,
                 name: "$name",
                 amount: "$amount",
-                categories: "$categories",
+                category: "$category",
             },
         }
     ];
@@ -187,56 +215,45 @@ export const getExpensesGroupedByCategory = ({ loggedInUser }) => {
         },
     })
 
-    //    no category table, the expense have categories as array of objects, name and amount, so we need to group by name and sum the amount, so take all the categories and group by name and sum the amount, then sort by amount descending, limit to 5, and project only the name and amount
-    filter.push({
-        $unwind: "$categories",
-    })
     filter.push({
         $group: {
-            _id: "$categories.name",
+            _id: "$category",
             amount: {
-                $sum: "$categories.amount"
+                $sum: "$amount"
             },
         }
     })
+
     filter.push({
-        $sort: {
-            amount: -1,
+        $lookup: {
+            from: "categories", // Replace with your categories collection name
+            localField: "_id",
+            foreignField: "_id",
+            as: "categoryDetails",
+        },
+    });
+
+    filter.push({
+        $unwind: {
+            path: "$categoryDetails",
+            preserveNullAndEmptyArrays: true, // Allow null if no category is matched
+        },
+    });
+
+    filter.push({
+        $addFields: {
+            "category.id": "$categoryDetails._id",
+            "category.name": "$categoryDetails.name",
         }
-    })
+    });
+
     filter.push({
         $project: {
             _id: 0,
-            name: "$_id",
+            category: 1,
             amount: 1,
         }
-    })
-    filter.push({
-        $group: {
-            _id: null,
-            categories: {
-                $push: {
-                    k: "$name",
-                    v: "$amount",
-                },
-            },
-        },
-    })
-
-    filter.push({
-        $project: {
-            _id: 0,
-            categories: {
-                $arrayToObject: "$categories",
-            },
-        },
-    })
-
-    filter.push({
-        $project: {
-            categories: 1,
-        }
-    })
+    });
 
     return filter;
 }

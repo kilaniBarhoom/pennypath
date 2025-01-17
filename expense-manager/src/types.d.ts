@@ -47,7 +47,18 @@ declare type ExpenseType = {
   amount: number;
   date: Date;
   user: UserType;
-  categories?: { name: string; amount: number }[];
+  category: CategoryType;
   createdAt: string;
   updatedAt: string;
+};
+
+declare type CategoryType = {
+  name: string;
+  id: string;
+};
+
+declare type GroupedExpensesType = {
+  _id: string;
+  totalAmount: number;
+  expenses: ExpenseType[];
 };

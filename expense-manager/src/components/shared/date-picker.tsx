@@ -22,13 +22,12 @@ export function DatePicker({
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto p-0 z-50" align="start">
         <Calendar
           mode="single"
           captionLayout="dropdown-buttons"
           fromYear={new Date().getFullYear()}
           toYear={new Date().getFullYear() + 10}
-          toDate={new Date()}
           selected={selected}
           onSelect={handleOnSelect}
           initialFocus

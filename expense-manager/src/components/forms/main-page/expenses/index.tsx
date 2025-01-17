@@ -1,5 +1,6 @@
 import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
+import { SelectNative } from "@/components/ui/select-native";
 import {
   Form,
   FormControl,
@@ -10,14 +11,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
-import { Textarea } from "@/components/ui/textarea";
 import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
-import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useFieldArray } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import useAxios from "@/hooks/use-axios";
+import { toast } from "sonner";
+import LoadingComponent from "@/components/shared/Loading-component";
 
 type ExpenseFormProps = {
   expenseForm: any;
@@ -34,31 +36,33 @@ const ExpenseForm = ({
 }: ExpenseFormProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
-  const [total, setTotal] = useState(expense?.amount || 0);
-
-  const { fields, append, remove } = useFieldArray({
-    control: expenseForm.control,
-    name: "categories",
-  });
 
   // Update total when categories change
-  const updateTotal = () => {
-    const categoriesTotal =
-      expenseForm
-        .getValues("categories")
-        ?.reduce(
-          (sum: number, category: { amount: number }) =>
-            sum + (category.amount || 0),
-          0
-        ) || 0;
 
-    setTotal(categoriesTotal);
-    expenseForm.setValue("amount", categoriesTotal); // Auto-update hidden amount field
-  };
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [loadingToFetchCategories, setLoadingToFetchCategories] =
+    useState(false);
+  const axios = useAxios();
 
   useEffect(() => {
-    updateTotal();
-  }, [fields]);
+    const fetchCategories = async () => {
+      try {
+        setLoadingToFetchCategories(true);
+        const { data: response } = await axios.get("/category");
+        const { data: categories } = response;
+
+        setCategories(categories);
+      } catch (error) {
+        toast(t("Error"), {
+          description: t("Failed to fetch categories"),
+        });
+      } finally {
+        setLoadingToFetchCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <Form {...expenseForm}>
@@ -125,112 +129,60 @@ const ExpenseForm = ({
               </FormItem>
             )}
           />
-          <div>
-            <h3 className="text-sm font-medium">
-              {t("Categorized Expenses")} ({t("Required")})
-            </h3>
-            {fields.map((field: any, index: number) => (
-              <div key={field.id} className="flex items-end space-x-2 mt-2">
-                <FormField
-                  control={expenseForm.control}
-                  name={`categories.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className={index !== 0 ? "sr-only" : undefined}
-                      >
-                        {t("Category")}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder={t("Category name")}
-                          error={
-                            !!expenseForm.formState.errors.categories?.[index]
-                              ?.name?.message
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={expenseForm.control}
-                  name={`categories.${index}.amount`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className={index !== 0 ? "sr-only" : undefined}
-                      >
-                        {t("Amount")}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          placeholder={t("Amount")}
-                          onChange={(e) => {
-                            field.onChange(parseFloat(e.target.value));
-                            updateTotal();
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => {
-                    if (fields.length > 1) {
-                      remove(index);
-                      updateTotal();
-                    }
-                  }}
-                  disabled={fields.length === 1} // Prevent removing the last category
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="mt-2"
-              onClick={() => append({ name: "", amount: 0 })}
-            >
-              <PlusCircle className="mr-2 h-4 w-4" />
-              {t("Add Category")}
-            </Button>
-
-            <div className="text-lg font-semibold w-full text-center p-2 mt-2 rounded-sm bg-blue-500 text-white tracking-wider">
-              {t("Total")}: <span className="text-2xl">₪</span>
-              {total.toFixed(2)}
-            </div>
-
-            <FormField
-              control={expenseForm.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="flex-1 w-full mt-2">
-                  <FormLabel>{t("Description")}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="e.g. Salary for the month of January"
-                      autoComplete="description"
-                      className="h-32"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={expenseForm.control}
+            name="amount"
+            render={({ field }) => (
+              <FormItem className="flex-1 w-full">
+                <FormLabel>
+                  <span className="text-red-500">*</span>&nbsp;
+                  {t("Amount")}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number"
+                    min={1}
+                    placeholder="e.g. 100"
+                    onChange={(e) => {
+                      field.onChange(parseFloat(e.target.value));
+                    }}
+                    autoComplete="amount"
+                    error={!!expenseForm.formState.errors.amount?.message}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={expenseForm.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className="flex-1 w-full">
+                <FormLabel>
+                  <span className="text-red-500">*</span>&nbsp;
+                  {t("Category")}
+                </FormLabel>
+                <FormControl>
+                  <SelectNative {...field}>
+                    {loadingToFetchCategories ? (
+                      <option value="" disabled>
+                        <LoadingComponent />
+                      </option>
+                    ) : (
+                      categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))
+                    )}
+                  </SelectNative>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
           <SheetClose asChild>
