@@ -90,7 +90,7 @@ export default function CategoryExpensesCard({
           config={chartConfig}
           className="mx-auto aspect-square max-h-[200px] w-full"
         >
-          <PieChart>
+          <PieChart className="max-h-[200px] w-full">
             <ChartTooltip
               content={<ChartTooltipContent nameKey="name" hideLabel />}
             />
@@ -100,6 +100,7 @@ export default function CategoryExpensesCard({
               nameKey="name"
               label
               labelLine
+              innerRadius={40}
               fontSize={20}
             />
           </PieChart>
