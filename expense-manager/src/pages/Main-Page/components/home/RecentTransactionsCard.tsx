@@ -60,7 +60,7 @@ export default function RecentTransactionsCard({
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="font-medium text-ellipsis whitespace-nowrap overflow-hidden max-w-20">
+                        <div className="font-medium text-ellipsis whitespace-nowrap overflow-hidden max-w-40">
                           {expense.name}
                         </div>
                         {expense?.createdAt && (
