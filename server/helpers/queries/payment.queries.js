@@ -1,11 +1,13 @@
-import Roles from "../../utils/authRoles.js";
+import ObjectID from "../../utils/ObjectID.js";
+
 
 export const findPayments = ({ startDate, endDate, search, filterUser, loggedInUser, pageNumber }) => {
     const filter = []
 
-    if (loggedInUser.role === Roles.USER || loggedInUser.role === Roles.SPECTATOR) {
-        filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
+    if (!loggedInUser) {
+        return filter;
     }
+    filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
 
     if (startDate && endDate) {
         filter.push({
@@ -113,7 +115,7 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
     return filter;
 }
 
-export const findValueSum = (_id) => {
+export const findValueSum = ({ _id = null, loggedInUser }) => {
     const filter = [
         {
             $group: {
@@ -122,6 +124,11 @@ export const findValueSum = (_id) => {
             },
         },
     ];
+
+    if (!loggedInUser) {
+        return [];
+    }
+    filter.unshift({ $match: { user: ObjectID(loggedInUser.id) } });
 
     if (_id)
         filter.unshift({

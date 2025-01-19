@@ -20,7 +20,7 @@ export const getAllExpenses = async (req, res, next) => {
 
     // const _id = expenses.map(({ _id }) => _id);
 
-    let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses()))[0];
+    let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: null, loggedInUser: req.user })))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
     // let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.findAnalyticsOfExpenses({ loggedInUser: req.user })))[0];

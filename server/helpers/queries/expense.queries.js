@@ -270,7 +270,7 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
 // };
 
 
-export const findSumOfExpenses = (_id) => {
+export const findSumOfExpenses = ({ _id = null, loggedInUser }) => {
     const filter = [
         {
             $group: {
@@ -279,6 +279,12 @@ export const findSumOfExpenses = (_id) => {
             },
         },
     ];
+
+
+    if (!loggedInUser) {
+        return [];
+    }
+    filter.unshift({ $match: { user: ObjectID(loggedInUser.id) } });
 
     if (_id)
         filter.unshift({

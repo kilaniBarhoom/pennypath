@@ -12,7 +12,7 @@ router.use("/health", (req, res) => {
 
 
 router.route('/')
-    .all(auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN))
+    .all(auth, hasRole(Roles.ADMIN, Roles.USER, Roles.SUPERADMIN))
     .get(catcher(getAnalytics))
 
 export default router;
