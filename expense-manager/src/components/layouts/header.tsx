@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import LanguageSelect from "../shared/language-select";
 import ThemeSelector from "../shared/theme-selector";
 import SideNavSheet from "./sidebar/sidebar-sheet";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Header = ({
   setIsSideBarOpen,
@@ -16,10 +17,13 @@ const Header = ({
   const logout = useLogout();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     const isConfirmed = confirm(t("Are you sure you want to logout?"));
+
     if (isConfirmed) {
+      queryClient.invalidateQueries();
       await logout();
       navigate("/");
     }
