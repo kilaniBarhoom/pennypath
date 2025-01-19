@@ -9,7 +9,7 @@ export default function AnalyticsSkeleton() {
       <div className="container mx-auto grid gap-6">
         {/* Overview Section */}
         <div className="grid gap-2">
-          <Card className="p-6">
+          <Card className="p-2">
             <CardHeader className="px-0">
               <CardTitle className="text-4xl font-semibold tracking-tight">
                 <Skeleton className="h-12 w-40" />
