@@ -87,7 +87,7 @@ export type CategoryFormSchemaType = z.infer<typeof CategoryFormSchema>;
 export const ExpenseFormSchema = z.object({
   name: z.string().min(1, "Expense name is required"),
   description: z.string().optional(),
-  amount: z.number().positive().default(0),
+  amount: z.number().positive().gt(0),
   date: z.date({
     required_error: "Date is required",
   }),

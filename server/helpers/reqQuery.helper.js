@@ -7,6 +7,7 @@ export default (query) => {
     let amount = query.amount || null;
     let grouped = query.grouped || false;
     let pageNumber = query.pageNumber || 1;
+    let pageSize = query.pageSize || 30;
     search = search.trim();
 
     let analyticsInterval = "month";
@@ -37,8 +38,16 @@ export default (query) => {
     if (grouped && grouped === "false") {
         grouped = false;
     }
-    if (pageNumber)
+    if (pageNumber) {
+        if (isNaN(parseFloat(pageNumber))) {
+            throw new ResponseError(
+                "Please provide a valid page number",
+                statusCode.BAD_REQUEST
+            );
+        }
+        pageNumber = parseFloat(pageNumber);
         pageNumber = pageNumber - 1;
+    }
 
     if (amount) {
         if (isNaN(parseFloat(amount))) {
@@ -48,6 +57,15 @@ export default (query) => {
             );
         }
         amount = parseFloat(amount);
+    }
+    if (pageSize) {
+        if (isNaN(parseFloat(pageSize))) {
+            throw new ResponseError(
+                "Please provide a valid page size",
+                statusCode.BAD_REQUEST
+            );
+        }
+        pageSize = parseFloat(pageSize);
     }
 
     if (analytics_interval) {
@@ -68,7 +86,8 @@ export default (query) => {
         amount,
         grouped,
         analytics_interval: analyticsInterval,
-        pageNumber
+        pageNumber,
+        pageSize,
     };
 };
 

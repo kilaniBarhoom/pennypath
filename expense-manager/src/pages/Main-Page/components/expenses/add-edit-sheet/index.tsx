@@ -43,7 +43,7 @@ const AddEditExpenseSheet = ({
           name: "",
           description: "",
           amount: 0,
-          category: "678408c6debdfad37ae65a3e",
+          category: "",
           date: new Date(),
         },
   });

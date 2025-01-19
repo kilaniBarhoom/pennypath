@@ -24,7 +24,6 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
       setSearchParams(
         (prev) => {
           prev.set("PageNumber", "1");
-          prev.set("PageSize", "20");
           return prev;
         },
         { replace: true }
@@ -32,6 +31,7 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
     }
   }, [searchParams]);
 
+  // const PageSize = searchParams.get("PageSize") || "30";
   const PageNumber = searchParams.get("PageNumber") || "1";
   const setPageNumber = (value: string) => {
     setSearchParams(

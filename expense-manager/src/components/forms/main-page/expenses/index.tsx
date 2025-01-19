@@ -1,6 +1,6 @@
 import { DatePicker } from "@/components/shared/date-picker";
+import LoadingComponent from "@/components/shared/Loading-component";
 import { Button } from "@/components/ui/button";
-import { SelectNative } from "@/components/ui/select-native";
 import {
   Form,
   FormControl,
@@ -10,16 +10,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SelectNative } from "@/components/ui/select-native";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
+import useAxios from "@/hooks/use-axios";
 import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import useAxios from "@/hooks/use-axios";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import LoadingComponent from "@/components/shared/Loading-component";
 
 type ExpenseFormProps = {
   expenseForm: any;
@@ -142,7 +142,6 @@ const ExpenseForm = ({
                   <Input
                     {...field}
                     type="number"
-                    min={1}
                     placeholder="e.g. 100"
                     onChange={(e) => {
                       field.onChange(parseFloat(e.target.value));
@@ -170,7 +169,10 @@ const ExpenseForm = ({
                     {t("Category")}
                   </FormLabel>
                   <FormControl>
-                    <SelectNative {...field} defaultValue={categories[0]?.id}>
+                    <SelectNative {...field} defaultValue="">
+                      <option value="" disabled>
+                        Please select a category
+                      </option>
                       {categories.map((category) => (
                         <option key={category.id} value={category.id}>
                           {category.name}
