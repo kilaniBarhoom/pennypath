@@ -10,6 +10,7 @@ import {
 import { ny } from "@/lib/utils";
 import { format } from "date-fns";
 import { ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export default function RecentTransactionsCard({
@@ -17,6 +18,7 @@ export default function RecentTransactionsCard({
 }: {
   analytics: any;
 }) {
+  const { t } = useTranslation();
   return (
     <Card className="min-h-60 flex-[2] flex flex-col">
       <CardHeader>
@@ -76,9 +78,11 @@ export default function RecentTransactionsCard({
               }
             )
         ) : (
-          <span className="text-2xl lg:text-4xl text-muted-foreground text-center">
-            No recent transactions
-          </span>
+          <div className="h-full flex items-center justify-center w-full">
+            <span className="text-xl md:text-2xl text-secondary-foreground/60 text-center">
+              {t("No recent expenses found")}
+            </span>
+          </div>
         )}
       </CardContent>
     </Card>

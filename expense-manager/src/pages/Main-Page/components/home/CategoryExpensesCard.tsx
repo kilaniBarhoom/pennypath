@@ -17,6 +17,7 @@ import {
 import { ExternalLink } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 import CategoriesDialog from "./CategoriesDialog";
+import { useTranslation } from "react-i18next";
 
 // Chart colors array for dynamic category assignment
 const chartColors = [
@@ -45,6 +46,8 @@ export default function CategoryExpensesCard({
 }) {
   // Transform categories data into chart format
   const categories = analytics.expensesGroupedByCategory;
+  const { t } = useTranslation();
+
   let chartData: any = [];
   if (categories && categories.length > 0) {
     chartData = categories.map((item, index) => ({
@@ -78,7 +81,7 @@ export default function CategoryExpensesCard({
     };
   }
   return (
-    <Card className="flex h-fit flex-col flex-1">
+    <Card className="flex h-full flex-col flex-1">
       <CardHeader className="flex items-center justify-between flex-row gap-4">
         <CardTitle className="text-lg">Category Expenses</CardTitle>
         <CategoriesDialog
@@ -97,7 +100,7 @@ export default function CategoryExpensesCard({
           </Button>
         </CategoriesDialog>
       </CardHeader>
-      <CardContent className="flex-1 h-fit pb-0">
+      <CardContent className="flex-1 h-full pb-0">
         {categories && categories.length > 0 ? (
           <ChartContainer
             config={chartConfig}
@@ -119,7 +122,11 @@ export default function CategoryExpensesCard({
             </PieChart>
           </ChartContainer>
         ) : (
-          <div className="text-center">No categories found</div>
+          <div className="text-center h-full flex items-center justify-center">
+            <span className="text-xl md:text-2xl text-secondary-foreground/60">
+              {t("No expenses found")}
+            </span>
+          </div>
         )}
       </CardContent>
       <CardFooter></CardFooter>

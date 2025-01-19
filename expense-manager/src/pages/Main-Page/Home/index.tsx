@@ -29,7 +29,7 @@ const Home = () => {
           <Overview analytics={analytics} />
           {/* alerts */}
           {/* {alerts.length > 0 && <AlertBanner alerts={alerts} />} */}
-          <div className="flex max-lg:flex-col gap-2 w-full">
+          <div className="flex max-lg:flex-col gap-2 w-full min-h-60">
             <RecentTransactionsCard analytics={analytics} />
             <CategoryExpensesCard analytics={analytics} />
           </div>
