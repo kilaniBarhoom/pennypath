@@ -21,10 +21,10 @@ export const getAllPayments = async (req, res, next) => {
 
     const _id = payments.map(({ _id }) => _id);
 
-    let allTimeTotal = (await Payment.aggregate(queryHelper.findValueSum()))[0];
+    let allTimeTotal = (await Payment.aggregate(queryHelper.findValueSum({ loggedInUser: req.user })))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
-    let rangeTotal = (await Payment.aggregate(queryHelper.findValueSum(_id)))[0];
+    let rangeTotal = (await Payment.aggregate(queryHelper.findValueSum({ _id, loggedInUser: req.user })))[0];
     const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
 
     return res.status(statusCodes.OK).json({

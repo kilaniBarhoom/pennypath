@@ -115,7 +115,7 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
     return filter;
 }
 
-export const findValueSum = ({ _id = null, loggedInUser }) => {
+export const findValueSum = ({ _id, loggedInUser }) => {
     const filter = [
         {
             $group: {
