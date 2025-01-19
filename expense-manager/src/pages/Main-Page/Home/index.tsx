@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { useSearchAnalyticsQuery } from "../api/analytics";
 // import AlertBanner from "../components/home/AlertBanner";
 import AnalyticsSkeleton from "../components/home/AnalyticsSkeleton";
@@ -22,6 +23,9 @@ const Home = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       {isLoadingToFetchAnalyticsData ? (
         <AnalyticsSkeleton />
       ) : (
