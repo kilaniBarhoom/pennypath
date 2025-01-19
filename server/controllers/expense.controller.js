@@ -14,7 +14,7 @@ export const getAllExpenses = async (req, res, next) => {
 
     const totalPages = Math.ceil(expenseDocuments / 7);
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 7 }));
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: 30 }));
 
     // const _id = expenses.map(({ _id }) => _id);
 
