@@ -16,6 +16,8 @@ type SearchExpensesResponseType = {
   mostSpentInADay: number;
   totalPages: number;
   pageNumber: number;
+  pageSize: number;
+  totalExpenses: number;
 };
 
 export const useSearchExpensesQuery = () => {

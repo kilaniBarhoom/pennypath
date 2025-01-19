@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
 import ExpensesWrapper from "../components/expenses/expenses-wrapper";
-import PageTitleWithIcon from "../components/PageTitleWithIcon";
 // import { DateRangePicker } from "@/components/ui/date-range-picker";
 
 const Expenses = () => {
@@ -28,7 +27,7 @@ const Expenses = () => {
   // };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <Helmet>
         <title>Expenses</title>
       </Helmet>
@@ -44,8 +43,8 @@ const Expenses = () => {
         <div className="flex items-center gap-2 max-md:w-full">
           <Button
             Icon={Icons.exportIcon}
-            variant={"none"}
-            className="p-4 bg-green-500 max-md:w-full text-white"
+            variant={"outline"}
+            className="p-4 max-md:w-ful"
           >
             {t("Export")}
           </Button>
@@ -57,17 +56,12 @@ const Expenses = () => {
         </div>
       </div>
       <div className="w-full flex items-center flex-wrap justify-between gap-2 mt-4">
-        <PageTitleWithIcon
-          title={t("Expenses")}
-          icon={<Icons.expenseMoney />}
-        />
         {/* <DateRangePicker
           showCompare={false}
           onUpdate={({ range }) => {
             setDateRange(dateToString(range.from), dateToString(range.to));
           }}
         /> */}
-        <Button variant={"secondary"}>{t("Options")}</Button>
       </div>
       <ExpensesWrapper />
     </div>

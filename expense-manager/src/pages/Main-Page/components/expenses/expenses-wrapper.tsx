@@ -1,6 +1,7 @@
 import TablePagiation from "@/components/shared/pagination";
 import { useSearchExpensesQuery } from "../../api/expenses";
 import ExpensesList from "./list";
+import ExpensesFilters from "./filters";
 
 export default function PaymentsWrapper() {
   const {
@@ -114,8 +115,11 @@ export default function PaymentsWrapper() {
         // </div>
         <></>
       )}
-      <div className="flex flex-col gap-2 rounded-sm">
-        {/* <ExpensesFilters /> */}
+      <div className="flex flex-col gap-4 rounded-sm">
+        <ExpensesFilters
+          currentPageExpenseCount={searchExpensesResponse?.expenses?.length}
+          totalExpenses={searchExpensesResponse?.totalExpenses}
+        />
 
         <ExpensesList
           expenses={searchExpensesResponse?.expenses ?? []}
