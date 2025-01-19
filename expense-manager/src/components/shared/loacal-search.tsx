@@ -68,14 +68,14 @@ const LocalSearchBar = ({
           value={search}
           icon={
             Icon ? (
-              <Icon size={20} className="mt-2" />
+              <Icon size={25} className="mt-1" />
             ) : (
-              <Search size={20} className="mt-2" />
+              <Search size={25} strokeWidth={2} className="mt-1" />
             )
           }
           onChange={(e) => setSearch(e.target.value)}
           className={ny(
-            "md:min-w-96 font-normal bg-muted h-12 text-lg border-secondary-foreground/20",
+            "md:min-w-80 font-normal bg-muted h-10 text-lg py-5 border-secondary-foreground/20",
             otherClasses
           )}
         />

@@ -28,7 +28,7 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, iconPosition, error, noRing, ...props }, ref) => {
     const { i18n } = useTranslation();
-    iconPosition = i18n.dir() === "rtl" ? "right" : "left";
+    iconPosition = i18n.dir() === "rtl" ? "left" : "right";
     return (
       <>
         {icon ? (

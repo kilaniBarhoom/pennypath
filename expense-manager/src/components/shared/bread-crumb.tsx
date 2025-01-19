@@ -35,7 +35,7 @@ const BreadcrumbComponent = ({
       )}
     >
       <Breadcrumb>
-        <BreadcrumbList className="py-1 lg:text-lg  max-lg:w-full px-2 bg-secondary border w-fit rounded-sm">
+        <BreadcrumbList className="py-1 md:text-xl text-lg  max-lg:w-full px-2 bg-secondary border w-fit rounded-sm">
           <BreadcrumbItem>
             <BreadcrumbLink
               className="cursor-pointer  "

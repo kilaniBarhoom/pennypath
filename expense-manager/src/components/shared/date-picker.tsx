@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SelectSingleEventHandler } from "react-day-picker";
-import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export function DatePicker({
   selected,
@@ -26,7 +26,7 @@ export function DatePicker({
         <Calendar
           mode="single"
           captionLayout="dropdown-buttons"
-          fromYear={new Date().getFullYear()}
+          fromYear={new Date().getFullYear() - 3}
           toYear={new Date().getFullYear() + 10}
           selected={selected}
           onSelect={handleOnSelect}
