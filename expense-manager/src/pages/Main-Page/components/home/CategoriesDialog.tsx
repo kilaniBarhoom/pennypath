@@ -40,24 +40,28 @@ export default function CategoriesDialog({
           <div className="overflow-y-auto">
             <DialogDescription asChild>
               <div className="px-6 py-4 grid gap-2">
-                {categories.map((category) => (
-                  <div
-                    key={category.name}
-                    className="flex items-center justify-between bg-secondary rounded-sm p-2"
-                  >
-                    <span className="text-lg text-secondary-foreground flex items-center gap-2">
-                      {
-                        indicators[
-                          Math.floor(Math.random() * indicators.length)
-                        ]
-                      }
-                      {category.name}
-                    </span>
-                    <span className="bg-green-100 text-green-800 font-medium me-2 px-4 py-2 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
-                      ₪&nbsp;{category.amount.toFixed(1)}
-                    </span>
-                  </div>
-                ))}
+                {categories && categories.length > 0 ? (
+                  categories.map((category) => (
+                    <div
+                      key={category.name}
+                      className="flex items-center justify-between bg-secondary rounded-sm p-2"
+                    >
+                      <span className="text-lg text-secondary-foreground flex items-center gap-2">
+                        {
+                          indicators[
+                            Math.floor(Math.random() * indicators.length)
+                          ]
+                        }
+                        {category.name}
+                      </span>
+                      <span className="bg-green-100 text-green-800 font-medium me-2 px-4 py-2 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">
+                        ₪&nbsp;{category.amount.toFixed(1)}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center">No categories found</div>
+                )}
               </div>
             </DialogDescription>
             <DialogFooter className="px-6 pb-6 sm:justify-start">
