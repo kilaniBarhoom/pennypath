@@ -302,7 +302,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
     >
       <PopoverTrigger asChild>
         <Button
-          variant="secondary"
+          variant="outline"
           className={ny("overflow-y-hidden md:w-fit w-full", {
             className,
           })}
@@ -471,7 +471,8 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                     }
                   }}
                   selected={range}
-                  toDate={new Date()}
+                  fromYear={new Date().getFullYear() - 3}
+                  toYear={new Date().getFullYear() + 10}
                   numberOfMonths={1}
                   defaultMonth={
                     new Date(new Date().setMonth(new Date().getMonth() - 0))
