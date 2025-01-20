@@ -15,7 +15,7 @@ export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
         {
             $match: {
                 user: ObjectID(loggedInUser.id),
-                createdAt: { $gte: startOfYear }, // Filter for expenses from the start of the year
+                date: { $gte: startOfYear }, // Filter for expenses from the start of the year
             },
         },
         // Group by month to calculate monthly totals

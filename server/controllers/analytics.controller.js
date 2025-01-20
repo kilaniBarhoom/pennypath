@@ -14,6 +14,8 @@ export const getAnalytics = async (req, res, next) => {
     const totalSpentMonthly = (await Expense.aggregate(queryHelper.getAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
     let allTimeTotalExpenses = (await Expense.aggregate(expensesSum({ _id: null, loggedInUser: req.user })))[0];
+
+
     const allTimeTotalExpensesValue = allTimeTotalExpenses ? allTimeTotalExpenses.total : 0;
 
     const totalPayments = (await Payment.aggregate(paymentsSum({ _id: null, loggedInUser: req.user })))[0];

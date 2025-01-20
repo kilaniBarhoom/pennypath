@@ -114,14 +114,16 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
         $sort: { date: -1 },
     });
 
+    if (limit) {
 
-    filter.push({
-        $skip: pageNumber * limit,
-    });
+        filter.push({
+            $skip: pageNumber * limit,
+        });
 
-    filter.push({
-        $limit: limit,
-    });
+        filter.push({
+            $limit: limit,
+        });
+    }
 
     return filter;
 };
@@ -270,7 +272,7 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
 // };
 
 
-export const findSumOfExpenses = ({ _id = null, loggedInUser }) => {
+export const findSumOfExpenses = ({ _id, loggedInUser }) => {
     const filter = [
         {
             $group: {

@@ -97,6 +97,9 @@ export const usePaymentFormMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["payments"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["analytics"],
+      });
     },
   });
 };
