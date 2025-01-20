@@ -58,14 +58,9 @@ const ExpensesFilters = () => {
         <div className="flex items-center gap-2 max-sm:w-full">
           <FiltersDropdown>
             <Button variant={"outline"} size={"icon"}>
-              <Filter
-                size={16}
-                strokeWidth={2}
-                className="text-muted-foreground"
-              />
+              <Filter size={20} strokeWidth={2} />
             </Button>
           </FiltersDropdown>
-          {/* <DateRangePickerV2 /> */}
           <DateRangePicker
             className="max-lg:w-full"
             showCompare={false}
@@ -77,22 +72,23 @@ const ExpensesFilters = () => {
       </div>
       {(from || to || q || category) && (
         <div className="bg-muted border rounded-md p-4 flex items-center gap-2 flex-wrap">
-          <span className="text-lg md:text-xl"> {t("Filters")}:</span>
+          <span className="text-sm md:text-lg"> {t("Filters")}:</span>
           {(from || to) && (
-            <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal text-lg px-2 py-1 border bg-secondary">
-              <Calendar size={20} strokeWidth={2} className="me-2" />
-              {t("From")}:
-              <span className="bg-blue-300 text-secondary-foreground text-lg font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 ">
+            <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal px-2 py-1 border bg-secondary">
+              <Calendar size={20} strokeWidth={2} className="me-1" />
+              <span className="max-md:sr-only text-lg">{t("From")}:</span>
+              <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
                 {format(stringToDate(from), "dd-MM-yy")}
               </span>
-              <MoveRight /> {t("To")}:
-              <span className="bg-blue-300 text-secondary-foreground text-lg font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 ">
+              <MoveRight />
+              <span className="max-md:sr-only text-lg">{t("To")}:</span>
+              <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
                 {format(stringToDate(to), "dd-MM-yy")}
               </span>{" "}
               <Button
                 size={"xs"}
                 variant={"hover"}
-                className="rounded-full bg-muted  ms-2"
+                className="rounded-full bg-muted ms-1"
                 onClick={() => {
                   setDateRange("", "");
                 }}
