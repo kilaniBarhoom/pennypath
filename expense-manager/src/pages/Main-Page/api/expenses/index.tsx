@@ -7,8 +7,9 @@ import { useSearchParams } from "react-router-dom";
 
 type SearchExpensesResponseType = {
   expenses: ExpenseType[];
-  startDate: Date;
-  endDate: Date;
+  from: Date;
+  to: Date;
+  search: string;
   allTimeTotalValue: number;
   rageTotalValue: number;
   weekTotal: number;
@@ -31,6 +32,7 @@ export const useSearchExpensesQuery = () => {
   const from = searchParams.get("from");
   const to = searchParams.get("to");
   const search = searchParams.get("q") || "";
+  const category = searchParams.get("category") || "";
   const amount = searchParams.get("amount");
 
   return useQuery({
@@ -43,6 +45,7 @@ export const useSearchExpensesQuery = () => {
         to,
         search,
         amount,
+        category,
       },
     ],
     queryFn: async () => {
@@ -53,6 +56,7 @@ export const useSearchExpensesQuery = () => {
         to: to,
         search: search,
         amount: amount,
+        category: category,
       };
       if (from) {
         dataToSend["from"] = from;
@@ -65,6 +69,9 @@ export const useSearchExpensesQuery = () => {
       }
       if (amount) {
         dataToSend["amount"] = amount;
+      }
+      if (category) {
+        dataToSend["category"] = category;
       }
       const { data: response } = await axios.get(`expense`, {
         params: dataToSend,

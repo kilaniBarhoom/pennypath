@@ -9,14 +9,14 @@ import ResponseError from '../utils/respErr.js';
 
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
-    const { from, to, search, amount, pageNumber, pageSize } = ReqQueryHelper(req.query);
+    const { from, to, search, amount, pageNumber, pageSize, category } = ReqQueryHelper(req.query);
     const expenseDocuments = await Expense.countDocuments();
 
 
 
     const totalPages = Math.ceil(expenseDocuments / pageSize);
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, loggedInUser: req.user, pageNumber, limit: pageSize }));
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: pageSize }));
 
     // const _id = expenses.map(({ _id }) => _id);
 
@@ -36,13 +36,13 @@ export const getAllExpenses = async (req, res, next) => {
         data: {
             expenses,
             allTimeTotalValue,
-            from,
-            to,
+            from: from ? from.toISOString().substring(0, 10) : "",
+            to: to ? to.toISOString().substring(0, 10) : "",
             search,
+            category,
             pageNumber,
             pageSize,
             totalPages,
-            totalExpenses: expenseDocuments
         },
     });
 }

@@ -1,6 +1,6 @@
 import ObjectID from "../../utils/ObjectID.js";
 
-export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumber, limit }) => {
+export const findExpenses = ({ from, to, search, amount, category, loggedInUser, pageNumber, limit }) => {
     const filter = [];
 
 
@@ -34,6 +34,14 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
         filter.push({
             $match: {
                 amount: { $eq: amount },
+            },
+        });
+    }
+
+    if (category) {
+        filter.push({
+            $match: {
+                category: ObjectID(category),
             },
         });
     }
@@ -128,6 +136,7 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
     return filter;
 };
 
+// #region findExpensesGroupedByDay
 // export const findExpensesGroupedByDay = ({ from, to, search, amount, loggedInUser, pageNumber, limit }) => {
 // const filter = [];
 
@@ -271,6 +280,7 @@ export const findExpenses = ({ from, to, search, amount, loggedInUser, pageNumbe
 // return filter;
 // };
 
+// #endregion
 
 export const findSumOfExpenses = ({ _id, loggedInUser }) => {
     const filter = [

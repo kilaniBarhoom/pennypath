@@ -4,6 +4,7 @@ import ResponseError from "../utils/respErr.js";
 export default (query) => {
     const { from, to, analytics_interval } = query;
     let search = query.search || "";
+    const category = query.category || ""
     let amount = query.amount || null;
     let grouped = query.grouped || false;
     let pageNumber = query.pageNumber || 1;
@@ -88,6 +89,7 @@ export default (query) => {
         analytics_interval: analyticsInterval,
         pageNumber,
         pageSize,
+        category
     };
 };
 

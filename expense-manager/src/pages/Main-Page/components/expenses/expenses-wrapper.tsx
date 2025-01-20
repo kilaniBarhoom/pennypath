@@ -11,9 +11,10 @@ export default function PaymentsWrapper() {
 
   return (
     <>
-      {isLoadingToFetchExpensesData ? (
+      {/* {isLoadingToFetchExpensesData ? (
         <></>
       ) : (
+        // #region
         // <div className="flex flex-col border rounded-sm items-start bg-background p-4 gap-2 w-full">
         //   <div className="flex items-center gap-2">
         //     <ChartBar className="w-10 h-10 border border-secondary-foreground rounded-full p-2 bg-green-500 text-black" />
@@ -113,13 +114,11 @@ export default function PaymentsWrapper() {
         //     </div>
         //   </div>
         // </div>
+        // #endregion
         <></>
-      )}
+      )} */}
       <div className="flex flex-col gap-4 rounded-sm">
-        <ExpensesFilters
-          currentPageExpenseCount={searchExpensesResponse?.expenses?.length}
-          totalExpenses={searchExpensesResponse?.totalExpenses}
-        />
+        <ExpensesFilters />
 
         <ExpensesList
           expenses={searchExpensesResponse?.expenses ?? []}
