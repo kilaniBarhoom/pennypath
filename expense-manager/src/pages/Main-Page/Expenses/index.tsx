@@ -1,5 +1,4 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
-import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { Banknote } from "lucide-react";
 import { Helmet } from "react-helmet";
@@ -10,21 +9,6 @@ import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 
 const Expenses = () => {
   const { t } = useTranslation();
-  // const [_, setSearchParams] = useSearchParams({
-  //   search: "",
-  //   from: getFirstDayOfCurrentMonth(),
-  //   to: getLastDayOfCurrentMonth(),
-  // });
-
-  // const setDateRange = (from: string, to: string) => {
-  //   setSearchParams((prev) => {
-  //     prev.delete("from");
-  //     prev.delete("to");
-  //     if (from) prev.set("from", from);
-  //     if (to) prev.set("to", to);
-  //     return prev;
-  //   });
-  // };
 
   return (
     <div className="flex flex-col gap-2">
@@ -41,13 +25,13 @@ const Expenses = () => {
           currentPage={"All"}
         />
         <div className="flex items-center gap-2 max-md:w-full">
-          <Button
+          {/* <Button
             Icon={Icons.exportIcon}
             variant={"outline"}
             className="p-4 max-md:w-ful"
           >
             {t("Export")}
-          </Button>
+          </Button> */}
           <AddEditExpenseSheet>
             <Button className="p-4 max-md:w-full" Icon={Banknote}>
               {t("Add Expense")}
@@ -55,14 +39,7 @@ const Expenses = () => {
           </AddEditExpenseSheet>
         </div>
       </div>
-      <div className="w-full flex items-center flex-wrap justify-between gap-2 mt-4">
-        {/* <DateRangePicker
-          showCompare={false}
-          onUpdate={({ range }) => {
-            setDateRange(dateToString(range.from), dateToString(range.to));
-          }}
-        /> */}
-      </div>
+      <div className="w-full flex items-center flex-wrap justify-between gap-2 mt-4"></div>
       <ExpensesWrapper />
     </div>
   );

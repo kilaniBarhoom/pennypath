@@ -31,9 +31,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
             {format(new Date(payment.date), "dd/MM/yyyy")}
           </TableCell>
           <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg">
-            <sup>
-              <ShekelIcon />
-            </sup>
+            <ShekelIcon />
             &nbsp;
             {payment.amount}
           </TableCell>

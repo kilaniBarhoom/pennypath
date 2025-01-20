@@ -5,6 +5,7 @@ import Typography from "@/components/ui/typography";
 import { useTranslation } from "react-i18next";
 import { useSearchPaymentsQuery } from "../../api/payments";
 import PaymentsTable from "./table";
+import ShekelIcon from "@/components/shared/icons/shekel-icon";
 
 export default function PaymentsWrapper() {
   const {
@@ -21,15 +22,17 @@ export default function PaymentsWrapper() {
           {t("All time total amount")}:
         </Typography>
         <Badge size={"lg"}>
-          {searchPaymentsResponse?.allTimeTotalValue ?? 0}{" "}
-          <sup className="text-lg">₪</sup>
+          <ShekelIcon />
+          &nbsp;{searchPaymentsResponse?.allTimeTotalValue ?? 0}
         </Badge>
       </div>
-      <LocalSearchBar
-        route="/payments"
-        placeholder="Search for a payment"
-        otherClasses="md:w-fit w-full"
-      />
+      <div className="w-full md:w-fit">
+        <LocalSearchBar
+          route="/payments"
+          placeholder="Search for a payment"
+          otherClasses="md:w-fit w-full"
+        />
+      </div>
       <PaymentsTable
         payments={searchPaymentsResponse?.payments ?? []}
         isLoadingToFetchPayments={isLoadingToFetchPaymentsData}
