@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -8,15 +7,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ny } from "@/lib/utils";
-import { format } from "date-fns";
 import { ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { ExpenseCard } from "../expenses/list";
 
 export default function RecentTransactionsCard({
   analytics,
 }: {
-  analytics: any;
+  analytics: {
+    recentExpensesTransactions: ExpenseType[];
+  };
 }) {
   const { t } = useTranslation();
   return (
@@ -41,42 +42,9 @@ export default function RecentTransactionsCard({
         {analytics && analytics.recentExpensesTransactions?.length > 0 ? (
           analytics.recentExpensesTransactions
             .slice(0, 5)
-            .map(
-              (
-                expense: { name: string; amount: number; createdAt?: Date },
-                ind: number
-              ) => {
-                return (
-                  <div
-                    key={ind}
-                    className="flex w-full items-center justify-between rounded-sm bg-secondary p-2"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Avatar className="h-9 w-9">
-                        <AvatarImage
-                          src={`https://avatar.vercel.sh/${expense.name}`}
-                          alt={expense.name}
-                        />
-                        <AvatarFallback>
-                          {expense.name?.charAt(0) ?? ""}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-medium text-ellipsis whitespace-nowrap overflow-hidden max-w-40">
-                          {expense.name}
-                        </div>
-                        {expense?.createdAt && (
-                          <div className="text-sm text-muted-foreground">
-                            {format(expense.createdAt, "eee, dd/MM HH:mm")}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div>₪&nbsp;{expense.amount?.toFixed(2) ?? 0}</div>
-                  </div>
-                );
-              }
-            )
+            .map((expense, ind: number) => {
+              return <ExpenseCard key={ind} expense={expense} readonly />;
+            })
         ) : (
           <div className="h-full flex items-center justify-center w-full">
             <span className="text-xl md:text-2xl text-secondary-foreground/60 text-center">

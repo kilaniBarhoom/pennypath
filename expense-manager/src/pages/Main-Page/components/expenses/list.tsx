@@ -23,6 +23,10 @@ const ExpensesList = ({
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
         <div className="grid w-full gap-2 grid-flow-dense">
+          <div className="flex items-center justify-between gap-2 bg-primary p-4 rounded-md">
+            <span>{t("Name/Category/Date")}</span>
+            <span>{t("Amount/Actions")}</span>
+          </div>
           {expenses.map((expense) => {
             return <ExpenseCard key={expense?.id} expense={expense} />;
           })}
@@ -50,7 +54,13 @@ const ExpensesList = ({
 
 export default ExpensesList;
 
-const ExpenseCard = ({ expense }: { expense: ExpenseType }) => {
+export const ExpenseCard = ({
+  expense,
+  readonly,
+}: {
+  expense: ExpenseType;
+  readonly?: boolean;
+}) => {
   const { t, i18n } = useTranslation();
   const dir = i18n.dir();
 
@@ -95,26 +105,28 @@ const ExpenseCard = ({ expense }: { expense: ExpenseType }) => {
       </span>
       <div className="justify-between flex items-center gap-2 mt-3">
         <span>{format(expense?.date, "eeee, dd/MM/yyyy")}</span>
-        <div className="flex items-center gap-2">
-          <AddEditExpenseDialogDrawer expense={expense}>
+        {!readonly && (
+          <div className="flex items-center gap-2">
+            <AddEditExpenseDialogDrawer expense={expense}>
+              <Button
+                size={"link"}
+                variant={"none"}
+                className="text-muted-foreground hover:underline font-normal"
+              >
+                Edit
+              </Button>
+            </AddEditExpenseDialogDrawer>
+            •
             <Button
-              size={"link"}
-              variant={"none"}
-              className="text-muted-foreground hover:underline font-normal"
+              size={"sm"}
+              variant={"destructive"}
+              className=" font-normal"
+              onClick={() => handleDeleteExpense(expense?.id)}
             >
-              Edit
+              Delete
             </Button>
-          </AddEditExpenseDialogDrawer>
-          •
-          <Button
-            size={"sm"}
-            variant={"destructive"}
-            className=" font-normal"
-            onClick={() => handleDeleteExpense(expense?.id)}
-          >
-            Delete
-          </Button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

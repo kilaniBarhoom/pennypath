@@ -92,67 +92,7 @@ export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
     return filter;
 };
 
-export const getRecentExpensesTransactions = ({ loggedInUser }) => {
-    if (!loggedInUser) {
-        return [];
-    }
 
-    const filter = [
-        // Match expenses for the logged-in user
-        {
-            $match: {
-                user: ObjectID(loggedInUser.id),
-            },
-        },
-        // Sort by date in descending order
-        {
-            $sort: {
-                date: -1,
-            },
-        },
-        {
-            $lookup: {
-                from: "categories", // Replace with your categories collection name
-                localField: "category",
-                foreignField: "_id",
-                as: "categoryDetails",
-            },
-        },
-
-        {
-            $unwind: {
-                path: "$categoryDetails",
-                preserveNullAndEmptyArrays: true, // Allow null if no category is matched
-            },
-        },
-        {
-            $addFields: {
-                "category.id": "$categoryDetails._id",
-                "category.name": "$categoryDetails.name",
-            }
-        },
-
-        {
-            $project: {
-                categoryDetails: 0, // Remove the temporary joined category data
-            }
-        },
-
-        {
-            $limit: 5,
-        },
-        // get only the categories of the latest transaction
-        {
-            $project: {
-                _id: 0,
-                name: "$name",
-                amount: "$amount",
-                category: "$category",
-            },
-        }
-    ];
-    return filter;
-}
 
 export const getExpensesGroupedByDateAndWeekLimited = ({ analytics_interval, loggedInUser }) => {
     if (!loggedInUser) {
