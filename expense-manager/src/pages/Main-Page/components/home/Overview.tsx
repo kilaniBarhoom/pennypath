@@ -1,4 +1,4 @@
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,9 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowRight, CreditCard, TrendingDown, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  Plus,
+  CreditCard,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import AddEditExpenseSheet from "../expenses/add-edit-sheet";
+import { useTranslation } from "react-i18next";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,6 +41,8 @@ const cardVariants = {
 };
 
 export default function OverView({ analytics }: { analytics: any }) {
+  const { t } = useTranslation();
+
   return (
     <motion.div
       initial="hidden"
@@ -75,6 +85,13 @@ export default function OverView({ analytics }: { analytics: any }) {
               </motion.span>
             }
             cta="expenses"
+            action={
+              <AddEditExpenseSheet>
+                <Button className="w-fit p-2" Icon={Plus}>
+                  {t("Add")}
+                </Button>
+              </AddEditExpenseSheet>
+            }
           />
           <CardDetails
             title="Earned"
@@ -104,6 +121,7 @@ function CardDetails({
   Icon,
   main,
   cta,
+  action,
   className,
   children,
 }: {
@@ -113,6 +131,7 @@ function CardDetails({
   Icon?: JSX.Element;
   main?: boolean;
   cta?: string;
+  action?: JSX.Element;
   className?: string;
   children?: React.ReactNode;
 }) {
@@ -125,23 +144,28 @@ function CardDetails({
             : "bg-secondary/50"
         } p-4 grid gap-4 w-full h-40 ${className}`}
       >
-        <CardHeader className="flex-row items-center gap-2 p-0">
-          {Icon}
-          <div>
-            <CardTitle
-              className={`${main ? "text-white" : "text-secondary-foreground"}`}
-            >
-              {title}
-            </CardTitle>
-            <CardDescription
-              className={`${
-                main ? "text-neutral-300" : "text-secondary-foreground/50"
-              }`}
-            >
-              {description}
-            </CardDescription>
-          </div>
-        </CardHeader>
+        <div className="flex items-center justify-between gap-2">
+          <CardHeader className="flex-row items-center gap-2 p-0">
+            {Icon}
+            <div>
+              <CardTitle
+                className={`${
+                  main ? "text-white" : "text-secondary-foreground"
+                }`}
+              >
+                {title}
+              </CardTitle>
+              <CardDescription
+                className={`${
+                  main ? "text-neutral-300" : "text-secondary-foreground/50"
+                }`}
+              >
+                {description}
+              </CardDescription>
+            </div>
+          </CardHeader>
+          {action}
+        </div>
         <CardContent className="flex items-center flex-row justify-between gap-2 p-0">
           <motion.div
             className={`font-semibold ${
