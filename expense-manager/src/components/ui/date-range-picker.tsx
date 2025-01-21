@@ -294,6 +294,9 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       modal={false}
       open={isOpen}
       onOpenChange={(open: boolean) => {
+        if (!open) {
+          resetValues();
+        }
         setIsOpen(open);
       }}
     >
