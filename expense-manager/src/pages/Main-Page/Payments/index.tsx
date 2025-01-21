@@ -1,12 +1,11 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
 import { Button } from "@/components/ui/button";
 import { dateToString } from "@/lib/utils";
-import { Banknote } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import PageTitleWithIcon from "../components/PageTitleWithIcon";
 import AddEditPaymentDialogDrawer from "../components/payments/add-edit-dialog-drawer";
 import PaymentsWrapper from "../components/payments/payments-wrapper";
 
@@ -40,29 +39,20 @@ const Payments = () => {
       <Helmet>
         <title>Payments</title>
       </Helmet>
-      <BreadcrumbComponent
-        tree={[
-          {
-            title: "Payments",
-          },
-        ]}
-        currentPage={"All"}
-      />
       <div className="w-full flex items-center flex-wrap justify-between gap-2">
-        <PageTitleWithIcon
-          title={t("Payments")}
-          icon={<Banknote size={35} fill="#99BFC5" stroke="#000" />}
+        <BreadcrumbComponent
+          tree={[
+            {
+              title: "Payments",
+            },
+          ]}
+          currentPage={"All"}
         />
-        <div className="flex items-center lg:w-fit w-full">
-          <AddEditPaymentDialogDrawer>
-            <Button
-              className="px-6 lg:py-4 py-6 xl:w-fit w-full"
-              Icon={Banknote}
-            >
-              {t("Add Payment")}
-            </Button>
-          </AddEditPaymentDialogDrawer>
-        </div>
+        <AddEditPaymentDialogDrawer>
+          <Button className="px-6 lg:py-4 py-6 xl:w-fit w-full" Icon={Plus}>
+            {t("Add Payment")}
+          </Button>
+        </AddEditPaymentDialogDrawer>
       </div>
       <PaymentsWrapper />
     </div>

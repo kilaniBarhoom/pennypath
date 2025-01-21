@@ -36,7 +36,7 @@ const SideBar = ({
               {user?.fullNameEnglish?.[0]?.toString().toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <Typography element="p" as="smallText" className="font-black">
+          <Typography element="p" as="smallText">
             {t("Welcome")},&nbsp;
             {lang === "ar" ? user?.fullNameArabic : user?.fullNameEnglish}
           </Typography>

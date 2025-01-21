@@ -87,8 +87,9 @@ export default function OverView({ analytics }: { analytics: any }) {
             cta="expenses"
             action={
               <AddEditExpenseSheet>
-                <Button className="w-fit p-2" Icon={Plus}>
+                <Button className="w-fit p-2" size="sm">
                   {t("Add")}
+		  <Plus className="inline h-3 w-3 ml-1" />
                 </Button>
               </AddEditExpenseSheet>
             }

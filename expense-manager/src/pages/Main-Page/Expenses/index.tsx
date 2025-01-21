@@ -1,6 +1,6 @@
 import BreadcrumbComponent from "@/components/shared/bread-crumb";
 import { Button } from "@/components/ui/button";
-import { Banknote } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
@@ -33,7 +33,7 @@ const Expenses = () => {
             {t("Export")}
           </Button> */}
           <AddEditExpenseSheet>
-            <Button className="p-4 max-md:w-full" Icon={Banknote}>
+            <Button className="p-4 max-md:w-full" Icon={Plus}>
               {t("Add Expense")}
             </Button>
           </AddEditExpenseSheet>

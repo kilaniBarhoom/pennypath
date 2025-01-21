@@ -57,12 +57,12 @@ const ExpensesFilters = () => {
         </div>
         <div className="flex items-center gap-2 max-sm:w-full">
           <FiltersDropdown>
-            <Button variant={"outline"} size={"icon"}>
-              <Filter size={20} strokeWidth={2} />
+            <Button variant={"outline"} size={"icon"} className="bg-background">
+              <Filter size={20} strokeWidth={1.5} />
             </Button>
           </FiltersDropdown>
           <DateRangePicker
-            className="max-lg:w-full"
+            className="max-lg:w-full bg-background"
             showCompare={false}
             onUpdate={({ range }) => {
               setDateRange(dateToString(range.from), dateToString(range.to));
