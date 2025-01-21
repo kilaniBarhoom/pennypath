@@ -38,7 +38,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={ny("", className)} {...props} />
+  <li ref={ref} className={ny("cursor-pointer", className)} {...props} />
 ));
 PaginationItem.displayName = "PaginationItem";
 
@@ -61,6 +61,7 @@ function PaginationLink({
           variant: isActive ? "outline" : "ghost",
           size,
         }),
+        "cursor-pointer",
         className
       )}
       {...props}
@@ -79,7 +80,7 @@ function PaginationPrevious({
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
-      className={ny(className)}
+      className={ny("cursor-pointer", className)}
       {...props}
     >
       {dir === "rtl" && <ChevronRightIcon className="size-6" />}
@@ -99,7 +100,7 @@ function PaginationNext({
     <PaginationLink
       aria-label="Go to next page"
       size="default"
-      className={ny(className)}
+      className={ny("cursor-pointer", className)}
       {...props}
     >
       {dir === "ltr" && <ChevronRightIcon className="size-6" />}

@@ -28,21 +28,29 @@ const ExpensesFilters = () => {
   const category = searchParams.get("category") || "";
 
   const setDateRange = (from: string, to: string) => {
-    setSearchParams((prev) => {
-      prev.delete("from");
-      prev.delete("to");
-      if (from) prev.set("from", from);
-      if (to) prev.set("to", to);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.delete("from");
+        prev.delete("to");
+        if (from) prev.set("from", from);
+        if (to) prev.set("to", to);
+        return prev;
+      },
+      { replace: true }
+    );
   };
 
   const setCategory = (category: string) => {
-    setSearchParams((prev) => {
-      prev.delete("category");
-      if (category) prev.set("category", category);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.delete("category");
+        if (category) prev.set("category", category);
+        return prev;
+      },
+      {
+        replace: true,
+      }
+    );
   };
 
   return (
