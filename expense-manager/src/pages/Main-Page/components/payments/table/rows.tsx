@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import AddEditPaymentDialogDrawer from "../add-edit-dialog-drawer";
 import { Button } from "@/components/ui/button";
 import { useDeletePaymentMutation } from "@/pages/Main-Page/api/payments";
+import { t } from "i18next";
 // import ActionsDrawer from "./actions-drawer";
 const TableRows = ({ payments }: { payments: PaymentType[] }) => {
   const { mutate: deletePayment } = useDeletePaymentMutation();
@@ -46,7 +47,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
                   payment?.type === "advance",
               })}
             >
-              {payment?.type}
+              {t(payment?.type)}
             </Badge>
           </TableCell>
           <TableCell>
@@ -57,7 +58,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
                   variant={"none"}
                   className="text-muted-foreground hover:underline font-normal"
                 >
-                  Edit
+                  {t("Edit")}
                 </Button>
               </AddEditPaymentDialogDrawer>
               •
@@ -67,7 +68,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
                 className=" font-normal"
                 onClick={() => handleDeletePayment(payment?.id)}
               >
-                Delete
+                {t("Delete")}
               </Button>
             </div>
           </TableCell>

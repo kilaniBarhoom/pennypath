@@ -32,7 +32,7 @@ export default function MainLayout() {
         <main
           className={ny(
             {
-              "xl:pl-[calc(16rem+8px)]": isSideBarOpen,
+              "xl:ps-[calc(16rem+8px)]": isSideBarOpen,
             },
             "flex-1 flex flex-col gap-2 min-w-0 transition-all duration-200 ease-in-out container max-lg:p-2"
           )}

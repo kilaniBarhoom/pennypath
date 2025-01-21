@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useDeleteExpenseMutation } from "../../api/expenses";
 import AddEditExpenseDialogDrawer from "./add-edit-sheet";
 import { format } from "date-fns";
+import { ar, enGB } from "date-fns/locale";
 
 const ExpensesList = ({
   expenses,
@@ -63,6 +64,7 @@ export const ExpenseCard = ({
 }) => {
   const { t, i18n } = useTranslation();
   const dir = i18n.dir();
+  const language = i18n.language;
 
   const { mutate: deleteExpense } = useDeleteExpenseMutation();
 
@@ -95,16 +97,18 @@ export const ExpenseCard = ({
         </Typography>
         <div className="gap-1 flex-1 items-end text-xl justify-end flex font-semibold text-red-400 tabular-nums">
           -{expense.amount}
-          <sup>
-            <ShekelIcon />
-          </sup>
+          <ShekelIcon />
         </div>
       </div>
       <span className="leading-none text-muted-foreground">
         {expense.category.name}
       </span>
       <div className="justify-between flex items-center gap-2 mt-3">
-        <span>{format(expense?.date, "eeee, dd/MM/yyyy")}</span>
+        <span>
+          {format(expense?.date, "eeee, dd/MM/yyyy", {
+            locale: language === "ar" ? ar : enGB,
+          })}
+        </span>
         {!readonly && (
           <div className="flex items-center gap-2">
             <AddEditExpenseDialogDrawer expense={expense}>
@@ -113,7 +117,7 @@ export const ExpenseCard = ({
                 variant={"none"}
                 className="text-muted-foreground hover:underline font-normal"
               >
-                Edit
+                {t("Edit")}
               </Button>
             </AddEditExpenseDialogDrawer>
             •
@@ -123,7 +127,7 @@ export const ExpenseCard = ({
               className=" font-normal"
               onClick={() => handleDeleteExpense(expense?.id)}
             >
-              Delete
+              {t("Delete")}
             </Button>
           </div>
         )}

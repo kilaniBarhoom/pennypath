@@ -43,7 +43,7 @@ const BreadcrumbComponent = ({
               {t("Dashboard")}
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="rtl:rotate-180" />
           {tree?.map((item, index) => (
             <div className="flex items-center" key={index}>
               <BreadcrumbItem>
@@ -54,7 +54,7 @@ const BreadcrumbComponent = ({
                   {t(`${item.title}`)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="ltr:ml-2 rtl:mr-2" />
+              <BreadcrumbSeparator className="ms-2 rtl:rotate-180" />
             </div>
           ))}
           <BreadcrumbItem>

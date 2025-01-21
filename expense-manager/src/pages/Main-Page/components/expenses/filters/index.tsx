@@ -12,9 +12,12 @@ import { Calendar, Filter, MoveRight, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FiltersDropdown from "./filters-dropdown";
+import { ar, enGB } from "date-fns/locale";
+import TooltipComponent from "@/components/shared/tooltip-component";
 
 const ExpensesFilters = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const [searchParams, setSearchParams] = useSearchParams({
     from: getFirstDayOfCurrentMonth(),
@@ -63,7 +66,9 @@ const ExpensesFilters = () => {
     <>
       <span className="max-md:sr-only text-lg">{t(text)}:</span>
       <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
-        {format(stringToDate(date), "dd-MM-yy")}
+        {format(stringToDate(date), "dd-MM-yy", {
+          locale: language === "ar" ? ar : enGB,
+        })}
       </span>
     </>
   );
@@ -85,6 +90,7 @@ const ExpensesFilters = () => {
             </Button>
           </FiltersDropdown>
           <DateRangePicker
+            locale={language}
             className="max-lg:w-full bg-background"
             showCompare={false}
             onUpdate={({ range }) => {
@@ -104,7 +110,7 @@ const ExpensesFilters = () => {
               ) : from && to ? (
                 <>
                   <DateFormatComponent date={from} text={"From"} />{" "}
-                  <MoveRight />
+                  <MoveRight className="rtl:rotate-180" />
                   <DateFormatComponent date={to} text={"To"} />
                 </>
               ) : from ? (
@@ -112,16 +118,18 @@ const ExpensesFilters = () => {
               ) : to ? (
                 <DateFormatComponent date={to} text={"To"} />
               ) : null}
-              <Button
-                size={"xs"}
-                variant={"hover"}
-                className="rounded-full bg-muted ms-1"
-                onClick={() => {
-                  setDateRange("", "");
-                }}
-              >
-                <X size={16} />
-              </Button>
+              <TooltipComponent content="Clear">
+                <Button
+                  size={"xs"}
+                  variant={"hover"}
+                  className="rounded-full bg-muted ms-1"
+                  onClick={() => {
+                    setDateRange("", "");
+                  }}
+                >
+                  <X size={16} />
+                </Button>
+              </TooltipComponent>
             </div>
           )}
           {q && (
@@ -137,16 +145,18 @@ const ExpensesFilters = () => {
               <span className="bg-blue-300 text-secondary-foreground text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">
                 {category}
               </span>
-              <Button
-                size={"xs"}
-                variant={"hover"}
-                className="rounded-full bg-muted"
-                onClick={() => {
-                  setCategory("");
-                }}
-              >
-                <X size={16} />
-              </Button>
+              <TooltipComponent content="Clear">
+                <Button
+                  size={"xs"}
+                  variant={"hover"}
+                  className="rounded-full bg-muted"
+                  onClick={() => {
+                    setCategory("");
+                  }}
+                >
+                  <X size={16} />
+                </Button>
+              </TooltipComponent>
             </div>
           )}
         </div>

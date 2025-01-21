@@ -1,12 +1,14 @@
 import * as React from "react";
 
 import { ny } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {
+    const { t } = useTranslation();
     return (
       <textarea
         className={ny(
@@ -14,6 +16,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           className
         )}
         ref={ref}
+        placeholder={t(props.placeholder ?? "")}
         {...props}
       />
     );

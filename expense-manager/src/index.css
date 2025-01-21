@@ -128,3 +128,9 @@
     @apply w-full h-full transition-all;
   }
 }
+
+@layer utilities {
+  .font-condensed {
+    font-stretch: condensed;
+  }
+}

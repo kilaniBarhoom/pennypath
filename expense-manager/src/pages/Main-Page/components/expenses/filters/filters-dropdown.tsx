@@ -70,7 +70,7 @@ export default function FiltersDropdown({
         >
           <div className="space-y-3">
             <div className="text-xs font-medium text-muted-foreground">
-              Filters
+              {t("Filters")}
             </div>
             {loadingToFetchCategories ? (
               <div className="h-20 w-full flex items-center justify-center">
@@ -84,7 +84,7 @@ export default function FiltersDropdown({
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="" disabled>
-                    Please select a category
+                    {t("Please select a category")}
                   </option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>

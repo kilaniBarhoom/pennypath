@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import AddEditExpenseSheet from "../expenses/add-edit-sheet";
 import { useTranslation } from "react-i18next";
 import TooltipComponent from "@/components/shared/tooltip-component";
+import { ny } from "@/lib/utils";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -51,12 +52,8 @@ export default function OverView({ analytics }: { analytics: any }) {
       className="w-full"
       variants={containerVariants}
     >
-      <Card>
-        <CardHeader className="text-5xl max-lg:text-3xl tracking-wide">
-          Overview
-        </CardHeader>
-        <CardDescription></CardDescription>
-        <CardContent className="grid md:grid-cols-2 lg:grid-cols-3 w-full gap-2">
+      <Card aria-describedby="overview" className="w-full">
+        <CardContent className="grid md:grid-cols-2 lg:grid-cols-3 w-full gap-2 p-0">
           <CardDetails
             title="Wallet Balance"
             description="Your current balance in your wallet"
@@ -137,6 +134,8 @@ function CardDetails({
   className?: string;
   children?: React.ReactNode;
 }) {
+  const { t } = useTranslation();
+
   return (
     <motion.div variants={cardVariants}>
       <Card
@@ -155,14 +154,14 @@ function CardDetails({
                   main ? "text-white" : "text-secondary-foreground"
                 }`}
               >
-                {title}
+                {t(title)}
               </CardTitle>
               <CardDescription
                 className={`${
                   main ? "text-neutral-300" : "text-secondary-foreground/50"
                 }`}
               >
-                {description}
+                {t(description)}
               </CardDescription>
             </div>
           </CardHeader>
@@ -186,10 +185,13 @@ function CardDetails({
               <TooltipComponent content="View">
                 <Link
                   to={`/${cta}`}
-                  className={buttonVariants({
-                    variant: "outline",
-                    size: "icon",
-                  })}
+                  className={ny(
+                    "rtl:rotate-180",
+                    buttonVariants({
+                      variant: "outline",
+                      size: "icon",
+                    })
+                  )}
                 >
                   <ArrowRight />
                 </Link>

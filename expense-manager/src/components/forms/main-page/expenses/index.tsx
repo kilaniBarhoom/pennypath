@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SelectNative } from "@/components/ui/select-native";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
 import useAxios from "@/hooks/use-axios";
 import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
@@ -129,62 +130,85 @@ const ExpenseForm = ({
               </FormItem>
             )}
           />
+          <div className="flex items-start gap-2">
+            <FormField
+              control={expenseForm.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem className="flex-1 w-full">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;
+                    {t("Amount")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="e.g. 100"
+                      onChange={(e) => {
+                        field.onChange(parseFloat(e.target.value));
+                      }}
+                      autoComplete="amount"
+                      error={!!expenseForm.formState.errors.amount?.message}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {loadingToFetchCategories ? (
+              <div className="h-20 w-full flex items-center justify-center">
+                <LoadingComponent size={10} />
+              </div>
+            ) : (
+              <FormField
+                control={expenseForm.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="flex-[2] w-full">
+                    <FormLabel>
+                      <span className="text-red-500">*</span>&nbsp;
+                      {t("Category")}
+                    </FormLabel>
+                    <FormControl>
+                      <SelectNative {...field} defaultValue="" className="h-10">
+                        <option value="" disabled>
+                          {t("Please select a category")}
+                        </option>
+                        {categories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </SelectNative>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          </div>
           <FormField
             control={expenseForm.control}
-            name="amount"
+            name="description"
             render={({ field }) => (
               <FormItem className="flex-1 w-full">
                 <FormLabel>
                   <span className="text-red-500">*</span>&nbsp;
-                  {t("Amount")}
+                  {t("Description")}
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     {...field}
-                    type="number"
-                    placeholder="e.g. 100"
-                    onChange={(e) => {
-                      field.onChange(parseFloat(e.target.value));
-                    }}
-                    autoComplete="amount"
-                    error={!!expenseForm.formState.errors.amount?.message}
+                    className="min-h-32"
+                    placeholder="e.g. Monthly salary for June"
+                    autoComplete="description"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {loadingToFetchCategories ? (
-            <div className="h-20 w-full flex items-center justify-center">
-              <LoadingComponent />
-            </div>
-          ) : (
-            <FormField
-              control={expenseForm.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem className="flex-1 w-full">
-                  <FormLabel>
-                    <span className="text-red-500">*</span>&nbsp;
-                    {t("Category")}
-                  </FormLabel>
-                  <FormControl>
-                    <SelectNative {...field} defaultValue="">
-                      <option value="" disabled>
-                        Please select a category
-                      </option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </SelectNative>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
         </div>
         <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
           <SheetClose asChild>

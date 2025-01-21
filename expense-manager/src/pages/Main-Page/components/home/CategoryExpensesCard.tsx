@@ -83,7 +83,7 @@ export default function CategoryExpensesCard({
   return (
     <Card className="flex h-full flex-col flex-1">
       <CardHeader className="flex items-center justify-between flex-row gap-4">
-        <CardTitle className="text-lg">Category Expenses</CardTitle>
+        <CardTitle className="text-lg">{t("Category Expenses")}</CardTitle>
         <CategoriesDialog
           categories={
             (categories &&
@@ -95,8 +95,8 @@ export default function CategoryExpensesCard({
           }
         >
           <Button className="font-normal flex items-center" size="sm">
-            See all
-            <ExternalLink className="inline h-3 w-3 ml-1" />
+            {t("See all")}
+            <ExternalLink className="inline h-3 w-3 ms-1 rtl:scale-x-[-1]" />
           </Button>
         </CategoriesDialog>
       </CardHeader>
@@ -104,7 +104,7 @@ export default function CategoryExpensesCard({
         {categories && categories.length > 0 ? (
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square h-fit w-full"
+            className="mx-auto aspect-square h-[400px] w-full"
           >
             <PieChart className="w-full max-h-[230px]">
               <ChartTooltip
@@ -116,7 +116,6 @@ export default function CategoryExpensesCard({
                 nameKey="name"
                 label
                 labelLine
-                innerRadius={40}
                 fontSize={20}
               />
             </PieChart>
@@ -129,7 +128,31 @@ export default function CategoryExpensesCard({
           </div>
         )}
       </CardContent>
-      <CardFooter></CardFooter>
+      <CardFooter>
+        {categories && categories.length > 0 ? (
+          <div className="flex items-center justify-between w-full">
+            {categories.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span
+                  className="h-4 rounded-sm aspect-square"
+                  style={{
+                    backgroundColor: chartColors[index % chartColors.length],
+                  }}
+                />
+                <span className="text-sm">
+                  {item.category.name}: {item.amount}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex items-center justify-center w-full">
+            <span className="text-xl md:text-2xl text-secondary-foreground/60">
+              {t("No expenses found")}
+            </span>
+          </div>
+        )}
+      </CardFooter>
     </Card>
   );
 }

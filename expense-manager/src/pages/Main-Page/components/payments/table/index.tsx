@@ -43,7 +43,7 @@ const PaymentsTable = ({
       <TableBody>
         {isLoadingToFetchPayments ? (
           dummyArray.map((_, index) => <PaymentsTableSkeleton key={index} />)
-        ) : payments && payments.length ? (
+        ) : payments && payments.length > 0 ? (
           <TableRows payments={payments} />
         ) : (
           <TableRow>

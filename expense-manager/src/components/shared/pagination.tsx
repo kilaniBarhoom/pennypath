@@ -18,8 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useTranslation } from "react-i18next";
 
 const TablePagiation = ({ totalPages }: { totalPages: number }) => {
+  const { t } = useTranslation();
+
   const [searchParams, setSearchParams] = useSearchParams({
     PageSize: "30",
     PageNumber: "1",
@@ -62,8 +65,8 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
         className="flex-1 max-sm:sr-only whitespace-nowrap text-lg text-muted-foreground"
         aria-live="polite"
       >
-        Page <span className="text-foreground">{PageNumber}</span> of{" "}
-        <span className="text-foreground">{totalPages}</span>
+        {t("Page")} <span className="text-foreground">{PageNumber}</span>{" "}
+        {t("of")} <span className="text-foreground">{totalPages}</span>
       </p>
       <Pagination>
         <PaginationContent className="inline-flex gap-0 -space-x-px rounded-sm shadow-sm shadow-black/5 rtl:space-x-reverse">
@@ -83,7 +86,7 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
               role={Number(PageNumber) === 1 ? "link" : undefined}
             >
               <ChevronLeft
-                className="w-5 h-5"
+                className="w-5 h-5 rtl:rotate-180"
                 strokeWidth={2}
                 aria-hidden="true"
               />
@@ -151,7 +154,10 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
               }
               role={Number(PageNumber) === totalPages ? "link" : undefined}
             >
-              <ChevronRight className="w-5 h-5" strokeWidth={2} />
+              <ChevronRight
+                className="w-5 h-5 rtl:rotate-180"
+                strokeWidth={2}
+              />
             </PaginationLink>
           </PaginationItem>
         </PaginationContent>
@@ -172,9 +178,9 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
             <SelectValue placeholder="Select number of results" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="10">10 / page</SelectItem>
-            <SelectItem value="20">20 / page</SelectItem>
-            <SelectItem value="30">30 / page</SelectItem>
+            <SelectItem value="10">10 / {t("Page")}</SelectItem>
+            <SelectItem value="20">20 / {t("Page")}</SelectItem>
+            <SelectItem value="30">30 / {t("Page")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

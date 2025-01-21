@@ -453,7 +453,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                   setPreset(value);
                 }}
               >
-                <SelectTrigger className="w-[180px] mx-auto mb-2">
+                <SelectTrigger className=" mx-auto my-2 w-full">
                   <SelectValue placeholder="Select.." />
                 </SelectTrigger>
                 <SelectContent>

@@ -21,10 +21,10 @@ export default function RecentTransactionsCard({
 }) {
   const { t } = useTranslation();
   return (
-    <Card className="min-h-60 flex-[2] flex flex-col">
+    <Card className="h-full flex-[2] flex flex-col">
       <CardHeader>
         <div className="flex items-center justify-between flex-row">
-          <CardTitle className="text-lg">Recent Transactions</CardTitle>
+          <CardTitle className="text-lg">{t("Recent Transactions")}</CardTitle>
           <Link
             to="/expenses"
             className={ny(
@@ -32,8 +32,8 @@ export default function RecentTransactionsCard({
               "font-normal flex items-center"
             )}
           >
-            See all
-            <ExternalLink className="inline h-3 w-3 ml-1" />
+            {t("See all")}
+            <ExternalLink className="inline h-3 w-3 ms-1 rtl:scale-x-[-1]" />
           </Link>
         </div>
         <CardDescription></CardDescription>

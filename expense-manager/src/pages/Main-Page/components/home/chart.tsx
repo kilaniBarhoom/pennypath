@@ -23,6 +23,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useTranslation } from "react-i18next";
 
 const initialChartData = [
   { month: "January", amount: 0 },
@@ -49,6 +50,8 @@ const chartConfig = {
 export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   const [chartData, setChartData] = useState(initialChartData);
   const [visibleMonths, setVisibleMonths] = useState(12);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!data || Object.keys(data).length === 0) return;
@@ -80,9 +83,9 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
   return (
     <Card className="h-full w-full overflow-hidden">
       <CardHeader>
-        <CardTitle>Total Spent By Month</CardTitle>
+        <CardTitle>{t("Total Spent By Month")}</CardTitle>
         <CardDescription>
-          January - December {new Date().getFullYear()}
+          {t("January - December")} {new Date().getFullYear()}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0 sm:p-6">
