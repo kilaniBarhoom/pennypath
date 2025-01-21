@@ -294,9 +294,6 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       modal={false}
       open={isOpen}
       onOpenChange={(open: boolean) => {
-        if (!open) {
-          resetValues();
-        }
         setIsOpen(open);
       }}
     >
@@ -502,7 +499,14 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                 !areRangesEqual(range, openedRangeRef.current) ||
                 !areRangesEqual(rangeCompare, openedRangeCompareRef.current)
               ) {
-                onUpdate?.({ range, rangeCompare });
+                onUpdate?.({
+                  range: {
+                    ...range,
+                    from: range.from,
+                    to: range.to ? range.to : range.from,
+                  },
+                  rangeCompare,
+                });
               }
             }}
           >
