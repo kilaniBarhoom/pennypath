@@ -48,7 +48,7 @@ export function ExpenseOverviewChart({
     if (!acc[formattedDate]) {
       acc[formattedDate] = { date: formattedDate };
     }
-    acc[formattedDate][item.week] = item.totalAmount;
+    acc[formattedDate][item.week as "previous" | "current"] = item.totalAmount;
     return acc;
   }, {} as Record<string, { date: string; previous?: number; current?: number }>);
 
