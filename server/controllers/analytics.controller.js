@@ -14,6 +14,8 @@ export const getAnalytics = async (req, res, next) => {
     const totalSpentMonthly = (await Expense.aggregate(queryHelper.getAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
     let allTimeTotalExpenses = (await Expense.aggregate(expensesSum({ _id: null, loggedInUser: req.user })))[0];
+    let expensesOfCurrentAndPreviousWeeks = (await Expense.aggregate(queryHelper.getExpensesByWeek({ loggedInUser: req.user })));
+
 
 
     const allTimeTotalExpensesValue = allTimeTotalExpenses ? allTimeTotalExpenses.total : 0;
@@ -42,7 +44,8 @@ export const getAnalytics = async (req, res, next) => {
         recentExpensesTransactions,
         groupedByDayExpenses,
         expensesGroupedByCategory,
-        analytics_interval
+        analytics_interval,
+        expensesOfCurrentAndPreviousWeeks
     };
 
     return res.status(statusCodes.OK).json({

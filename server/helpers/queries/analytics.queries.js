@@ -92,6 +92,95 @@ export const getAnalyticsOfExpenses = ({ loggedInUser }) => {
     return filter;
 };
 
+// get expenses of the last 6 days
+
+export const getExpensesByWeek = ({ loggedInUser }) => {
+    if (!loggedInUser) {
+        return [];
+    }
+
+    const now = new Date();
+
+    // Calculate the start of the current week (Saturday)
+    const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+    const startOfCurrentWeek = new Date(now);
+    startOfCurrentWeek.setDate(now.getDate() - dayOfWeek - 1);
+    startOfCurrentWeek.setHours(0, 0, 0, 0);
+
+    // Calculate the end of the current week (Friday)
+    const endOfCurrentWeek = new Date(startOfCurrentWeek);
+    endOfCurrentWeek.setDate(startOfCurrentWeek.getDate() + 6);
+    endOfCurrentWeek.setHours(23, 59, 59, 999);
+
+    // Calculate the start of the previous week (Saturday)
+    const startOfPreviousWeek = new Date(startOfCurrentWeek);
+    startOfPreviousWeek.setDate(startOfCurrentWeek.getDate() - 7);
+
+    // Calculate the end of the previous week (Friday)
+    const endOfPreviousWeek = new Date(startOfCurrentWeek);
+    endOfPreviousWeek.setDate(startOfCurrentWeek.getDate() - 1);
+    endOfPreviousWeek.setHours(23, 59, 59, 999);
+
+    const filter = [
+        // Match expenses for the logged-in user and for the current or previous week
+        {
+            $match: {
+                user: ObjectID(loggedInUser.id),
+                date: {
+                    $gte: startOfPreviousWeek,
+                    $lte: endOfCurrentWeek,
+                },
+            },
+        },
+        // Add a field to distinguish between current and previous weeks
+        {
+            $addFields: {
+                week: {
+                    $cond: {
+                        if: {
+                            $and: [
+                                { $gte: ["$date", startOfCurrentWeek] },
+                                { $lte: ["$date", endOfCurrentWeek] },
+                            ],
+                        },
+                        then: "current",
+                        else: "previous",
+                    },
+                },
+            },
+        },
+        // Group by week and day
+        {
+            $group: {
+                _id: {
+                    week: "$week",
+                    date: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                },
+                totalAmount: { $sum: "$amount" },
+            },
+        },
+        // Sort by week and then by date
+        {
+            $sort: {
+                "_id.week": 1, // Previous week first
+                "_id.date": 1, // Dates in ascending order
+            },
+        },
+        // Project the final output
+        {
+            $project: {
+                _id: 0,
+                week: "$_id.week",
+                date: "$_id.date",
+                totalAmount: 1,
+            },
+        },
+    ];
+
+    return filter;
+};
+
+
 
 
 export const getExpensesGroupedByDateAndWeekLimited = ({ analytics_interval, loggedInUser }) => {
