@@ -7,7 +7,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ny } from "@/lib/utils";
-import { Slash } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -44,9 +43,7 @@ const BreadcrumbComponent = ({
               {t("Dashboard")}
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="">
-            <Slash className="-rotate-12" size={18} />
-          </BreadcrumbSeparator>
+          <BreadcrumbSeparator />
           {tree?.map((item, index) => (
             <div className="flex items-center" key={index}>
               <BreadcrumbItem>
@@ -57,9 +54,7 @@ const BreadcrumbComponent = ({
                   {t(`${item.title}`)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="ltr:ml-2 rtl:mr-2">
-                <Slash className="-rotate-12" size={18} />
-              </BreadcrumbSeparator>
+              <BreadcrumbSeparator className="ltr:ml-2 rtl:mr-2" />
             </div>
           ))}
           <BreadcrumbItem>

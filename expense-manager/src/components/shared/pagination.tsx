@@ -57,9 +57,9 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
   });
 
   return (
-    <div className="flex items-center gap-4 px-4 ms-auto">
+    <div className="flex items-center gap-4 px-4 justify-center max-sm:w-full sm:ms-auto">
       <p
-        className="flex-1 whitespace-nowrap text-lg text-muted-foreground"
+        className="flex-1 max-sm:sr-only whitespace-nowrap text-lg text-muted-foreground"
         aria-live="polite"
       >
         Page <span className="text-foreground">{PageNumber}</span> of{" "}

@@ -23,7 +23,7 @@ const ExpensesList = ({
         <LoadingComponent className="max-h-60 h-60 w-full" size={25} />
       ) : expenses && expenses.length > 0 ? (
         <div className="grid w-full gap-2 grid-flow-dense">
-          <div className="flex items-center justify-between gap-2 bg-primary p-4 text-white rounded-md">
+          <div className="flex items-center max-sm:text-sm justify-between gap-2 bg-primary p-4 text-white rounded-md">
             <span>{t("Name/Category/Date")}</span>
             <span>{t("Amount/Actions")}</span>
           </div>

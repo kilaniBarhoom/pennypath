@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import AddEditExpenseSheet from "../expenses/add-edit-sheet";
 import { useTranslation } from "react-i18next";
+import TooltipComponent from "@/components/shared/tooltip-component";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -89,7 +90,7 @@ export default function OverView({ analytics }: { analytics: any }) {
               <AddEditExpenseSheet>
                 <Button className="w-fit p-2" size="sm">
                   {t("Add")}
-		  <Plus className="inline h-3 w-3 ml-1" />
+                  <Plus className="inline h-3 w-3 ml-1" />
                 </Button>
               </AddEditExpenseSheet>
             }
@@ -182,12 +183,17 @@ function CardDetails({
           </motion.div>
           {cta && (
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to={`/${cta}`}
-                className={buttonVariants({ variant: "outline", size: "icon" })}
-              >
-                <ArrowRight />
-              </Link>
+              <TooltipComponent content="View">
+                <Link
+                  to={`/${cta}`}
+                  className={buttonVariants({
+                    variant: "outline",
+                    size: "icon",
+                  })}
+                >
+                  <ArrowRight />
+                </Link>
+              </TooltipComponent>
             </motion.div>
           )}
           {children}

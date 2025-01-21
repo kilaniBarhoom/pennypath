@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { SelectNative } from "@/components/ui/select-native";
 import useAxios from "@/hooks/use-axios";
+import useMediaQuery from "@/hooks/use-media-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
@@ -57,11 +58,16 @@ export default function FiltersDropdown({
     });
   };
 
+  const isDesktop = useMediaQuery("1024px");
+
   return (
     <div className="flex flex-col gap-4">
       <Popover>
         <PopoverTrigger asChild>{children}</PopoverTrigger>
-        <PopoverContent className="w-full p-3" align="end">
+        <PopoverContent
+          className="w-full p-3"
+          align={isDesktop ? "end" : "start"}
+        >
           <div className="space-y-3">
             <div className="text-xs font-medium text-muted-foreground">
               Filters
