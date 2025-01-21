@@ -303,11 +303,14 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={ny("overflow-y-hidden md:w-fit w-full", {
-            className,
-          })}
+          className={ny(
+            "overflow-y-hidden md:w-fit w-full bg-background text-base",
+            {
+              className,
+            }
+          )}
         >
-          <div className="ltr:text-right rtl:text-left">
+          <div className="text-start">
             <div>
               <div>{`${formatDate(range.from, locale)}${
                 range.to != null ? " - " + formatDate(range.to, locale) : ""

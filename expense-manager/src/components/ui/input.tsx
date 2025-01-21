@@ -28,6 +28,8 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, iconPosition, error, noRing, ...props }, ref) => {
     const { i18n } = useTranslation();
+    const sharedClassNames =
+      "flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
     iconPosition = i18n.dir() === "rtl" ? "left" : "right";
     return (
       <>
@@ -41,12 +43,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <input
               type={type}
               className={ny(
-                "flex h-10 w-full rounded-sm border tracking-wide border-input bg-background px-3 py-2 text-sm ring-offset-background transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+                sharedClassNames,
                 className,
                 iconPosition !== "right" ? "pl-10 pr-4" : "pl-4 pr-10",
                 error ? "border-destructive" : "",
                 noRing
-                  ? ""
+                  ? "focus-visible:border-secondary-foreground/70 hover:border-secondary-foreground/70"
                   : "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               )}
               ref={ref}
@@ -62,11 +64,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={ny(
-              "flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm ring-offset-background transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+              sharedClassNames,
               className,
               error ? "border-destructive" : "",
               noRing
-                ? ""
+                ? "focus-visible:border-secondary-foreground/70 hover:border-secondary-foreground/70"
                 : "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             )}
             ref={ref}
