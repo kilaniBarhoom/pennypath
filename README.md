@@ -1,47 +1,62 @@
 
+## An attendance tacker app
+```
+The main idea of this app is to create a cutomized 
+attendance tracker app, to keep track of workers 
+attendances and payments.
+```
 
-## An expense tracker app
 
 ## Preview
-### Login Page
+  - `Login Page`
+  
 ![image](https://github.com/user-attachments/assets/57d31d38-5f51-4553-ae35-56e53f26edbb)
-
-### Dashboard Page: Analytics and charts
+---
+- `Dashboard Page: Analytics and charts`
+  
 ![image](https://github.com/user-attachments/assets/b70bb211-0e6f-4958-a91d-64261d850c71)
-### Payments Page: View of all payments
+---
+- `Payments Page: View of all payments`
+  
 ![image](https://github.com/user-attachments/assets/2e563309-7a72-423b-b5d9-174967183b8e)
-### Expenses Page: View of all expenses
+---
+- `Expenses Page: View of all expenses`
+  
 ![image](https://github.com/user-attachments/assets/892f8025-c3c4-46be-b6cf-7326a7272451)
-### Light Mode
+---
+- `Light Mode`
+  
 ![image](https://github.com/user-attachments/assets/7a4091b2-e03b-450c-a3a5-c79b28fa4d30)
+---
+- `Arabic Language`
+  
+![image](https://github.com/user-attachments/assets/9aab1b3b-48ee-4263-bf4c-f932431f71b7)
 
-
-
-
-
-The main idea of this app is to create a customized expense tracker app, to keep track of life expenses and payments.
 
 ## Tech Stack
 
-**Client (Front End):** 
+**`Client (Front End):`** 
 
-bun
-React,
-TailwindCSS,
-React Hook Form,
-Zod,
-Nyxb UI,
-framer motion,
+- bun
+- React,
+- TailwindCSS,
+- React Hook Form,
+- Zod,
+- Nyxb UI,
+- framer motion,
 
-**Server (Back End):** 
+**`Server (Back End):`** 
 
-node,
-Express js,
-mongodb,
-Zod,
-BcryptJS,
-JsonWebToken,
-sessions
+- node,
+- Express js,
+- mongodb,
+- Zod,
+- BcryptJS,
+- JsonWebToken,
+- sessions
+</br>
+
+
 ## Models definitions
 
 - **User**: is the **Worker** that is allowed to access the app, and perform the actions that are allowed to them.
@@ -82,31 +97,32 @@ sessions
 
 
 ## Features
-### 1) Key Features
-#### Overall
-- Store daily expenses and list them organized and sorted all in one place.
-- Add payments and monthly wages.
-- View analytics of daily expenses with charts and cards.
-- Accounts are created via admin
-- Ability to search for data.
-- Filtering functionality
-- Light/dark theming
+1. Key Features
+- Overall
+     - [x]  Store daily expenses and list them organized and sorted all in one place.
+  - [x]  Add payments and monthly wages.
+  - View analytics of daily expenses with charts and cards.
+  - [x]  Accounts are created via admin
+  - [x]  Ability to search for data.
+  - [x]  Filtering functionality
+  - [x]  Light/dark theming
 
-### 2) Secondary Features (Non functional)
-- Debounced Search for optimized search query.
-- Caching data, so that there is no need to refresh the page to update (optimistic updates).
-- Authorization roles for different roles in the system.
-- Authorized component rendering.
-- Persistent login using sessions and cockies from the server, to make use of the refresh token which is stored in the cookies of the brouser.
-- Make use of thre Mongodb aggregate functions, which pass the query into multiple stages retrieving data faster.  
+2. Secondary Features (Non functional)
+- [x]  Debounced Search for optimized search query.
+- [x]  Caching data, so that there is no need to refresh the page to update (optimistic updates).
+- [x]  Authorization roles for different roles in the system.
+- [x]  Authorized component rendering.
+- [x]  Persistent login using sessions and cockies from the server, to make use of the refresh token which is stored in the cookies of the brouser.
+- [x]  Make use of thre Mongodb aggregate functions, which pass the query into multiple stages retrieving data faster.  
 
 
 
 ## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-### Go to the .env.example files in each of the folders (client / server).
+```
+To run this project, you will need to add the
+ following environment variables to your .env file
+```
+__Go to the .env.example files in each of the folders (client / server).__
 
 - In `/server` Fill the `.env.config` file with the needed information from .env.example, and rename it to `.env`
   - `PORT`: is the port that the server is running on (eg: `3000`)
@@ -181,4 +197,3 @@ To run this project, you will need to add the following environment variables to
 | GET    | /expense/:expenseId |
 | PUT    | /expense/:expenseId |
 | DELETE | /expense/:expenseId |
-
