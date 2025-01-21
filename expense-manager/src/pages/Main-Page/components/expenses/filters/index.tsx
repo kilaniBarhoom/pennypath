@@ -53,6 +53,21 @@ const ExpensesFilters = () => {
     );
   };
 
+  const DateFormatComponent = ({
+    date,
+    text,
+  }: {
+    date: string;
+    text: string;
+  }) => (
+    <>
+      <span className="max-md:sr-only text-lg">{t(text)}:</span>
+      <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
+        {format(stringToDate(date), "dd-MM-yy")}
+      </span>
+    </>
+  );
+
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="w-full flex items-center justify-between max-sm:flex-col gap-2 mb-2">
@@ -84,15 +99,19 @@ const ExpensesFilters = () => {
           {(from || to) && (
             <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal px-2 py-1 border bg-secondary">
               <Calendar size={20} strokeWidth={2} className="me-1" />
-              <span className="max-md:sr-only text-lg">{t("From")}:</span>
-              <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
-                {format(stringToDate(from), "dd-MM-yy")}
-              </span>
-              <MoveRight />
-              <span className="max-md:sr-only text-lg">{t("To")}:</span>
-              <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
-                {format(stringToDate(to), "dd-MM-yy")}
-              </span>{" "}
+              {from && to && from === to ? (
+                <DateFormatComponent date={from} text={"Date"} />
+              ) : from && to ? (
+                <>
+                  <DateFormatComponent date={from} text={"From"} />{" "}
+                  <MoveRight />
+                  <DateFormatComponent date={to} text={"To"} />
+                </>
+              ) : from ? (
+                <DateFormatComponent date={from} text={"From"} />
+              ) : to ? (
+                <DateFormatComponent date={to} text={"To"} />
+              ) : null}
               <Button
                 size={"xs"}
                 variant={"hover"}
