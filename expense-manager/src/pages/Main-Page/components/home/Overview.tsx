@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AddEditExpenseSheet from "../expenses/add-edit-sheet-drawer/index.tsx";
 import { ExpenseOverviewChart } from "./ExpenseOverviewChart";
+import ShekelIcon from "@/components/shared/icons/shekel-icon.tsx";
 
 // Animation Variants
 const containerVariants = {
@@ -51,13 +52,14 @@ export default function OverView({ analytics }: { analytics: any }) {
       variants={containerVariants}
     >
       <Card aria-describedby="overview" className="w-full h-auto p-0">
-        <CardContent className="flex flex-col gap-2 p-4">
+        <CardContent className="flex flex-col gap-1 p-4">
           {/* Wallet Balance and Earned */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 max-md:flex-col md:h-[160px]">
             <CardDetails
               title="Wallet Balance"
               description="Your current balance in your wallet"
               amount={analytics?.walletBalance}
+              cta={"/"}
               Icon={
                 <motion.span
                   className="p-2 bg-secondary rounded-full text-secondary-foreground"
@@ -175,32 +177,28 @@ function CardDetails({
         {/* Content */}
         <CardContent className="flex flex-col gap-4">
           {chart}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start h-max">
             <motion.div
               className="text-3xl font-bold"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              ₪ {amount}
+              <ShekelIcon /> {amount}
             </motion.div>
             {cta && (
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <TooltipComponent content="View">
-                  <Link
-                    to={`/${cta}`}
-                    className={ny(
-                      "rtl:rotate-180",
-                      buttonVariants({ variant: "outline", size: "icon" })
-                    )}
-                  >
-                    <ArrowRight />
-                  </Link>
-                </TooltipComponent>
-              </motion.div>
+              <TooltipComponent content="View">
+                <Link
+                  to={`/${cta}`}
+                  className={ny(
+                    "rtl:rotate-180",
+                    buttonVariants({ variant: "outline", size: "icon" }),
+                    main && "invisible"
+                  )}
+                >
+                  <ArrowRight />
+                </Link>
+              </TooltipComponent>
             )}
           </div>
           {children}
