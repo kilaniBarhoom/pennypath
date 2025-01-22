@@ -132,6 +132,9 @@ export const useDeleteExpenseMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["expenses"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["analytics"],
+      });
     },
   });
 };
