@@ -52,7 +52,7 @@ export default function OverView({ analytics }: { analytics: any }) {
       variants={containerVariants}
     >
       <Card aria-describedby="overview" className="w-full h-auto p-0">
-        <CardContent className="flex flex-col gap-1 p-4">
+        <CardContent className="flex flex-col gap-2 p-4">
           {/* Wallet Balance and Earned */}
           <div className="flex gap-2 max-md:flex-col md:h-[160px]">
             <CardDetails
