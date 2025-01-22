@@ -14,7 +14,7 @@ export const getAllExpenses = async (req, res, next) => {
 
 
 
-    const totalPages = Math.ceil(expenseDocuments / pageSize);
+    const totalPages = Math.floor(expenseDocuments / pageSize);
 
     const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: pageSize }));
 
