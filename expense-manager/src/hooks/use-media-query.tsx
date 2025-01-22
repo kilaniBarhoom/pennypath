@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
-// Define the hook with 'query' parameter typed as a string
-const useMediaQuery = (query: string): boolean => {
+// Define the hook with 'minWidth' parameter typed as a number
+const useMediaQuery = (minWidth: number): boolean => {
   const [matches, setMatches] = useState<boolean>(false);
 
   useEffect(() => {
+    const query = `(min-width: ${minWidth}px)`;
     const media = window.matchMedia(query);
     if (media.matches !== matches) {
       setMatches(media.matches);
@@ -18,7 +19,7 @@ const useMediaQuery = (query: string): boolean => {
 
     // Cleanup function to remove the event listener
     return () => media.removeEventListener("change", listener);
-  }, [matches, query]); // Only recreate the listener when 'matches' or 'query' changes
+  }, [matches, minWidth]); // Only recreate the listener when 'matches' or 'minWidth' changes
 
   return matches;
 };

@@ -1,3 +1,5 @@
+// Import Statements
+import TooltipComponent from "@/components/shared/tooltip-component";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -6,28 +8,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ny } from "@/lib/utils";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Plus,
   CreditCard,
+  Plus,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import AddEditExpenseSheet from "../expenses/add-edit-sheet";
 import { useTranslation } from "react-i18next";
-import TooltipComponent from "@/components/shared/tooltip-component";
-import { ny } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import AddEditExpenseSheet from "../expenses/add-edit-sheet-drawer/index.tsx";
 import { ExpenseOverviewChart } from "./ExpenseOverviewChart";
 
+// Animation Variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
+    transition: { staggerChildren: 0.1 },
   },
 };
 
@@ -36,10 +36,7 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-    },
+    transition: { type: "spring", stiffness: 100 },
   },
 };
 
@@ -53,16 +50,17 @@ export default function OverView({ analytics }: { analytics: any }) {
       className="w-full"
       variants={containerVariants}
     >
-      <Card aria-describedby="overview" className="w-full h-full">
-        <CardContent className="flex items-center max-md:flex-col h-full w-full gap-2 p-0">
-          <div className="grid gap-2 flex-1 w-full">
+      <Card aria-describedby="overview" className="w-full h-auto p-0">
+        <CardContent className="flex flex-col gap-2 p-4">
+          {/* Wallet Balance and Earned */}
+          <div className="flex gap-2">
             <CardDetails
               title="Wallet Balance"
               description="Your current balance in your wallet"
               amount={analytics?.walletBalance}
               Icon={
                 <motion.span
-                  className={`p-2 bg-secondary rounded-full`}
+                  className="p-2 bg-secondary rounded-full text-secondary-foreground"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -71,15 +69,13 @@ export default function OverView({ analytics }: { analytics: any }) {
               }
               main
             />
-
             <CardDetails
               title="Earned"
               description="How much you earned"
-              className="h-full"
               amount={analytics?.totalPaymentsValue}
               Icon={
                 <motion.span
-                  className={`p-2 bg-green-500 rounded-full`}
+                  className="p-2 bg-green-500 rounded-full"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -89,43 +85,36 @@ export default function OverView({ analytics }: { analytics: any }) {
               cta="payments"
             />
           </div>
-          <div className="flex-1 h-full w-full">
-            <CardDetails
-              title="Expenses"
-              description="How much you spent"
-              className="h-full"
-              amount={analytics?.allTimeTotalExpensesValue}
-              Icon={
-                <motion.span
-                  className={`p-2 bg-red-500 rounded-full`}
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TrendingDown className="text-white" />
-                </motion.span>
-              }
-              cta="expenses"
-              chart={
-                <ExpenseOverviewChart
-                  expensesData={
-                    analytics?.expensesOfCurrentAndPreviousWeeks as {
-                      date: string;
-                      week: string;
-                      totalAmount: number;
-                    }[]
-                  }
-                />
-              }
-              action={
-                <AddEditExpenseSheet>
-                  <Button className="w-fit p-2" size="sm">
-                    {t("Add")}
-                    <Plus className="inline h-3 w-3 ml-1" />
-                  </Button>
-                </AddEditExpenseSheet>
-              }
-            />
-          </div>
+
+          {/* Expenses */}
+          <CardDetails
+            title="Expenses"
+            description="How much you spent"
+            amount={analytics?.allTimeTotalExpensesValue}
+            Icon={
+              <motion.span
+                className="p-2 bg-red-500 rounded-full"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TrendingDown className="text-white" />
+              </motion.span>
+            }
+            cta="expenses"
+            chart={
+              <ExpenseOverviewChart
+                expensesData={analytics?.expensesOfCurrentAndPreviousWeeks}
+              />
+            }
+            action={
+              <AddEditExpenseSheet>
+                <Button size="sm" className="flex items-center gap-1">
+                  {t("Add")}
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </AddEditExpenseSheet>
+            }
+          />
         </CardContent>
       </Card>
     </motion.div>
@@ -141,7 +130,7 @@ function CardDetails({
   cta,
   action,
   chart,
-  className,
+  className = "",
   children,
 }: {
   title: string;
@@ -158,50 +147,42 @@ function CardDetails({
   const { t } = useTranslation();
 
   return (
-    <motion.div variants={cardVariants}>
+    <motion.div
+      variants={cardVariants}
+      className={`flex-1 h-full ${className}`}
+    >
       <Card
-        className={`${
+        className={`p-4 grid gap-4 ${
           main
-            ? "bg-gradient-to-r from-primary dark:from-primary/30 to-primary/80 dark:to-primary/60 h-full w-full"
-            : "bg-secondary/50"
-        } p-4 grid gap-4 items-start ${className}`}
+            ? "bg-gradient-to-r from-primary/80 to-primary/60 text-white"
+            : "bg-secondary/50 text-secondary-foreground border"
+        }`}
       >
-        <div className="flex items-center justify-between gap-2">
-          <CardHeader className="flex-row items-center gap-2 p-0">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <CardHeader className="flex items-start flex-row gap-2">
             {Icon}
             <div>
-              <CardTitle
-                className={`${
-                  main ? "text-white" : "text-secondary-foreground"
-                }`}
-              >
-                {t(title)}
-              </CardTitle>
-              <CardDescription
-                className={`${
-                  main ? "text-neutral-300" : "text-secondary-foreground/50"
-                }`}
-              >
+              <CardTitle>{t(title)}</CardTitle>
+              <CardDescription className={`${main && "text-neutral-200"}`}>
                 {t(description)}
               </CardDescription>
             </div>
           </CardHeader>
           {action}
         </div>
-        <CardContent className="flex flex-col gap-2 p-0">
+
+        {/* Content */}
+        <CardContent className="flex flex-col gap-4">
           {chart}
-          <div className="flex items-center flex-row justify-between gap-2">
+          <div className="flex justify-between items-center">
             <motion.div
-              className={`font-semibold text-3xl ${
-                main ? "text-white" : "text-foreground"
-              }`}
+              className="text-3xl font-bold"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <span>₪</span>
-              &nbsp;
-              {amount}
+              ₪ {amount}
             </motion.div>
             {cta && (
               <motion.div
@@ -213,10 +194,7 @@ function CardDetails({
                     to={`/${cta}`}
                     className={ny(
                       "rtl:rotate-180",
-                      buttonVariants({
-                        variant: "outline",
-                        size: "icon",
-                      })
+                      buttonVariants({ variant: "outline", size: "icon" })
                     )}
                   >
                     <ArrowRight />

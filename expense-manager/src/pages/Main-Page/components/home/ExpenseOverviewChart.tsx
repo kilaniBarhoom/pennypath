@@ -1,6 +1,6 @@
 "use client";
 
-import { Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -40,7 +40,7 @@ export function ExpenseOverviewChart({
 }) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return format(date, "eee");
+    return format(date, "eeee");
   };
 
   const processedData = expensesData.reduce((acc, item) => {
@@ -65,7 +65,7 @@ export function ExpenseOverviewChart({
       <CardContent className="h-fit">
         <ChartContainer
           config={chartConfig}
-          className="max-h-24 h-fit w-full p-0"
+          className="h-[200px] aspect-auto w-full p-0"
         >
           <LineChart
             accessibilityLayer
@@ -77,27 +77,52 @@ export function ExpenseOverviewChart({
               bottom: 12,
             }}
           >
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <XAxis
+              className=""
               dataKey="date"
-              tickLine={false}
-              axisLine={false}
+              tickLine={true}
+              axisLine={true}
               tickMargin={20}
             />
+            <CartesianGrid vertical={false} />
             <Line
               dataKey="previous"
-              type="monotone"
-              stroke="hsl(var(--chart-7))"
-              strokeWidth={2}
+              type="natural"
+              stroke="hsl(var(--chart-secondary-foreground))"
+              strokeWidth={4}
               dot={{ r: 4 }}
-            />
+              activeDot={{
+                r: 6,
+              }}
+            >
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Line>
             <Line
               dataKey="current"
-              type="monotone"
-              stroke="hsl(var(--chart-8))"
-              strokeWidth={2}
+              type="natural"
+              stroke="hsl(var(--chart-primary-foreground))"
+              strokeWidth={4}
               dot={{ r: 4 }}
-            />
+              activeDot={{
+                r: 6,
+              }}
+            >
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Line>
           </LineChart>
         </ChartContainer>
       </CardContent>

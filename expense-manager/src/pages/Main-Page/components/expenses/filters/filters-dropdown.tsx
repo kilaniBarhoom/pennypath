@@ -58,7 +58,7 @@ export default function FiltersDropdown({
     });
   };
 
-  const isDesktop = useMediaQuery("1024px");
+  const isDesktop = useMediaQuery(1024);
 
   return (
     <div className="flex flex-col gap-4">

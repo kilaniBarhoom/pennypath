@@ -9,6 +9,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { stringToDate } from "@/lib/utils";
 import { useExpenseFormMutation } from "@/pages/Main-Page/api/expenses";
 import { ExpenseFormSchema, ExpenseFormSchemaType } from "@/schemas";
@@ -16,6 +24,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import useMediaQuery from "@/hooks/use-media-query";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type AddEditExpenseSheetProps = {
   children: React.ReactNode;
@@ -26,7 +36,7 @@ const AddEditExpenseSheet = ({
   children,
   expense,
 }: AddEditExpenseSheetProps) => {
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -60,7 +70,7 @@ const AddEditExpenseSheet = ({
         description: "",
       });
       expenseForm.reset();
-      setSheetOpen(false);
+      setIsOpen(false);
     } catch (error: any) {
       toast(t("Error"), {
         description: t(error?.response?.data?.[0]) || t("Something went wrong"),
@@ -70,30 +80,52 @@ const AddEditExpenseSheet = ({
 
   const isLoading = expenseForm.formState.isSubmitting;
 
+  const isDesktop = useMediaQuery(1024);
+
+  const content = {
+    title: expense ? t("Edit expense") : t("Add a new expense"),
+    trigger: children,
+    content: (
+      <ExpenseForm
+        expenseForm={expenseForm}
+        isLoading={isLoading}
+        onSubmit={onSubmit}
+        expense={expense}
+        footer={isDesktop ? "sheet" : "drawer"}
+      />
+    ),
+  };
+
   return (
-    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent
-        disableBackdrop
-        className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
-        side={"right"}
-      >
-        <SheetHeader>
-          <SheetTitle>
-            {expense ? t("Edit expense") : t("Add a new expense")}
-          </SheetTitle>
-          <SheetDescription></SheetDescription>
-        </SheetHeader>
-        <div className="overflow-y-auto">
-          <ExpenseForm
-            expenseForm={expenseForm}
-            isLoading={isLoading}
-            onSubmit={onSubmit}
-            expense={expense}
-          />
-        </div>
-      </SheetContent>
-    </Sheet>
+    <>
+      {isDesktop ? (
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>{content.trigger}</SheetTrigger>
+          <SheetContent
+            disableBackdrop
+            className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
+            side={"right"}
+          >
+            <SheetHeader>
+              <SheetTitle>{content.title}</SheetTitle>
+              <SheetDescription></SheetDescription>
+            </SheetHeader>
+            <div className="overflow-y-auto">{content.content}</div>
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+          <DrawerTrigger asChild>{content.trigger}</DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>{content.title}</DrawerTitle>
+              <DrawerDescription></DrawerDescription>
+            </DrawerHeader>
+            <ScrollArea className="h-fit">{content.content}</ScrollArea>
+          </DrawerContent>
+        </Drawer>
+      )}
+    </>
   );
 };
 

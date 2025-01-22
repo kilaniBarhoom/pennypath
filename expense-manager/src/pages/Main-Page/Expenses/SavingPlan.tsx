@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import AddEditExpenseDialogDrawer from "../components/expenses/add-edit-sheet";
+import AddEditExpenseDialogDrawer from "../components/expenses/add-edit-sheet-drawer/index.tsx";
 import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 
 const SavingPlan = () => {

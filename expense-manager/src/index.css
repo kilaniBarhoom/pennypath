@@ -35,6 +35,8 @@
     --chart-8: 200 80% 60%;
     --chart-9: 10 85% 65%;
     --chart-10: 300 75% 70%;
+    --chart-primary-foreground: 215 91% 46%;
+    --chart-secondary-foreground: 189 17% 0%;
   }
 
   .dark {
@@ -67,6 +69,8 @@
     --chart-8: 200 80% 60%;
     --chart-9: 10 85% 65%;
     --chart-10: 300 75% 70%;
+    --chart-primary-foreground: 215 91% 46%;
+    --chart-secondary-foreground: 0 0% 100%;
   }
 }
 

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import AddEditExpenseSheet from "../components/expenses/add-edit-sheet";
+import AddEditExpenseSheet from "../components/expenses/add-edit-sheet-drawer/index.tsx";
 import ExpensesWrapper from "../components/expenses/expenses-wrapper";
 // import { DateRangePicker } from "@/components/ui/date-range-picker";
 

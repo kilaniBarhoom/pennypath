@@ -2,12 +2,12 @@ import ShekelIcon from "@/components/shared/icons/shekel-icon";
 import LoadingComponent from "@/components/shared/Loading-component";
 import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
+import { format } from "date-fns";
+import { ar, enGB } from "date-fns/locale";
 import { BellDot } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDeleteExpenseMutation } from "../../api/expenses";
-import AddEditExpenseDialogDrawer from "./add-edit-sheet";
-import { format } from "date-fns";
-import { ar, enGB } from "date-fns/locale";
+import AddEditExpenseDialogDrawer from "./add-edit-sheet-drawer/index.tsx";
 
 const ExpensesList = ({
   expenses,

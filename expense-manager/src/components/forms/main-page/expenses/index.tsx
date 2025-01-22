@@ -1,6 +1,7 @@
 import { DatePicker } from "@/components/shared/date-picker";
 import LoadingComponent from "@/components/shared/Loading-component";
 import { Button } from "@/components/ui/button";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
@@ -27,6 +28,7 @@ type ExpenseFormProps = {
   isLoading: boolean;
   onSubmit: any;
   expense?: ExpenseType;
+  footer: "sheet" | "drawer";
 };
 
 const ExpenseForm = ({
@@ -34,6 +36,7 @@ const ExpenseForm = ({
   isLoading,
   onSubmit,
   expense,
+  footer,
 }: ExpenseFormProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
@@ -64,6 +67,26 @@ const ExpenseForm = ({
 
     fetchCategories();
   }, []);
+
+  const footerAttributes = {
+    className:
+      "flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full",
+    closeBtn: (
+      <Button type="button" className="md:w-fit w-full" variant={"outline"}>
+        {t("Discard")}
+      </Button>
+    ),
+    submitBtn: (
+      <Button
+        loading={isLoading}
+        disabled={isLoading}
+        type="submit"
+        className="px-8 md:w-fit w-full"
+      >
+        {expense ? t("Save") : t("Add")}
+      </Button>
+    ),
+  };
 
   return (
     <Form {...expenseForm}>
@@ -210,21 +233,28 @@ const ExpenseForm = ({
             )}
           />
         </div>
-        <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
-          <SheetClose asChild>
-            <Button type="button" className="w-fit" variant={"outline"}>
-              {t("Discard")}
+        {footer === "sheet" ? (
+          <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
+            <SheetClose asChild>
+              <Button type="button" className="w-fit" variant={"outline"}>
+                {t("Discard")}
+              </Button>
+            </SheetClose>
+            <Button
+              loading={isLoading}
+              disabled={isLoading}
+              type="submit"
+              className="px-8 w-fit"
+            >
+              {expense ? t("Save") : t("Add")}
             </Button>
-          </SheetClose>
-          <Button
-            loading={isLoading}
-            disabled={isLoading}
-            type="submit"
-            className="px-8 w-fit"
-          >
-            {expense ? t("Save") : t("Add")}
-          </Button>
-        </SheetFooter>
+          </SheetFooter>
+        ) : (
+          <DrawerFooter className={ny(footerAttributes.className, "w-full")}>
+            <DrawerClose asChild>{footerAttributes.closeBtn}</DrawerClose>
+            {footerAttributes.submitBtn}
+          </DrawerFooter>
+        )}
       </form>
     </Form>
   );

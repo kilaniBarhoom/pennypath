@@ -1,21 +1,17 @@
-"use client";
-
 import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { ny } from "@/lib/utils";
 
-function Drawer({
+const Drawer = ({
   shouldScaleBackground = true,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return (
-    <DrawerPrimitive.Root
-      shouldScaleBackground={shouldScaleBackground}
-      {...props}
-    />
-  );
-}
+}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+  <DrawerPrimitive.Root
+    shouldScaleBackground={shouldScaleBackground}
+    {...props}
+  />
+);
 Drawer.displayName = "Drawer";
 
 const DrawerTrigger = DrawerPrimitive.Trigger;
@@ -45,42 +41,40 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={ny(
-        "bg-background fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border",
+        "fixed inset-x-0 bottom-0 z-50 p-0 mt-24 flex h-5/6 flex-col border border-border bg-background overflow-hidden",
         className
       )}
       {...props}
     >
-      <div className="bg-muted mx-auto mt-4 h-2 w-[100px] cursor-grab rounded-full active:cursor-grabbing" />
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ));
 DrawerContent.displayName = "DrawerContent";
 
-function DrawerHeader({
+const DrawerHeader = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={ny("grid gap-1.5 p-4 text-center sm:text-left", className)}
-      {...props}
-    />
-  );
-}
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={ny(
+      "flex flex-col p-4 bg-muted border-b border-border w-full text-center rounded-t-md sm:text-left",
+      className
+    )}
+    {...props}
+  />
+);
 DrawerHeader.displayName = "DrawerHeader";
 
-function DrawerFooter({
+const DrawerFooter = ({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={ny("mt-auto flex flex-col gap-2 p-4", className)}
-      {...props}
-    />
-  );
-}
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={ny("mt-auto flex flex-col gap-2 p-4", className)}
+    {...props}
+  />
+);
 DrawerFooter.displayName = "DrawerFooter";
 
 const DrawerTitle = React.forwardRef<
@@ -90,7 +84,7 @@ const DrawerTitle = React.forwardRef<
   <DrawerPrimitive.Title
     ref={ref}
     className={ny(
-      "text-lg font-semibold leading-none tracking-tight",
+      "text-lg font-semibold leading-none tracking-tight text-secondary-foreground",
       className
     )}
     {...props}
@@ -104,7 +98,7 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={ny("text-muted-foreground text-sm", className)}
+    className={ny("text-sm text-muted-foreground", className)}
     {...props}
   />
 ));
@@ -112,13 +106,13 @@ DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {
   Drawer,
+  DrawerPortal,
+  DrawerOverlay,
+  DrawerTrigger,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
-  DrawerPortal,
+  DrawerFooter,
   DrawerTitle,
-  DrawerTrigger,
+  DrawerDescription,
 };
