@@ -59,7 +59,7 @@ export default function OverView({ analytics }: { analytics: any }) {
               title="Wallet Balance"
               description="Your current balance in your wallet"
               amount={analytics?.walletBalance}
-              cta={"/"}
+              cta={"dashboard"}
               Icon={
                 <motion.span
                   className="p-2 bg-secondary rounded-full text-secondary-foreground"

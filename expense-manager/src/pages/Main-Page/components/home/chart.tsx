@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  ResponsiveContainer,
-  XAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import {
   Card,
@@ -90,35 +83,33 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
       </CardHeader>
       <CardContent className="p-0 sm:p-6">
         <ChartContainer className="h-[300px] w-full" config={chartConfig}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={visibleData}
-              margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+          <BarChart
+            data={visibleData}
+            margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
+              interval={0}
+            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Bar
+              dataKey="amount"
+              fill="var(--color-amount)"
+              radius={[8, 8, 0, 0]}
             >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="month"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
-                interval={0}
-              />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <Bar
+              <LabelList
                 dataKey="amount"
-                fill="var(--color-amount)"
-                radius={[8, 8, 0, 0]}
-              >
-                <LabelList
-                  dataKey="amount"
-                  position="top"
-                  formatter={(value: number) => `₪${value.toFixed(0)}`}
-                  className="fill-foreground text-[10px] sm:text-xs"
-                />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+                position="top"
+                formatter={(value: number) => `₪${value.toFixed(0)}`}
+                className="fill-foreground text-[10px] sm:text-xs"
+              />
+            </Bar>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
