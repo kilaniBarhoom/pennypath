@@ -39,7 +39,7 @@ const Payments = () => {
       <Helmet>
         <title>Payments</title>
       </Helmet>
-      <div className="w-full flex items-center flex-wrap justify-between gap-2">
+      <div className="w-full flex items-center justify-between gap-2">
         <BreadcrumbComponent
           tree={[
             {
@@ -49,7 +49,7 @@ const Payments = () => {
           currentPage={"All"}
         />
         <AddEditPaymentDialogDrawer>
-          <Button className="px-6 lg:py-4 py-6 xl:w-fit w-full" Icon={Plus}>
+          <Button className="px-6" Icon={Plus}>
             {t("Add Payment")}
           </Button>
         </AddEditPaymentDialogDrawer>
