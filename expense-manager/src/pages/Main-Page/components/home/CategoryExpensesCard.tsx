@@ -104,9 +104,9 @@ export default function CategoryExpensesCard({
         {categories && categories.length > 0 ? (
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square h-[400px] w-full"
+            className="mx-auto aspect-square h-[300px] w-full"
           >
-            <PieChart className="w-full max-h-[230px]">
+            <PieChart className="w-full max-h-[200px]">
               <ChartTooltip
                 content={<ChartTooltipContent nameKey="name" hideLabel />}
               />
@@ -130,7 +130,7 @@ export default function CategoryExpensesCard({
       </CardContent>
       <CardFooter>
         {categories && categories.length > 0 ? (
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-4 flex-wrap w-full">
             {categories.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 <span
