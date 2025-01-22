@@ -28,18 +28,6 @@ const userSchema = new Schema({
             "Please provide a valid email",
         ],
     },
-    phone: {
-        type: String,
-        default: "",
-        required: false,
-        unique: false,
-    },
-    secondaryPhone: {
-        type: String,
-        default: "",
-        required: false,
-        unique: false,
-    },
     password: {
         type: String,
         required: [true, "Please enter a password"],

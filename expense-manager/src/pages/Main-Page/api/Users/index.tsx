@@ -1,5 +1,5 @@
 import useAxios from "@/hooks/use-axios";
-import { UsersEditFormSchemaType, UsersFormSchemaType } from "@/schemas";
+import { UsersEditFormSchemaType, RegisterFormSchemaType } from "@/schemas";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -9,10 +9,7 @@ export type UserRolesResponseType = {
   users: UserType[];
 };
 
-export type UsersResponseType = Omit<UserType, "createdAt" | "updatedAt"> & {
-  createdAt: string;
-  updatedAt: string;
-};
+export type UsersResponseType = UserType;
 export const useSearchUsersQuery = () => {
   const axios = useAxios();
 
@@ -63,7 +60,7 @@ export const useUsersFormMutation = () => {
   const axios = useAxios();
 
   return useMutation({
-    mutationFn: ({ data }: { data: UsersFormSchemaType }) => {
+    mutationFn: ({ data }: { data: RegisterFormSchemaType }) => {
       return axios.post(`user`, data);
     },
     onSuccess: () => {

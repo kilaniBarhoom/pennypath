@@ -1,4 +1,4 @@
-import LoginForm from "@/components/forms/auth/login.form";
+import RegisterForm from "@/components/forms/auth/register.form";
 import LanguageSelect from "@/components/shared/language-select";
 import ThemeSelector from "@/components/shared/theme-selector";
 import { Separator } from "@/components/ui/separator";
@@ -6,7 +6,7 @@ import Typography from "@/components/ui/typography";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 
-const Login = () => {
+const Register = () => {
   const { t } = useTranslation();
   return (
     <div className="h-full flex flex-col items-center justify-center gap-5">
@@ -28,14 +28,14 @@ const Login = () => {
             className="text-start font-normal"
             color="secondary"
           >
-            {t("Login")}
+            {t("Register")}
           </Typography>
           <Typography element="p" as="mutedText" className="text-start">
-            {t("Enter your credentials to access your account")}
+            {t("Enter your credentials to register your account")}
           </Typography>
         </div>
       </div>
-      <LoginForm />
+      <RegisterForm />
       <Separator />
       <div className="flex items-center justify-between gap-2">
         <LanguageSelect />
@@ -45,4 +45,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

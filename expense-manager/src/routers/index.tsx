@@ -21,6 +21,7 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
+import Register from "@/pages/Auth/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       >
         <Route path="/" element={<AuthLayout />}>
           <Route index element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route element={<RequireAuth />}>

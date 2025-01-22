@@ -14,12 +14,11 @@ router.use("/health", (req, res) => {
 router.route('/')
     .all(auth)
     .get(catcher(controller.getOwnProfile))
-    .post(hasRole(Roles.SUPERADMIN, Roles.ADMIN), catcher(controller.createUser))
     .delete(catcher(controller.deleteOwnProfile))
 
 router.get('/all', auth, hasRole(Roles.ADMIN, Roles.SUPERADMIN), catcher(controller.getAllUsers))
 router.put("/toggle-activate/:userId", auth, hasRole(Roles.SUPERADMIN), catcher(controller.toggleActivateUser))
-router.put('/:userId', auth, hasRole(Roles.SUPERADMIN), catcher(controller.updateUser))
+router.put('/:userId', auth, hasRole(Roles.SUPERADMIN, Roles.ADMIN, Roles.USER), catcher(controller.updateUser))
 router.patch('/:userId', auth, hasRole(Roles.SUPERADMIN), catcher(controller.changeRole))
 router.put('/update-password', auth, catcher(controller.updatePassword))
 

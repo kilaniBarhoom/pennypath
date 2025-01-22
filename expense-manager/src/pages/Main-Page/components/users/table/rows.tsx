@@ -13,20 +13,18 @@ import {
   useToggleUserActivationMutation,
 } from "@/pages/Main-Page/api/Users";
 import { useAuth } from "@/providers/auth-provider";
-import { Copy, Pen } from "lucide-react";
-import { useRef } from "react";
+import { Pen } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import ChangeRoleDialog from "../change-role";
 import EditUsersSheet from "../edit-sheet";
+import { format } from "date-fns";
 
 const TableRows = ({
   userResponse,
 }: {
   userResponse?: UserRolesResponseType[] | UsersResponseType[];
 }) => {
-  const phoneRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
-
   const { i18n } = useTranslation();
   const { user: loggedInUser } = useAuth();
   const language = i18n.language;
@@ -45,7 +43,7 @@ const TableRows = ({
         key={user.id}
         className={ny(
           {
-            "bg-green-300/40 hover:bg-green-300/30":
+            "bg-green-600/40 hover:bg-green-300/30":
               user?.id === loggedInUser?.id,
           },
           "cursor-pointer"
@@ -65,33 +63,12 @@ const TableRows = ({
           </Typography>
         </TableCell>
         <TableCell className="max-w-max">
-          <Button variant="link" size="link">
+          <Button variant="link" size="link" className="text-primary">
             {user.email}
           </Button>
         </TableCell>
         <TableCell className="min-w-max">
-          {(!!user.phone || !!user.secondaryPhone) && (
-            <Typography
-              element="span"
-              as="largeText"
-              className="text-blue-500 font-base flex items-center gap-2"
-            >
-              <span ref={(el) => phoneRefs.current.set(user.id, el!)}>
-                {user.phone ?? user.secondaryPhone}
-              </span>
-              <Copy
-                size={20}
-                className="cursor-pointer text-secondary-foreground"
-                onClick={() => {
-                  const phoneElement = phoneRefs.current.get(user.id);
-                  if (phoneElement) {
-                    navigator.clipboard.writeText(phoneElement.innerText);
-                    toast("Copied");
-                  }
-                }}
-              />
-            </Typography>
-          )}
+          {format(user.createdAt, "dd/MM/yyyy")}
         </TableCell>
         <TableCell className="max-w-10">
           <AuthorizedRender

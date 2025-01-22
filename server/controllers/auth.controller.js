@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import * as statusCodes from '../constants/status.constants.js';
 import Session from '../models/Session.js';
 import User from "../models/user.js";
+import { RegisterSchema } from '../schemas/index.js';
 import sendToken from "../utils/jwtTokenCookie.js";
 import ResponseError from '../utils/respErr.js';
 
@@ -58,6 +59,45 @@ export const login = async (req, res, next) => {
     sendToken(user, statusCodes.OK, res)
 
 
+}
+
+export const register = async (req, res, next) => {
+    const isValidationError = RegisterSchema.safeParse(req.body);
+
+    if (!isValidationError.success) {
+        return next(new ResponseError(
+            isValidationError.error.errors[0].message
+            , statusCodes.BAD_REQUEST));
+    }
+    const { fullNameEnglish, fullNameArabic, email, password, phone, secondaryPhone } = req.body;
+
+
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+        return next(
+            new ResponseError(
+                "User already exists",
+                statusCodes.BAD_REQUEST
+            )
+        )
+    }
+
+    const userData = {
+        email,
+        password,
+        fullNameEnglish,
+        fullNameArabic,
+        phone: phone || "",
+        secondaryPhone: secondaryPhone || "",
+        role: "user"
+    }
+
+    const user = await User.create(userData);
+
+
+    req.user = user;
+    sendToken(user, statusCodes.OK, res)
 }
 
 

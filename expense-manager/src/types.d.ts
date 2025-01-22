@@ -1,11 +1,13 @@
 declare type UserType = {
-  id: string;
-  email: string;
+  fullNameEnglish: string;
   fullNameArabic: string;
-  fullNameEnglish: string | null;
+  email: string;
   phone: string;
   secondaryPhone: string;
   active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
   role: string;
 };
 

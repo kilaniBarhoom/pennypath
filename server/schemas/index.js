@@ -10,8 +10,6 @@ export const RegisterSchema = z.object({
     fullNameEnglish: z.string().min(3),
     email: z.string().email(),
     password: z.string().min(6),
-    phone: z.string().optional().default(""),
-    secondaryPhone: z.string().optional().default(""),
 });
 
 

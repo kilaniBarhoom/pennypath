@@ -20,8 +20,8 @@ const PersistentLogin = () => {
       } catch (error: any) {
         if (error.code === "ERR_NETWORK") {
           setError({
-            title: "Server unreachable",
-            description: "Sorry, server unreachable at the moment.",
+            description:
+              "Sorry, server unreachable at the moment. Try refreshing the browser",
           });
         } else if (error.response.status === 401) {
           setError({

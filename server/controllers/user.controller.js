@@ -36,46 +36,7 @@ export const getOwnProfile = async (req, res, next) => {
     })
 }
 
-export const createUser = async (req, res, next) => {
-    const { fullNameEnglish, fullNameArabic, email, password, phone, secondaryPhone } = req.body;
-    if (!email || !password || !fullNameEnglish || !fullNameArabic) {
-        return next(
-            new ResponseError(
-                "Enter all required fields",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
 
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-        return next(
-            new ResponseError(
-                "User already exists",
-                statusCodes.BAD_REQUEST
-            )
-        )
-    }
-
-    const userData = {
-        email,
-        password,
-        fullNameEnglish,
-        fullNameArabic,
-        phone: phone || "",
-        secondaryPhone: secondaryPhone || "",
-    }
-
-    const user = await User.create(userData);
-
-    return res.status(statusCodes.CREATED).json({
-        message: "User created",
-        data: {
-            user
-        }
-    })
-}
 
 // /api/user/update-password
 export const updatePassword = async (req, res, next) => {

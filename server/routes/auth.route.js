@@ -11,6 +11,7 @@ router.use("/health", (req, res) => {
 
 router.post('/login', catcher(controller.login))
 router.delete('/logout', catcher(controller.logout))
+router.post('/register', catcher(controller.register))
 router.post('/refreshToken', catcher(controller.refreshToken))
 
 

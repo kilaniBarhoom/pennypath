@@ -1,3 +1,4 @@
+import AuthorizedRender from "@/components/shared/authorized-conditional-render";
 import {
   Table,
   TableBody,
@@ -6,15 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Settings, User, Phone, UserCheck2, Mail } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import TableRows from "./rows";
-import AuthorizedRender from "@/components/shared/authorized-conditional-render";
-import UsersTableSkeleton from "./skeleton";
 import {
   UserRolesResponseType,
   UsersResponseType,
 } from "@/pages/Main-Page/api/Users";
+import { Calendar, Mail, Settings, User, UserCheck2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import TableRows from "./rows";
+import UsersTableSkeleton from "./skeleton";
 
 const UsersTable = ({
   userResponse,
@@ -43,8 +43,8 @@ const UsersTable = ({
           </TableHead>
           <TableHead>
             <p className="flex items-center gap-1">
-              <Phone size={20} strokeWidth={2.3} />
-              {t("Phone")}
+              <Calendar size={20} strokeWidth={2.3} />
+              {t("Created At")}
             </p>
           </TableHead>
           <TableHead>

@@ -13,11 +13,11 @@ import { useAuth } from "@/providers/auth-provider";
 import { useError } from "@/providers/error-provider";
 import { LoginFormSchema, LoginFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 // import LanguageSelectForm from "@/components/shared/LanguageSelect";
 import ErrorAlert from "@/components/shared/error-alert";
@@ -28,8 +28,8 @@ const LoginForm = () => {
   const loginForm = useForm<LoginFormSchemaType>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: "demouser@mail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     },
   });
 
@@ -45,6 +45,8 @@ const LoginForm = () => {
   const { setError } = useError();
   const { t, i18n } = useTranslation();
   const dir = i18n.dir();
+  const language = i18n.language;
+
   const isLoading = loginForm.formState.isSubmitting;
 
   async function onSubmit(values: LoginFormSchemaType) {
@@ -57,12 +59,19 @@ const LoginForm = () => {
       setUser(user);
       setAccessToken(token);
       localStorage.setItem("isLoggedIn", "true");
-      toast(t("Welcome back, {{name}}", { name: user?.fullNameArabic }), {});
+      toast(
+        t("Welcome back, {{name}}", {
+          name:
+            language === "ar" ? user?.fullNameArabic : user?.fullNameEnglish,
+        }),
+        {}
+      );
       navigate(from, { replace: true });
     } catch (error: any) {
       if (error.code === "ERR_NETWORK") {
         setError({
-          description: "Sorry, server unreachable at the moment.",
+          description:
+            "Sorry, server unreachable at the moment. Try refreshing the browser",
         });
       } else {
         console.log(error.response.data.message);
@@ -126,8 +135,6 @@ const LoginForm = () => {
                       autoComplete="password"
                       placeholder="********"
                       className="hover:border-primary focus-within:border-primary duration-500 border"
-                      defaultValue="55555555"
-                      icon={<Lock size={20} />}
                     />
                     {showPassword ? (
                       <Eye
@@ -152,28 +159,31 @@ const LoginForm = () => {
                 </Trans>
               </FormControl>
               <FormMessage className="text-start" />
-              {/* <div className="text-end">
-                <Button variant={"link"} size={"link"}>
-                  {t("Forgot your password?")}
-                </Button>
-              </div> */}
+              <div className="text-end">
+                <p>{t("Forgot your password?")}</p>
+              </div>
             </FormItem>
           )}
         />
         <ErrorAlert />
-        <Button
-          className="w-full mt-4"
-          type="submit"
-          disabled={isLoading}
-          loading={isLoading}
-        >
-          {t("Login")}
-        </Button>
+        <div className="flex items-center justify-center gap-2 flex-col">
+          <Button
+            className=" w-full"
+            type="submit"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            {t("Login")}
+          </Button>
+          <p className="text-sm text-secondary-foreground">
+            {t("Don't have an account?")}{" "}
+            <Link to="/register" className="text-primary">
+              {t("register")}
+            </Link>
+          </p>
+        </div>
       </form>
     </Form>
-    // <div className="w-fit mt-6">
-    //   {/* <LanguageSelectForm className="lg:w-1/2 text-white hover:text-white text-lg" /> */}
-    // </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const LoginFormSchema = z.object({
-  email: z.string().min(1, "Email is required"),
+  email: z.string().min(1, "Email is required").email(),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -36,28 +36,20 @@ export type ChangePasswordFormSchemaType = z.infer<
   typeof ChangePasswordFormSchema
 >;
 
-export const UsersFormSchema = z.object({
+export const RegisterFormSchema = z.object({
   fullNameEnglish: z.string().min(1, "Full name in english is required"),
   fullNameArabic: z.string().min(1, "Full name in arabic is required"),
-  email: z.string().min(1, "Email is required"),
-  password: z.string({
-    required_error: "Password is required",
-  }),
-  phone: z.string().optional(),
-  secondaryPhone: z.string().optional(),
-  role: z.string().default("user"),
+  email: z.string().min(1, "Email is required").email(),
+  password: z.string().min(1, "Password is required"),
 });
 
-export type UsersFormSchemaType = z.infer<typeof UsersFormSchema>;
+export type RegisterFormSchemaType = z.infer<typeof RegisterFormSchema>;
 
 // same user schema but without password
 export const UsersEditFormSchema = z.object({
   fullNameEnglish: z.string().min(1, "Full name in english is required"),
   fullNameArabic: z.string().min(1, "Full name in arabic is required"),
-  email: z.string().min(1, "Email is required"),
-  phone: z.string().optional(),
-  secondaryPhone: z.string().optional(),
-  role: z.string().default("user"),
+  email: z.string().min(1, "Email is required").email(),
 });
 
 export type UsersEditFormSchemaType = z.infer<typeof UsersEditFormSchema>;

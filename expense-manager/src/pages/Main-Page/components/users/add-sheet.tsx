@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 
 import { useUsersFormMutation } from "@/pages/Main-Page/api/Users";
-import { UsersFormSchema, UsersFormSchemaType } from "@/schemas";
+import { RegisterFormSchema, RegisterFormSchemaType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,21 +26,18 @@ const AddEditUsersSheet = ({ children }: { children: React.ReactNode }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const userForm = useForm<UsersFormSchemaType>({
-    resolver: zodResolver(UsersFormSchema),
+  const userForm = useForm<RegisterFormSchemaType>({
+    resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
       fullNameArabic: "",
       fullNameEnglish: "",
       email: "",
-      phone: "",
-      secondaryPhone: "",
-      role: "user",
     },
   });
 
   const { mutateAsync } = useUsersFormMutation();
 
-  const onSubmit = async (data: UsersFormSchemaType) => {
+  const onSubmit = async (data: RegisterFormSchemaType) => {
     try {
       await mutateAsync({
         data,
@@ -79,7 +76,7 @@ const AddEditUsersSheet = ({ children }: { children: React.ReactNode }) => {
             </div>
           </SheetHeader>
           <Separator />
-          <UsersForm userForm={userForm} onSubmit={onSubmit} />
+          <UsersForm inSheet userForm={userForm} onSubmit={onSubmit} />
         </div>
       </SheetContent>
     </Sheet>

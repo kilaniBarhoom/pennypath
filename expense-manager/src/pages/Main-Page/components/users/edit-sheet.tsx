@@ -39,9 +39,6 @@ const AddEditUsersSheet = ({
       fullNameArabic: user?.fullNameArabic || "",
       fullNameEnglish: user?.fullNameEnglish || "",
       email: user?.email || "",
-      phone: user?.phone || "",
-      secondaryPhone: user?.secondaryPhone || "",
-      role: user?.role || "user",
     },
   });
 
@@ -93,7 +90,12 @@ const AddEditUsersSheet = ({
             </div>
           </SheetHeader>
           <Separator />
-          <UsersForm userForm={userForm} onSubmit={onSubmit} user={user} />
+          <UsersForm
+            inSheet
+            userForm={userForm}
+            onSubmit={onSubmit}
+            user={user}
+          />
         </div>
       </SheetContent>
     </Sheet>
