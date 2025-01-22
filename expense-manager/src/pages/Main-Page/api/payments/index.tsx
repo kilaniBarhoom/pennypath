@@ -100,6 +100,9 @@ export const usePaymentFormMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["analytics"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["analytics"],
+      });
     },
   });
 };
@@ -114,6 +117,9 @@ export const useDeletePaymentMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["payments"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["analytics"],
       });
     },
   });
