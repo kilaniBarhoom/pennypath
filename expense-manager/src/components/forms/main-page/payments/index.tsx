@@ -1,5 +1,6 @@
 import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -8,31 +9,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import {
-  getAllUsers,
-  useAuth,
-  UserGroupsType,
-} from "@/providers/auth-provider";
-import Loading from "@/components/shared/loading";
-import { UserAvatar } from "@/components/ui/user-avatar";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 
 type PaymentFormProps = {
   paymentForm: any;
@@ -47,28 +37,6 @@ const PaymentForm = ({
   onSubmit,
   payment,
 }: PaymentFormProps) => {
-  const { accessToken } = useAuth();
-
-  const [loadigToGetUsers, setLoadingToGetUsers] = useState(false);
-  const [groupedUsers, setGroupedUsers] = useState<UserGroupsType[] | null>(
-    null
-  );
-
-  useEffect(() => {
-    const getUsersInGroups = async () => {
-      try {
-        setLoadingToGetUsers(true);
-        const users = await getAllUsers(accessToken ?? "");
-        setGroupedUsers(users);
-      } catch {
-        setGroupedUsers([]);
-      } finally {
-        setLoadingToGetUsers(false);
-      }
-    };
-    getUsersInGroups();
-  }, []);
-
   const { t, i18n } = useTranslation();
   const language = i18n.language;
   const dir = i18n.dir();
@@ -79,59 +47,6 @@ const PaymentForm = ({
         className="flex flex-col gap-y-10"
       >
         <div className={ny("flex flex-col gap-y-3")}>
-          <FormField
-            control={paymentForm.control}
-            name="user"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;{t("User")}
-                </FormLabel>
-                <Select
-                  dir={dir}
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full h-10">
-                      <SelectValue placeholder="User" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent nopadding>
-                    {loadigToGetUsers ? (
-                      <Loading />
-                    ) : (
-                      groupedUsers &&
-                      groupedUsers?.map((group) => (
-                        <SelectGroup
-                          key={group.role}
-                          className="border-b p-1 last:border-b-0"
-                        >
-                          <SelectLabel>{group.role}</SelectLabel>
-                          {group.users.map((user) => (
-                            <SelectItem key={user.id} value={user.id}>
-                              <div className="flex items-center gap-2">
-                                <UserAvatar
-                                  imageClassName="border bg-secondary"
-                                  name={
-                                    language === "ar"
-                                      ? user.fullNameArabic
-                                      : user.fullNameEnglish ?? ""
-                                  }
-                                  description={user.email}
-                                />
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={paymentForm.control}
             name="date"

@@ -54,19 +54,15 @@ export const createPayment = async (req, res, next) => {
             , statusCodes.BAD_REQUEST));
     }
 
-    let { date, amount, note, user, type } = req.body;
+    let { date, amount, note, type } = req.body;
 
 
-    const isValidUser = await User.findById(user);
-    if (!isValidUser) {
-        return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
-    }
 
 
     const payment = await Payment.create({
         date: new Date(date),
         amount,
-        user,
+        user: req.user,
         note,
         type,
         createdBy: req.user._id,
@@ -93,10 +89,6 @@ export const editPayment = async (req, res, next) => {
     }
 
 
-    const isValidUser = await User.findById(user);
-    if (!isValidUser) {
-        return next(new ResponseError('User not found', statusCodes.NOT_FOUND));
-    }
 
     const payment = await Payment.findByIdAndUpdate(paymentId, {
         ...req.body,

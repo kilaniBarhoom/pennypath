@@ -46,7 +46,6 @@ export const AttendanceSchema = z.object({
 
 export const PaymentSchema = z.object({
     amount: z.number().min(0, "Advance payment must be at least 0"),
-    user: z.string().min(1, "User must be at least 1 characters long"),
     date: z.date({
         required_error: "Date is required",
     }),

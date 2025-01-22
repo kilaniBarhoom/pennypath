@@ -66,7 +66,6 @@ export const PaymentFormSchema = z.object({
   amount: z.string({
     required_error: "Amount is required",
   }),
-  user: z.string().min(1, "User must be at least 1 characters long"),
   date: z.date({
     required_error: "Date is required",
   }),

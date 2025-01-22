@@ -34,7 +34,6 @@ const AddEditPaymentDialogDrawer = ({
     resolver: zodResolver(PaymentFormSchema),
     defaultValues: {
       date: (payment && stringToDate(payment.date)) || new Date(),
-      user: String(payment?.user?.id) || "",
       note: payment?.note || "",
       amount: String(payment?.amount) || "0",
       type: payment?.type || "full",
