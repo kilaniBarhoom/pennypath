@@ -1,4 +1,13 @@
-import { Banknote, DollarSign, Home, User2 } from "lucide-react";
+import {
+  Banknote,
+  DollarSign,
+  Home,
+  Logs,
+  Settings,
+  TextSearch,
+  User,
+  UserCog,
+} from "lucide-react";
 
 export type NavItem = {
   title: string;
@@ -32,21 +41,40 @@ export const SideNavItems: NavItem[] = [
     icon: <DollarSign size={24} />,
     unAuthorizedRoles: ["spectator"],
   },
+];
+
+export const SideNavSecondSectionItems: NavItem[] = [
+  {
+    title: "Settings",
+    path: "/settings",
+    icon: <Settings size={24} />,
+    unAuthorizedRoles: ["spectator"],
+  },
+  {
+    title: "MyLogs",
+    path: "/my-logs",
+    icon: <TextSearch size={24} />,
+    unAuthorizedRoles: ["spectator"],
+  },
+  {
+    title: "Logs",
+    path: "/logs",
+    icon: <Logs size={24} />,
+    unAuthorizedRoles: ["spectator", "user"],
+  },
+];
+
+export const SideNavLastSectionItems: NavItem[] = [
+  {
+    title: "Profile",
+    path: "/profile",
+    icon: <User size={24} />,
+    unAuthorizedRoles: ["spectator"],
+  },
   {
     title: "Users",
     path: "/users",
-    icon: <User2 size={24} />,
+    icon: <UserCog size={24} />,
     unAuthorizedRoles: ["user", "spectator"],
   },
-  // {
-  //   title: "Settings",
-  //   path: "/settings",
-  //   icon: (
-  //     <Settings
-  //       className="group-hover:rotate-180 transition-all duration-200 ease-in-out"
-  //       size={24}
-  //     />
-  //   ),
-  //   unAuthorizedRoles: ["user", "spectator", "admin"],
-  // },
 ];

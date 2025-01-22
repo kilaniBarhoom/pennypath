@@ -24,7 +24,7 @@ export default function MainLayout() {
               "w-[0rem] border-0": !isSideBarOpen,
               "w-[16rem] border": isSideBarOpen,
             },
-            "max-xl:w-0 z-40 max-xl:max-w-0 overflow-hidden transition-all duration-200 ease-in-out min-h-screen fixed ltr:left-0 rtl:right-0 rounded-lg bg-secondary flex-shrink-0"
+            "max-xl:w-0 z-40 max-xl:max-w-0 overflow-hidden transition-all duration-200 ease-in-out min-h-screen fixed ltr:left-0 rtl:right-0 rounded-lg border bg-secondary flex-shrink-0"
           )}
         >
           <SideBar />

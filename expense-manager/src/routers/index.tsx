@@ -22,6 +22,9 @@ import {
   Route,
 } from "react-router-dom";
 import Register from "@/pages/Auth/Register";
+import Settings from "@/pages/Main-Page/settings/Settings";
+import Profile from "@/pages/Main-Page/profile";
+import Logs from "@/pages/Main-Page/Llogs";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +56,9 @@ const router = createBrowserRouter(
                 <ErrorHandler status={500} title="Something went wrong!" />
               }
             />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/my-logs" element={<Logs />} />
             <Route
               path="/payments"
               element={<Payments />}
