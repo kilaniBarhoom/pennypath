@@ -34,6 +34,8 @@ export const findAllUsers = ({ grouped, search, pageNumber }) => {
                     count: { $sum: 1 } // Count the number of users in each role
                 }
             },
+            // sort created at of the user
+            { $sort: { createdAt: -1 } },
             {
                 $project: {
                     _id: 0,

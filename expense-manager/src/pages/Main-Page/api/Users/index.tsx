@@ -61,7 +61,7 @@ export const useUsersFormMutation = () => {
 
   return useMutation({
     mutationFn: ({ data }: { data: RegisterFormSchemaType }) => {
-      return axios.post(`user`, data);
+      return axios.post(`auth/register`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

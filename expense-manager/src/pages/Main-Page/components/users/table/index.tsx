@@ -36,13 +36,13 @@ const UsersTable = ({
             </p>
           </TableHead>
           <TableHead>
-            <p className="flex items-center gap-1">
+            <p className="flex items-center gap-1 min-w-56">
               <Mail size={20} strokeWidth={2.3} />
               {t("Email")}
             </p>
           </TableHead>
           <TableHead>
-            <p className="flex items-center gap-1">
+            <p className="flex items-center gap-1 min-w-max">
               <Calendar size={20} strokeWidth={2.3} />
               {t("Created At")}
             </p>
