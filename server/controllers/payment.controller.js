@@ -4,22 +4,19 @@ import * as queryHelper from "../helpers/queries/payment.queries.js";
 import ReqQueryHelper from "../helpers/reqQuery.helper.js";
 
 import Payment from '../models/payment.js';
-import User from '../models/user.js';
 import { PaymentSchema } from '../schemas/index.js';
 import ResponseError from '../utils/respErr.js';
 
 export const getAllPayments = async (req, res, next) => {
-    const { from: startDate, to: endDate, search, filterUser, pageNumber } = ReqQueryHelper(req.query);
+    const { from: startDate, to: endDate, search, filterUser, pageNumber, pageSize } = ReqQueryHelper(req.query);
 
 
-    const paymentsDocuments = await Payment.countDocuments();
-
-    const totalPages = Math.ceil(paymentsDocuments / 10);
 
     const payments = await Payment.aggregate(queryHelper.findPayments({ startDate, endDate, search, filterUser, loggedInUser: req.user, pageNumber }));
 
+    const totalPages = Math.ceil(payments.length / pageSize);
 
-    const _id = payments.map(({ _id }) => _id);
+    const _id = payments.map(({ id }) => id);
 
     let allTimeTotal = (await Payment.aggregate(queryHelper.findValueSum({ loggedInUser: req.user })))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
@@ -31,8 +28,8 @@ export const getAllPayments = async (req, res, next) => {
         success: true,
         data: {
             payments,
-            startDate,
-            endDate,
+            from: startDate,
+            to: endDate,
             allTimeTotalValue,
             rangeTotalValue,
             search,
