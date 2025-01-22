@@ -124,12 +124,12 @@ export default function PaymentsWrapper() {
       <div className="flex flex-col gap-4 rounded-sm">
         <ExpensesFilters />
         <div className="border p-4 flex items-center justify-evenly text-center rounded-sm bg-muted">
-          <p className="bg-green-100 text-green-800 flex items-center gap-2 text-2xl font-medium px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300">
-            {t("Total Sum")}: <ShekelIcon />{" "}
+          <p className="bg-green-100 text-green-800 flex items-center gap-2 text-sm md:text-xl font-medium px-3 py-1 rounded-full dark:bg-green-900 dark:text-green-300">
+            {t("Total Sum")}: <ShekelIcon />
             {searchExpensesResponse?.allTimeTotalValue}
           </p>
-          <p className="bg-orange-100 text-orange-800 flex items-center gap-2 text-2xl font-medium px-3 py-1 rounded-full dark:bg-orange-900 dark:text-orange-300">
-            {t("Range Sum")}: <ShekelIcon />{" "}
+          <p className="bg-orange-100 text-orange-800 flex items-center gap-2 text-sm md:text-xl font-medium px-3 py-1 rounded-full dark:bg-orange-900 dark:text-orange-300">
+            {t("Range Sum")}: <ShekelIcon />
             {searchExpensesResponse?.rangeTotalValue}
           </p>
         </div>
