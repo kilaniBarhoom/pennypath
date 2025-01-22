@@ -19,7 +19,7 @@ export const getAllExpenses = async (req, res, next) => {
 
     const totalPages = Math.ceil(allExpenses.length / pageSize);
 
-    const _id = expenses.map(({ id }) => id);
+    const _id = allExpenses.map(({ id }) => id);
 
     let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: null, loggedInUser: req.user })))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
