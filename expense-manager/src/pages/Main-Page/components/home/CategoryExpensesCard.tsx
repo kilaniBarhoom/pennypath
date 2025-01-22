@@ -129,7 +129,7 @@ export default function CategoryExpensesCard({
         )}
       </CardContent>
       <CardFooter>
-        {categories && categories.length > 0 ? (
+        {categories && categories.length > 0 && (
           <div className="flex items-center gap-4 flex-wrap w-full">
             {categories.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
@@ -144,12 +144,6 @@ export default function CategoryExpensesCard({
                 </span>
               </div>
             ))}
-          </div>
-        ) : (
-          <div className="flex items-center justify-center w-full">
-            <span className="text-xl md:text-2xl text-secondary-foreground/60">
-              {t("No expenses found")}
-            </span>
           </div>
         )}
       </CardFooter>
