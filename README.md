@@ -11,26 +11,38 @@ attendances and payments.
   - `Login Page`
   
 ![image](https://github.com/user-attachments/assets/57d31d38-5f51-4553-ae35-56e53f26edbb)
+
 ---
 - `Dashboard Page: Analytics and charts`
   
-![image](https://github.com/user-attachments/assets/b70bb211-0e6f-4958-a91d-64261d850c71)
+![image](https://github.com/user-attachments/assets/0316e047-e2c8-4a5c-a987-f6d785bec145)
+
+
+![image](https://github.com/user-attachments/assets/dcac7794-70cd-4022-b9bb-025423fc75c5)
+
+
+![image](https://github.com/user-attachments/assets/5a801ff1-9423-41b6-b0a6-1b60cab7149f)
+
 ---
 - `Payments Page: View of all payments`
   
 ![image](https://github.com/user-attachments/assets/2e563309-7a72-423b-b5d9-174967183b8e)
+
 ---
 - `Expenses Page: View of all expenses`
   
 ![image](https://github.com/user-attachments/assets/892f8025-c3c4-46be-b6cf-7326a7272451)
+
 ---
 - `Light Mode`
   
-![image](https://github.com/user-attachments/assets/7a4091b2-e03b-450c-a3a5-c79b28fa4d30)
+![image](https://github.com/user-attachments/assets/d5bf4c96-37af-44c5-86ae-09594d715e9c)
+
 ---
 - `Arabic Language`
   
-![image](https://github.com/user-attachments/assets/9aab1b3b-48ee-4263-bf4c-f932431f71b7)
+![image](https://github.com/user-attachments/assets/81aa9022-9dd8-4dd8-bc05-b1b575484644)
+
 
 
 ## Tech Stack
