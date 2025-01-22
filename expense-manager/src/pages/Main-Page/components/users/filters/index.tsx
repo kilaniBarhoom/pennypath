@@ -70,7 +70,7 @@ const UsersFilters = ({
           </div>
         </PopoverContent>
       </Popover>
-      <div className="flex items-center gap-1 border p-2 h-full rounded-sm">
+      <div className="flex items-center gap-1 border p-2 rounded-sm h-10">
         <Checkbox
           id="group"
           defaultChecked={grouped === "true"}

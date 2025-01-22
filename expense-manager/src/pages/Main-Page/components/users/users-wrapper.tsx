@@ -4,10 +4,16 @@ import UsersFilters from "./filters";
 import TablePagiation from "@/components/shared/pagination";
 import { useSearchUsersQuery } from "../../api/Users";
 import UsersTable from "./table";
+import { Button } from "@/components/ui/button";
+import { RefreshCcw } from "lucide-react";
+import { ny } from "@/lib/utils";
 
 export default function UsersWrapper() {
-  const { data: tableResponse, isLoading: isLoadingToFetchUsersData } =
-    useSearchUsersQuery();
+  const {
+    data: tableResponse,
+    isLoading: isLoadingToFetchUsersData,
+    refetch: refreshUsers,
+  } = useSearchUsersQuery();
 
   return (
     <div className="border flex flex-col gap-2 p-4 rounded-sm">
@@ -19,8 +25,21 @@ export default function UsersWrapper() {
             otherClasses="md:w-fit w-full"
           />
         </div>
-        <div className="flex gap-2 items-center w-full">
+        <div className="flex gap-2 items-center justify-between flex-wrap md:w-fit w-full">
           <UsersFilters usersResponse={tableResponse?.users ?? []} />
+          <Button
+            size={"icon"}
+            variant={"outline"}
+            onClick={() => refreshUsers()}
+          >
+            <RefreshCcw
+              className={ny(
+                "transition",
+                isLoadingToFetchUsersData && "animate-spin"
+              )}
+              size={20}
+            />
+          </Button>
         </div>
       </div>
       <UsersTable
