@@ -10,18 +10,25 @@ attendances and payments.
 ## Preview
   - `Login Page`
   
-![image](https://github.com/user-attachments/assets/57d31d38-5f51-4553-ae35-56e53f26edbb)
+![image](https://github.com/user-attachments/assets/af73c1b6-2ecf-4915-a91f-15d247320151)
+
+
+  - `Register Page`
+  
+![image](https://github.com/user-attachments/assets/408b77ca-4908-4673-a1ab-f18858c8a40e)
+
+
 
 ---
 - `Dashboard Page: Analytics and charts`
   
-![image](https://github.com/user-attachments/assets/0316e047-e2c8-4a5c-a987-f6d785bec145)
+![image](https://github.com/user-attachments/assets/a18e8351-6db3-4175-bf4e-2664a08e96be)
 
 
-![image](https://github.com/user-attachments/assets/dcac7794-70cd-4022-b9bb-025423fc75c5)
+![image](https://github.com/user-attachments/assets/22886e8e-58e4-45ee-ad7c-6256c8f54b1f)
 
 
-![image](https://github.com/user-attachments/assets/5a801ff1-9423-41b6-b0a6-1b60cab7149f)
+![image](https://github.com/user-attachments/assets/50c329d6-a0c8-4cc5-a3ad-a4875507f3e2)
 
 ---
 - `Payments Page: View of all payments`
@@ -36,12 +43,13 @@ attendances and payments.
 ---
 - `Light Mode`
   
-![image](https://github.com/user-attachments/assets/d5bf4c96-37af-44c5-86ae-09594d715e9c)
+![image](https://github.com/user-attachments/assets/ebe6f519-f9fe-4c56-bb40-dac0b8e8f62e)
+
 
 ---
 - `Arabic Language`
   
-![image](https://github.com/user-attachments/assets/81aa9022-9dd8-4dd8-bc05-b1b575484644)
+![image](https://github.com/user-attachments/assets/323d0cf4-5482-4765-bdf1-63bda3e0eb40)
 
 
 
