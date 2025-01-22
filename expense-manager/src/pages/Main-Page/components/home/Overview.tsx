@@ -91,7 +91,7 @@ export default function OverView({ analytics }: { analytics: any }) {
           {/* Expenses */}
           <CardDetails
             title="Expenses"
-            description="How much you spent"
+            description="How much you spent (Visualize current and prev week)"
             amount={analytics?.allTimeTotalExpensesValue}
             Icon={
               <motion.span
@@ -177,7 +177,7 @@ function CardDetails({
         {/* Content */}
         <CardContent className="flex flex-col gap-4">
           {chart}
-          <div className="flex justify-between items-start h-max">
+          <div className="flex justify-between gap-2 items-start h-max">
             <motion.div
               className="text-3xl font-bold"
               initial={{ opacity: 0, x: -20 }}

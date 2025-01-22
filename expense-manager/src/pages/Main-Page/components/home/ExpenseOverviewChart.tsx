@@ -63,7 +63,8 @@ export function ExpenseOverviewChart({
         <CardDescription></CardDescription>
       </CardHeader>
       <CardContent className="h-fit">
-        <ChartContainer
+        {expensesData && expensesData.length > 0 && (
+	<ChartContainer
           config={chartConfig}
           className="h-[200px] aspect-auto w-full p-0"
         >
@@ -125,7 +126,9 @@ export function ExpenseOverviewChart({
             </Line>
           </LineChart>
         </ChartContainer>
-      </CardContent>
+     
+)}
+ </CardContent>
       <CardFooter></CardFooter>
     </Card>
   );
