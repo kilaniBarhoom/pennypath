@@ -14,9 +14,10 @@ export const getAllExpenses = async (req, res, next) => {
 
 
 
-    const totalPages = Math.floor(expenseDocuments / pageSize);
+    // const totalPages = Math.floor(expenseDocuments / pageSize);
+    const totalPages = 1;
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: pageSize }));
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: 0 }));
 
     // const _id = expenses.map(({ _id }) => _id);
 

@@ -1,7 +1,6 @@
-import TablePagiation from "@/components/shared/pagination";
 import { useSearchExpensesQuery } from "../../api/expenses";
-import ExpensesList from "./list";
 import ExpensesFilters from "./filters";
+import ExpensesList from "./list";
 
 export default function PaymentsWrapper() {
   const {
@@ -124,11 +123,11 @@ export default function PaymentsWrapper() {
           expenses={searchExpensesResponse?.expenses ?? []}
           isLoading={isLoadingToFetchExpensesData}
         />
-        <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
+        {/* <div className="flex items-center w-full border rounded-sm py-2 bg-secondary/50">
           <TablePagiation
             totalPages={searchExpensesResponse?.totalPages ?? 1}
           />
-        </div>
+        </div> */}
       </div>
     </>
   );
