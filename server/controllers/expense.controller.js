@@ -20,7 +20,7 @@ export const getAllExpenses = async (req, res, next) => {
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
     let rangeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: _id, loggedInUser: req.user })))[0];
-    const rangeTotallValue = rangeTotal ? rangeTotal.total : 0;
+    const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
 
     // let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.findAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
@@ -35,7 +35,7 @@ export const getAllExpenses = async (req, res, next) => {
         data: {
             expenses,
             allTimeTotalValue,
-            rangeTotallValue,
+            rangeTotalValue,
             from: from ? from.toISOString().substring(0, 10) : "",
             to: to ? to.toISOString().substring(0, 10) : "",
             search,
