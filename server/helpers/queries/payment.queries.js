@@ -1,7 +1,7 @@
 import ObjectID from "../../utils/ObjectID.js";
 
 
-export const findPayments = ({ startDate, endDate, search, filterUser, loggedInUser, pageNumber }) => {
+export const findPayments = ({ startDate, endDate, search, filterUser, loggedInUser, pageNumber, limit }) => {
     const filter = []
 
     if (!loggedInUser) {
@@ -107,10 +107,13 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
         }
     });
 
+    if (limit) {
+
+    }
     filter.push({
-        $skip: pageNumber * 10
+        $skip: pageNumber * limit
     },
-        { $limit: 10 });
+        { $limit: limit });
 
     return filter;
 }

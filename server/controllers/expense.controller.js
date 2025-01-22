@@ -12,8 +12,13 @@ export const getAllExpenses = async (req, res, next) => {
     const { from, to, search, amount, pageNumber, pageSize, category } = ReqQueryHelper(req.query);
 
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: 0 }));
-    const totalPages = Math.ceil(expenses.length / pageSize);
+    const allExpenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: 0 }))
+
+
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: pageSize }));
+
+    const totalPages = Math.ceil(allExpenses.length / pageSize);
+
     const _id = expenses.map(({ id }) => id);
 
     let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: null, loggedInUser: req.user })))[0];

@@ -178,6 +178,7 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
             <SelectValue placeholder="Select number of results" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="5">5 / {t("Page")}</SelectItem>
             <SelectItem value="10">10 / {t("Page")}</SelectItem>
             <SelectItem value="20">20 / {t("Page")}</SelectItem>
             <SelectItem value="30">30 / {t("Page")}</SelectItem>

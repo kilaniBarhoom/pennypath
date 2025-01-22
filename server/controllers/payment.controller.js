@@ -12,9 +12,12 @@ export const getAllPayments = async (req, res, next) => {
 
 
 
-    const payments = await Payment.aggregate(queryHelper.findPayments({ startDate, endDate, search, filterUser, loggedInUser: req.user, pageNumber }));
+    const allPayments = await Payment.aggregate(queryHelper.findPayments({ startDate, endDate, search, filterUser, loggedInUser: req.user, pageNumber, limit: 0 }));
 
-    const totalPages = Math.ceil(payments.length / pageSize);
+    const payments = await Payment.aggregate(queryHelper.findPayments({ startDate, endDate, search, filterUser, loggedInUser: req.user, pageNumber, limit: pageSize }));
+
+    const totalPages = Math.ceil(allPayments.length / pageSize);
+
 
     const _id = payments.map(({ id }) => id);
 
