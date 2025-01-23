@@ -109,11 +109,11 @@ export const findPayments = ({ startDate, endDate, search, filterUser, loggedInU
 
     if (limit) {
 
+        filter.push({
+            $skip: pageNumber * limit
+        },
+            { $limit: limit });
     }
-    filter.push({
-        $skip: pageNumber * limit
-    },
-        { $limit: limit });
 
     return filter;
 }
