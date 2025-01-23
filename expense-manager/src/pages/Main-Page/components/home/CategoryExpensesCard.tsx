@@ -71,7 +71,7 @@ export default function CategoryExpensesCard({
       ...categories.reduce(
         (config, item, index) => ({
           ...config,
-          [item.category.name.toLowerCase()]: {
+          [item.category.name?.toLowerCase()]: {
             label: item.category.name,
             color: chartColors[index % chartColors.length],
           },

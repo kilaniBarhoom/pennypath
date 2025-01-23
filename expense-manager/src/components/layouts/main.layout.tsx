@@ -7,9 +7,9 @@ import Main from "./main";
 export default function MainLayout() {
   return (
     <SideBarTriggerProvider>
-      <div className="min-h-screen w-full flex gap-2 items-start bg-background">
+      <div className="min-h-screen w-full flex gap-2 items-start bg-secondary/40">
         <ScrollToTop />
-        <div className={ny("w-full p-2 rounded-sm bg-secondary/40")}>
+        <div className={ny("w-full p-2 rounded-sm")}>
           <SideBar />
           <Main />
         </div>

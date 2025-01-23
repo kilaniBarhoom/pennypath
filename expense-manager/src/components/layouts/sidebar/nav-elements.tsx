@@ -1,3 +1,4 @@
+import TooltipComponent from "@/components/shared/tooltip-component";
 import { buttonVariants } from "@/components/ui/button";
 import { ny } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
@@ -10,7 +11,6 @@ import {
   SideNavLastSectionItems,
   SideNavSecondSectionItems,
 } from "./nav-items";
-import TooltipComponent from "@/components/shared/tooltip-component";
 
 const NavElements = () => {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ export default NavElements;
 
 const RenderItems = ({ items }: { items: NavItem[] }) => {
   const { user } = useAuth();
-  const { isSideBarOpen, setIsSideBarOpen } = useSideBarTrigger();
+  const { isSideBarOpen, setIsSideBarSheetOpen } = useSideBarTrigger();
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
@@ -47,7 +47,7 @@ const RenderItems = ({ items }: { items: NavItem[] }) => {
           to={item.path}
           key={item.title}
           onClick={() => {
-            setIsSideBarOpen?.(false);
+            setIsSideBarSheetOpen?.(false);
           }}
           className={ny(
             buttonVariants({

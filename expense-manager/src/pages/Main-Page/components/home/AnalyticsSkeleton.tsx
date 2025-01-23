@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AnalyticsSkeleton() {
@@ -54,19 +60,19 @@ export default function AnalyticsSkeleton() {
           </Card>
           <div className="flex max-lg:flex-col gap-2 items-center w-full">
             {/* Recent Transactions */}
-            <Card className="p-6 flex-[2] w-full">
+            <Card className="p-6 flex-[2] w-full h-full">
               <CardHeader className="flex flex-row items-center justify-between px-0">
                 <CardTitle>
                   <Skeleton className="h-6 w-40" />
                 </CardTitle>
                 <Skeleton className="h-8 w-20" />
               </CardHeader>
-              <CardContent className="px-0">
+              <CardContent className="px-0 h-full">
                 <div className="space-y-4">
                   {Array.from({ length: 4 }).map((_, i) => (
                     <div key={i} className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <Skeleton className="h-10 w-10 rounded-full" />
+                        <Skeleton className="h-5 w-5 rounded-full" />
                         <div className="space-y-1">
                           <Skeleton className="h-5 w-24" />
                           <Skeleton className="h-4 w-20" />
@@ -81,13 +87,12 @@ export default function AnalyticsSkeleton() {
             {/* Category Expenses Card */}
             <Card className="p-6 flex-1 w-full">
               <CardHeader className="space-y-2 px-0">
-                <div className="flex items-center justify-between">
-                  <CardTitle>
-                    <Skeleton className="h-6 w-40" />
-                  </CardTitle>
-                  <Skeleton className="h-8 w-20" />
-                </div>
-                <Skeleton className="h-4 w-56" />
+                <CardTitle>
+                  <Skeleton className="h-6 w-40" />
+                </CardTitle>
+                <CardDescription>
+                  <Skeleton className="h-4 w-56" />
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center gap-6 px-0">
                 <div className="aspect-square w-full max-w-[250px]">
@@ -95,9 +100,9 @@ export default function AnalyticsSkeleton() {
                 </div>
                 {/* Category Pills */}
                 <div className="flex flex-wrap gap-2">
-                  {Array.from({ length: 3 }).map((_, i) => (
+                  {Array.from({ length: 2 }).map((_, i) => (
                     <div key={i} className="rounded-md bg-secondary p-2">
-                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-2 w-10" />
                       <Skeleton className="mt-1 h-4 w-16" />
                     </div>
                   ))}

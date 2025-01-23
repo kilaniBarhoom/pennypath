@@ -6,15 +6,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React, { useState } from "react";
+import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { SideBarContent } from ".";
 
 const SideBarSheet = ({ children }: { children: React.ReactNode }) => {
-  const [open, setOpen] = useState(false);
+  const { isSideBarSheetOpen, setIsSideBarSheetOpen } = useSideBarTrigger();
   const { i18n } = useTranslation();
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={isSideBarSheetOpen} onOpenChange={setIsSideBarSheetOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent
         side={i18n.dir() === "rtl" ? "right" : "left"}
