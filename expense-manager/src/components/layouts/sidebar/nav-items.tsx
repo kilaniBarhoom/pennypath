@@ -3,7 +3,6 @@ import {
   CreditCard,
   DollarSign,
   Home,
-  Logs,
   Settings,
   TextSearch,
   User,
@@ -46,23 +45,23 @@ export const SideNavItems: NavItem[] = [
 
 export const SideNavSecondSectionItems: NavItem[] = [
   {
-    title: "Settings",
-    path: "/settings",
-    icon: <Settings size={24} />,
-    unAuthorizedRoles: ["spectator"],
-  },
-  {
     title: "MyLogs",
     path: "/my-logs",
     icon: <TextSearch size={24} />,
     unAuthorizedRoles: ["spectator"],
   },
   {
-    title: "Logs",
-    path: "/logs",
-    icon: <Logs size={24} />,
-    unAuthorizedRoles: ["spectator", "user"],
+    title: "Settings",
+    path: "/settings",
+    icon: <Settings size={24} />,
+    unAuthorizedRoles: ["spectator"],
   },
+  // {
+  //   title: "Logs",
+  //   path: "/logs",
+  //   icon: <Logs size={24} />,
+  //   unAuthorizedRoles: ["spectator", "user"],
+  // },
 ];
 
 export const SideNavLastSectionItems: NavItem[] = [

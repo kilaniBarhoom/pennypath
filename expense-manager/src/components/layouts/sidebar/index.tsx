@@ -1,17 +1,38 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Typography from "@/components/ui/typography";
+import { ny } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
+import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import NavElements from "./nav-elements";
+import TooltipComponent from "@/components/shared/tooltip-component";
 
-const SideBar = ({
-  setOpen,
-}: {
-  setOpen?: Dispatch<SetStateAction<boolean>>;
-}) => {
+const SideBar = () => {
+  const { isSideBarOpen } = useSideBarTrigger();
+
+  return (
+    <aside
+      className={ny(
+        {
+          "w-[4rem] border-0": !isSideBarOpen,
+          "w-[16rem] border": isSideBarOpen,
+        },
+        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 rounded-lg bg-secondary flex-shrink-0 no-scrollbar"
+      )}
+    >
+      <SideBarContent />
+    </aside>
+  );
+};
+
+export default SideBar;
+
+export const SideBarContent = () => {
+  const { isSideBarOpen } = useSideBarTrigger();
+
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
@@ -27,21 +48,36 @@ const SideBar = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 lg:p-2 md:h-screen md:overflow-auto overflow-visible">
+    <div className="flex flex-col gap-2 lg:p-2 lg:h-screen  overflow-visible">
       <div className="flex flex-col bg-muted border rounded-lg w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
-          <Avatar className="size-28">
-            <AvatarImage src="/assets/userprofile.png" />
-            <AvatarFallback>
-              {user?.fullNameEnglish?.[0]?.toString().toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <Typography element="p" as="smallText">
+          <TooltipComponent side="right" content="User Profile">
+            <Avatar
+              className={ny("size-28 cursor-pointer", {
+                "lg:size-8": !isSideBarOpen,
+              })}
+            >
+              <AvatarImage src="/assets/userprofile.png" />
+              <AvatarFallback>
+                {user?.fullNameEnglish?.[0]?.toString().toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </TooltipComponent>
+          <Typography
+            element="p"
+            as="smallText"
+            className={ny(!isSideBarOpen && "lg:hidden")}
+          >
             {t("Welcome")},&nbsp;
             {lang === "ar" ? user?.fullNameArabic : user?.fullNameEnglish}
           </Typography>
         </div>
-        <div className="w-full px-2 py-1 bg-green-500 rounded-b-md">
+        <div
+          className={ny(
+            "w-full px-2 py-1 bg-green-500 rounded-b-md",
+            !isSideBarOpen && "lg:hidden"
+          )}
+        >
           <Typography
             element="span"
             as="smallText"
@@ -54,9 +90,7 @@ const SideBar = ({
           </Typography>
         </div>
       </div>
-      <NavElements setOpen={setOpen} />
+      <NavElements />
     </div>
   );
 };
-
-export default SideBar;

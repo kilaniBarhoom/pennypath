@@ -8,13 +8,11 @@ import LanguageSelect from "../shared/language-select";
 import ThemeSelector from "../shared/theme-selector";
 import SideNavSheet from "./sidebar/sidebar-sheet";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
 
-const Header = ({
-  setIsSideBarOpen,
-}: {
-  setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Header = () => {
   const logout = useLogout();
+  const { setIsSideBarOpen } = useSideBarTrigger();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -32,7 +30,7 @@ const Header = ({
     <div className="flex py-1 px-2 justify-between w-full items-center gap-4">
       <div className="flex items-center gap-2">
         <SideNavSheet>
-          <Button className="xl:hidden flex" size="icon" variant="secondary">
+          <Button className="lg:hidden flex" size="icon" variant="secondary">
             <Menu />
           </Button>
         </SideNavSheet>
@@ -40,7 +38,7 @@ const Header = ({
           onClick={() => {
             setIsSideBarOpen((prev: boolean) => !prev);
           }}
-          className="max-xl:hidden"
+          className="max-lg:hidden"
           size="icon"
           variant="secondary"
         >

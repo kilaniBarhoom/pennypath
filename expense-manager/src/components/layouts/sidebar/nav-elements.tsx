@@ -1,3 +1,7 @@
+import { buttonVariants } from "@/components/ui/button";
+import { ny } from "@/lib/utils";
+import { useAuth } from "@/providers/auth-provider";
+import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -6,98 +10,59 @@ import {
   SideNavLastSectionItems,
   SideNavSecondSectionItems,
 } from "./nav-items";
-import { ny } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { useAuth } from "@/providers/auth-provider";
-import { Dispatch, SetStateAction } from "react";
+import TooltipComponent from "@/components/shared/tooltip-component";
 
-const NavElements = ({
-  setOpen,
-}: {
-  setOpen?: Dispatch<SetStateAction<boolean>>;
-}) => {
-  const { user } = useAuth();
+const NavElements = () => {
   const { t } = useTranslation();
-  const { pathname } = useLocation();
   return (
-    <nav className="flex flex-col gap-4 justify-between pb-2 flex-1 h-full">
+    <nav className="flex flex-col gap-6 justify-between pb-4 flex-1 h-full">
       <div className="flex flex-col gap-2">
-        {SideNavItems.map(
-          (item: NavItem) =>
-            !item?.unAuthorizedRoles?.includes(user?.role ?? "") && (
-              <Link
-                to={item.path}
-                key={item.title}
-                onClick={() => {
-                  setOpen?.(false);
-                }}
-                className={ny(
-                  buttonVariants({
-                    variant: pathname === item.path ? "navBtn" : "secondary",
-                    size: "lg",
-                  }),
-                  "justify-between flex gap-2 p-2 hover:bg-primary/30 h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
-                )}
-              >
-                {t(item.title)}
-                {item.icon}
-              </Link>
-            )
-        )}
+        <RenderItems items={SideNavItems} />
       </div>
       <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("App")}</span>
-        {SideNavSecondSectionItems.map(
-          (item: NavItem) =>
-            !item?.unAuthorizedRoles?.includes(user?.role ?? "") && (
-              <Link
-                to={item.path}
-                key={item.title}
-                onClick={() => {
-                  setOpen?.(false);
-                }}
-                className={ny(
-                  buttonVariants({
-                    variant: pathname === item.path ? "navBtn" : "secondary",
-                    size: "lg",
-                  }),
-                  "justify-between flex gap-2 p-2 hover:bg-primary/30 h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
-                )}
-              >
-                {t(item.title)}
-                {item.icon}
-              </Link>
-            )
-        )}
+        <RenderItems items={SideNavSecondSectionItems} />
       </div>
 
       <div className="flex flex-col gap-2 mt-auto">
         <span className="text-muted-foreground">{t("User")}</span>
-        {SideNavLastSectionItems.map(
-          (item: NavItem) =>
-            !item?.unAuthorizedRoles?.includes(user?.role ?? "") && (
-              <Link
-                to={item.path}
-                key={item.title}
-                onClick={() => {
-                  setOpen?.(false);
-                }}
-                className={ny(
-                  buttonVariants({
-                    variant: pathname === item.path ? "navBtn" : "secondary",
-                    size: "lg",
-                  }),
-                  "justify-between flex gap-2 p-2 hover:bg-primary/30 h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
-                )}
-              >
-                {t(item.title)}
-                {item.icon}
-              </Link>
-            )
-        )}
+        <RenderItems items={SideNavLastSectionItems} />
       </div>
     </nav>
   );
 };
 
 export default NavElements;
+
+const RenderItems = ({ items }: { items: NavItem[] }) => {
+  const { user } = useAuth();
+  const { isSideBarOpen, setIsSideBarOpen } = useSideBarTrigger();
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
+
+  return items.map((item: NavItem) =>
+    !item?.unAuthorizedRoles?.includes(user?.role ?? "") ? (
+      <TooltipComponent content={item.title} key={item.title} side="right">
+        <Link
+          to={item.path}
+          key={item.title}
+          onClick={() => {
+            setIsSideBarOpen?.(false);
+          }}
+          className={ny(
+            buttonVariants({
+              variant: pathname === item.path ? "navBtn" : "secondary",
+              size: isSideBarOpen ? "lg" : "icon",
+            }),
+            "flex justify-start w-full gap-2 p-2 hover:bg-primary/30 h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
+          )}
+        >
+          {item.icon}
+          <span className={ny(!isSideBarOpen && "lg:hidden")}>
+            {t(item.title)}
+          </span>
+        </Link>
+      </TooltipComponent>
+    ) : null
+  );
+};

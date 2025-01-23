@@ -7,8 +7,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import React, { useState } from "react";
-import SideNav from ".";
 import { useTranslation } from "react-i18next";
+import { SideBarContent } from ".";
 
 const SideBarSheet = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ const SideBarSheet = ({ children }: { children: React.ReactNode }) => {
           <SheetTitle></SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <SideNav setOpen={setOpen} />
+        <SideBarContent />
       </SheetContent>
     </Sheet>
   );
