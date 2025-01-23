@@ -37,7 +37,8 @@ export const getAllPayments = async (req, res, next) => {
             rangeTotalValue,
             search,
             pageNumber: pageNumber + 1,
-            totalPages
+            totalPages,
+            count: payments.length,
         },
     });
 }

@@ -24,8 +24,8 @@ export const getAllExpenses = async (req, res, next) => {
     let allTimeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: null, loggedInUser: req.user })))[0];
     const allTimeTotalValue = allTimeTotal ? allTimeTotal.total : 0;
 
-    let rangeTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: _id, loggedInUser: req.user })))[0];
-    const rangeTotalValue = rangeTotal ? rangeTotal.total : 0;
+    let filteredTotal = (await Expense.aggregate(queryHelper.findSumOfExpenses({ _id: _id, loggedInUser: req.user })))[0];
+    const filteredTotalValue = filteredTotal ? filteredTotal.total : 0;
 
     // let totalSumCategorizedAmounts = (await Expense.aggregate(queryHelper.findAnalyticsOfExpenses({ loggedInUser: req.user })))[0];
 
@@ -40,14 +40,15 @@ export const getAllExpenses = async (req, res, next) => {
         data: {
             expenses,
             allTimeTotalValue,
-            rangeTotalValue,
+            filteredTotalValue,
             from: from ? from.toISOString().substring(0, 10) : "",
             to: to ? to.toISOString().substring(0, 10) : "",
             search,
             category,
             pageNumber,
             pageSize,
-            totalPages: totalPages > 0 ? totalPages : 1,
+            totalPages,
+            count: expenses.length,
         },
     });
 }
