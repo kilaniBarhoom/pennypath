@@ -18,7 +18,7 @@ const SideBarSheet = ({ children }: { children: React.ReactNode }) => {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent
         side={i18n.dir() === "rtl" ? "right" : "left"}
-        className="md:w-[60] w-full p-4 px-6 overflow-auto"
+        className="md:w-[60] w-full p-4"
       >
         <SheetHeader>
           <SheetTitle></SheetTitle>
