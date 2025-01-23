@@ -22,7 +22,7 @@ export const SideBarTriggerProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
-  const [isSideBarSheetOpen, setIsSideBarSheetOpen] = useState(true);
+  const [isSideBarSheetOpen, setIsSideBarSheetOpen] = useState(false);
 
   const value = {
     isSideBarOpen,
