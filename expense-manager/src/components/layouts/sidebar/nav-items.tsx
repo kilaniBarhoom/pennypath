@@ -1,5 +1,6 @@
 import {
   Banknote,
+  CreditCard,
   DollarSign,
   Home,
   Logs,
@@ -23,12 +24,12 @@ export const SideNavItems: NavItem[] = [
     icon: <Home size={24} />,
     unAuthorizedRoles: [],
   },
-  // {
-  //   title: "Attendance",
-  //   path: "/attendance",
-  //   icon: <School2 size={24} />,
-  //   unAuthorizedRoles: [],
-  // },
+  {
+    title: "Wallets",
+    path: "/wallets",
+    icon: <CreditCard size={24} />,
+    unAuthorizedRoles: ["spectator"],
+  },
   {
     title: "Payments",
     path: "/payments",

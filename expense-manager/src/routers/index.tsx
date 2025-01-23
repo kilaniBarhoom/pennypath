@@ -25,6 +25,7 @@ import Register from "@/pages/Auth/Register";
 import Settings from "@/pages/Main-Page/settings/Settings";
 import Profile from "@/pages/Main-Page/profile";
 import Logs from "@/pages/Main-Page/Llogs";
+import Wallets from "@/pages/Main-Page/Wallets";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -49,6 +50,8 @@ const router = createBrowserRouter(
 
         <Route path="/" element={<MainLayout />}>
           <Route element={<RequireAuth />}>
+            <Route path="/wallets" element={<Wallets />} />
+
             <Route
               path="/attendance"
               element={<Attendance />}
