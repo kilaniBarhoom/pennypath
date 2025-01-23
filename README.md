@@ -4,6 +4,16 @@
 The main idea of this app is to create a cutomized attendance tracker app, to keep track of workers 
 attendances and payments.
 ```
+## Website
+<a href="https://shalaby-manager.vercel.app">Click here to view website</a>
+- Email
+```
+demo@mail.com
+```
+- Password
+```
+12345678
+```
 
 
 ## Preview
