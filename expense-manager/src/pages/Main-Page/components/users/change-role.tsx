@@ -70,8 +70,8 @@ const ChangeRoleDialog = ({
       });
       toast(t("Role Changed"));
       setIsOpen(false);
-    } catch (error) {
-      toast("Something went wrong");
+    } catch (error: any) {
+      toast(error.response.data.message || "Something went wrong");
     }
   }
 

@@ -58,7 +58,8 @@ const AddEditAttendanceDialogDrawer = ({
       setDialogOpen(false);
     } catch (error: any) {
       toast(t("Error"), {
-        description: t(error?.response?.data?.[0]) || t("Something went wrong"),
+        description:
+          t(error.response.data.message) || t("Something went wrong"),
       });
     }
   };

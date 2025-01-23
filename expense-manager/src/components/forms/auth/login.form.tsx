@@ -74,7 +74,6 @@ const LoginForm = () => {
             "Sorry, server unreachable at the moment. Try refreshing the browser",
         });
       } else {
-        console.log(error.response.data.message);
         setError({
           description: error.response.data.message,
         });

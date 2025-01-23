@@ -50,13 +50,13 @@ const AddEditUsersSheet = ({
         data,
         userId: user?.id ?? "",
       });
-      toast(t("Success"), {
-        description: t("Saved Successfully"),
+      toast(t("User Saved"), {
+        description: "",
       });
       setIsOpen(false);
     } catch (error: any) {
       toast(t("Error"), {
-        description: t(error?.response?.data?.[0]) || "",
+        description: t(error.response.data.message) || "",
       });
     }
   };

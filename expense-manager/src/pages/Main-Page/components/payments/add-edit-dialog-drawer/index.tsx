@@ -44,18 +44,19 @@ const AddEditPaymentDialogDrawer = ({
 
   const onSubmit = async (data: PaymentFormSchemaType) => {
     try {
-      toast(t("Saving payment"), {
-        description: "",
-      });
       await mutateAsync({
         data: data,
         paymentId: payment?.id,
+      });
+      toast(t("Payment Saved"), {
+        description: "",
       });
       paymentForm.reset();
       setDialogOpen(false);
     } catch (error: any) {
       toast(t("Error"), {
-        description: t(error?.response?.data?.[0]) || t("Something went wrong"),
+        description:
+          t(error.response.data.message) || t("Something went wrong"),
       });
     }
   };

@@ -168,8 +168,8 @@ const DeactivationButton = ({
       await mutateAsync({
         userId: userId,
       });
-    } catch (error) {
-      toast("Something went wrong");
+    } catch (error: any) {
+      toast(error.response.data.message || "Something went wrong");
     }
   };
   return (
