@@ -1,16 +1,26 @@
 
 ## An attendance tacker app
 ```
-The main idea of this app is to create a cutomized 
-attendance tracker app, to keep track of workers 
+The main idea of this app is to create a cutomized attendance tracker app, to keep track of workers 
 attendances and payments.
+```
+## Website
+<a href="https://shalaby-manager.vercel.app">Click here to view website</a>
+- Email
+```
+demo@mail.com
+```
+- Password
+```
+12345678
 ```
 
 
 ## Preview
   - `Login Page`
   
-![image](https://github.com/user-attachments/assets/af73c1b6-2ecf-4915-a91f-15d247320151)
+![image](https://github.com/user-attachments/assets/5dabcdd6-5339-4290-af46-4ed37bf17566)
+
 
 
   - `Register Page`
