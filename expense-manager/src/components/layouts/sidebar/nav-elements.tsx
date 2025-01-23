@@ -20,8 +20,8 @@ const NavElements = ({
   const { t } = useTranslation();
   const { pathname } = useLocation();
   return (
-    <nav className="flex flex-col gap-6 justify-between pb-2 flex-1 h-full">
-      <div className="flex flex-col gap-2 flex-1">
+    <nav className="flex flex-col gap-4 justify-between pb-2 flex-1 h-full">
+      <div className="flex flex-col gap-2">
         {SideNavItems.map(
           (item: NavItem) =>
             !item?.unAuthorizedRoles?.includes(user?.role ?? "") && (
@@ -45,7 +45,7 @@ const NavElements = ({
             )
         )}
       </div>
-      <div className="flex flex-col gap-2 flex-1">
+      <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("App")}</span>
         {SideNavSecondSectionItems.map(
           (item: NavItem) =>

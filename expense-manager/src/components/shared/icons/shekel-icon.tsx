@@ -1,5 +1,11 @@
-export default function ShekelIcon() {
+import { ny } from "@/lib/utils";
+
+export default function ShekelIcon({ className }: { className?: string }) {
   return (
-    <span className="text-2xl text-secondary-foreground me-1 font-bold">₪</span>
+    <span
+      className={ny("text-2xl text-secondary-foreground font-bold", className)}
+    >
+      ₪
+    </span>
   );
 }

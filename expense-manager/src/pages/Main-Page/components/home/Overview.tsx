@@ -51,74 +51,70 @@ export default function OverView({ analytics }: { analytics: any }) {
       className="w-full"
       variants={containerVariants}
     >
-      <Card aria-describedby="overview" className="w-full h-auto p-0">
-        <CardContent className="flex flex-col gap-2 p-4">
-          {/* Wallet Balance and Earned */}
-          <div className="flex gap-2 max-md:flex-col md:h-[160px]">
-            <CardDetails
-              title="Wallet Balance"
-              description="Your current balance in your wallet"
-              amount={analytics?.walletBalance}
-              cta={"dashboard"}
-              Icon={
-                <motion.span
-                  className="p-2 bg-secondary rounded-full text-secondary-foreground"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CreditCard />
-                </motion.span>
-              }
-              main
-            />
-            <CardDetails
-              title="Earned"
-              description="How much you earned"
-              amount={analytics?.totalPaymentsValue}
-              Icon={
-                <motion.span
-                  className="p-2 bg-green-500 rounded-full"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TrendingUp className="text-black" />
-                </motion.span>
-              }
-              cta="payments"
-            />
-          </div>
+      {/* Wallet Balance and Earned */}
+      <div className="flex gap-2 max-md:flex-col md:h-[160px]">
+        <CardDetails
+          title="Wallet Balance"
+          description="Your current balance in your wallet"
+          amount={analytics?.walletBalance}
+          cta={"dashboard"}
+          Icon={
+            <motion.span
+              className="p-2 bg-secondary rounded-full text-secondary-foreground"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CreditCard />
+            </motion.span>
+          }
+          main
+        />
+        <CardDetails
+          title="Earned"
+          description="How much you earned"
+          amount={analytics?.totalPaymentsValue}
+          Icon={
+            <motion.span
+              className="p-2 bg-green-500 rounded-full"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TrendingUp className="text-black" />
+            </motion.span>
+          }
+          cta="payments"
+        />
+      </div>
 
-          {/* Expenses */}
-          <CardDetails
-            title="Expenses"
-            description="How much you spent (Visualize current and prev week)"
-            amount={analytics?.allTimeTotalExpensesValue}
-            Icon={
-              <motion.span
-                className="p-2 bg-red-500 rounded-full"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.3 }}
-              >
-                <TrendingDown className="text-white" />
-              </motion.span>
-            }
-            cta="expenses"
-            chart={
-              <ExpenseOverviewChart
-                expensesData={analytics?.expensesOfCurrentAndPreviousWeeks}
-              />
-            }
-            action={
-              <AddEditExpenseSheet>
-                <Button size="sm" className="flex items-center gap-1">
-                  {t("Add")}
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </AddEditExpenseSheet>
-            }
+      {/* Expenses */}
+      <CardDetails
+        title="Expenses"
+        description="How much you spent (Visualize current and prev week)"
+        amount={analytics?.allTimeTotalExpensesValue}
+        Icon={
+          <motion.span
+            className="p-2 bg-red-500 rounded-full"
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.3 }}
+          >
+            <TrendingDown className="text-white" />
+          </motion.span>
+        }
+        cta="expenses"
+        chart={
+          <ExpenseOverviewChart
+            expensesData={analytics?.expensesOfCurrentAndPreviousWeeks}
           />
-        </CardContent>
-      </Card>
+        }
+        action={
+          <AddEditExpenseSheet>
+            <Button size="sm" className="flex items-center gap-1">
+              {t("Add")}
+              <Plus className="h-4 w-4" />
+            </Button>
+          </AddEditExpenseSheet>
+        }
+      />
     </motion.div>
   );
 }
@@ -155,9 +151,7 @@ function CardDetails({
     >
       <Card
         className={`p-4 grid gap-4 ${
-          main
-            ? "bg-gradient-to-r from-primary/80 to-primary/60 text-white"
-            : "bg-secondary/50 text-secondary-foreground border"
+          main && "bg-gradient-to-r from-primary/80 to-primary/60 text-white"
         }`}
       >
         {/* Header */}

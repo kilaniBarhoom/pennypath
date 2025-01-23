@@ -11,7 +11,7 @@ type SearchExpensesResponseType = {
   to: Date;
   search: string;
   allTimeTotalValue: number;
-  rangeTotalValue: number;
+  filteredTotalValue: number;
   weekTotal: number;
   monthTotal: number;
   mostSpentInADay: number;
