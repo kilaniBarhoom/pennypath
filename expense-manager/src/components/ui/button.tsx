@@ -6,7 +6,7 @@ import { ny } from "@/lib/utils";
 import LoadingSpinner from "../shared/icons/loading-icon";
 
 const buttonVariants = cva(
-  "inline-flex items-center tracking-wider transition-all duration-50 shadow-lg ease-in-out justify-center rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center tracking-wider transition-all duration-50 shadow ease-in-out justify-center rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {

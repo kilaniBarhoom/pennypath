@@ -1,4 +1,5 @@
 import LocalSearchBar from "@/components/shared/loacal-search";
+import TooltipComponent from "@/components/shared/tooltip-component";
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
@@ -8,16 +9,19 @@ import {
   stringToDate,
 } from "@/lib/utils";
 import { format } from "date-fns";
-import { Calendar, Filter, MoveRight, X } from "lucide-react";
+import { ar, enGB } from "date-fns/locale";
+import { Calendar, Filter, MoveRight, Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FiltersDropdown from "./filters-dropdown";
-import { ar, enGB } from "date-fns/locale";
-import TooltipComponent from "@/components/shared/tooltip-component";
+import { SelectNative } from "@/components/ui/select-native";
+import useCategories from "@/pages/Main-Page/hooks/use-categories";
 
 const ExpensesFilters = () => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
+
+  const { categories, loadingToFetchCategories } = useCategories();
 
   const [searchParams, setSearchParams] = useSearchParams({
     from: getFirstDayOfCurrentMonth(),
@@ -56,26 +60,17 @@ const ExpensesFilters = () => {
     );
   };
 
-  const DateFormatComponent = ({
-    date,
-    text,
-  }: {
-    date: string;
-    text: string;
-  }) => (
-    <>
-      <span className="max-md:sr-only text-lg">{t(text)}:</span>
-      <span className="bg-blue-300 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
-        {format(stringToDate(date), "dd-MM-yy", {
-          locale: language === "ar" ? ar : enGB,
-        })}
-      </span>
-    </>
+  const DateFormatComponent = ({ date }: { date: string }) => (
+    <span className="bg-blue-300 flex items-center gap-2 text-secondary-foreground text-sm md:text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
+      {format(stringToDate(date), "eee, dd-MM-yyyy", {
+        locale: language === "ar" ? ar : enGB,
+      })}
+    </span>
   );
 
   return (
-    <div className="w-full flex flex-col gap-2">
-      <div className="w-full flex items-center justify-between max-sm:flex-col gap-2">
+    <div className="w-full flex flex-col gap-4">
+      <div className="w-full flex items-center justify-between max-sm:flex-col gap-2 border-b pb-2">
         <div className="max-sm:w-full">
           <LocalSearchBar
             route="/expenses"
@@ -85,14 +80,20 @@ const ExpensesFilters = () => {
         </div>
         <div className="flex items-center gap-2 max-sm:w-full">
           <FiltersDropdown>
-            <Button variant={"outline"} size={"icon"} className="bg-background">
-              <Filter size={20} strokeWidth={1.5} />
+            <Button
+              variant={"outline"}
+              Icon={Filter}
+              iconClassNames={"text-secondary-foreground size-4"}
+              iconPosition="left"
+            >
+              {t("Filters")}
             </Button>
           </FiltersDropdown>
           <DateRangePicker
             locale={language}
-            className="max-lg:w-full bg-background"
+            className="max-lg:w-full bg-transparent"
             showCompare={false}
+            align="end"
             onUpdate={({ range }) => {
               setDateRange(dateToString(range.from), dateToString(range.to));
             }}
@@ -100,29 +101,28 @@ const ExpensesFilters = () => {
         </div>
       </div>
       {(from || to || q || category) && (
-        <div className="bg-muted border rounded-md p-4 flex items-center gap-2 flex-wrap">
-          <span className="text-sm md:text-lg"> {t("Filters")}:</span>
+        <div className="flex items-center gap-2 flex-wrap">
           {(from || to) && (
-            <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal px-2 py-1 border bg-secondary">
+            <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal p-1 border bg-secondary">
               <Calendar size={20} strokeWidth={2} className="me-1" />
               {from && to && from === to ? (
-                <DateFormatComponent date={from} text={"Date"} />
+                <DateFormatComponent date={from} />
               ) : from && to ? (
                 <>
-                  <DateFormatComponent date={from} text={"From"} />{" "}
+                  <DateFormatComponent date={from} />{" "}
                   <MoveRight className="rtl:rotate-180" />
-                  <DateFormatComponent date={to} text={"To"} />
+                  <DateFormatComponent date={to} />
                 </>
               ) : from ? (
-                <DateFormatComponent date={from} text={"From"} />
+                <DateFormatComponent date={from} />
               ) : to ? (
-                <DateFormatComponent date={to} text={"To"} />
+                <DateFormatComponent date={to} />
               ) : null}
               <TooltipComponent content="Clear">
                 <Button
                   size={"xs"}
-                  variant={"hover"}
-                  className="rounded-full bg-muted ms-1"
+                  variant={"ghost"}
+                  className="rounded-full ms-2"
                   onClick={() => {
                     setDateRange("", "");
                   }}
@@ -134,6 +134,7 @@ const ExpensesFilters = () => {
           )}
           {q && (
             <div className="flex items-center gap-2 w-fit rounded-sm font-normal text-lg px-2 py-1 border bg-secondary">
+              <Search size={20} strokeWidth={2} className="me-1" />
               <span className="bg-blue-300 text-secondary-foreground text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 ">
                 {q}
               </span>
@@ -142,14 +143,25 @@ const ExpensesFilters = () => {
           {category && (
             <div className="flex items-center gap-2 w-fit rounded-sm font-normal text-lg px-2 py-1 border bg-secondary">
               {t("Category")}:
-              <span className="bg-blue-300 text-secondary-foreground text-lg font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">
-                {category}
-              </span>
-              <TooltipComponent content="Clear">
+              {loadingToFetchCategories ? (
+                <></>
+              ) : (
+                <SelectNative
+                  defaultValue={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </SelectNative>
+              )}
+              <TooltipComponent variant="invert" content="Clear">
                 <Button
                   size={"xs"}
-                  variant={"hover"}
-                  className="rounded-full bg-muted"
+                  variant={"ghost"}
+                  className="rounded-full"
                   onClick={() => {
                     setCategory("");
                   }}

@@ -60,13 +60,9 @@ export default function OverView({ analytics }: { analytics: any }) {
           amount={analytics?.walletBalance}
           cta={"dashboard"}
           Icon={
-            <motion.span
-              className="p-2 bg-secondary rounded-full text-secondary-foreground"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.3 }}
-            >
+            <span className="p-2 bg-secondary rounded-full text-secondary-foreground">
               <CreditCard />
-            </motion.span>
+            </span>
           }
           main
         />
@@ -75,13 +71,9 @@ export default function OverView({ analytics }: { analytics: any }) {
           description="How much you earned"
           amount={analytics?.totalPaymentsValue}
           Icon={
-            <motion.span
-              className="p-2 bg-green-500 rounded-full"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.3 }}
-            >
+            <span className="p-2 bg-green-500 rounded-full">
               <TrendingUp className="text-black" />
-            </motion.span>
+            </span>
           }
           cta="payments"
           action={
@@ -98,13 +90,9 @@ export default function OverView({ analytics }: { analytics: any }) {
           description="How much you spent"
           amount={analytics?.allTimeTotalExpensesValue}
           Icon={
-            <motion.span
-              className="p-2 bg-red-500 rounded-full"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.3 }}
-            >
+            <span className="p-2 bg-red-500 rounded-full">
               <TrendingDown className="text-white" />
-            </motion.span>
+            </span>
           }
           cta="expenses"
           action={
