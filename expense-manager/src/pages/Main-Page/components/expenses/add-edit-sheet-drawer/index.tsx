@@ -27,15 +27,15 @@ import { useTranslation } from "react-i18next";
 import useMediaQuery from "@/hooks/use-media-query";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-type AddEditExpenseSheetProps = {
+type AddEditExpenseSheetDrawerProps = {
   children: React.ReactNode;
   expense?: ExpenseType;
 };
 
-const AddEditExpenseSheet = ({
+const AddEditExpenseSheetDrawer = ({
   children,
   expense,
-}: AddEditExpenseSheetProps) => {
+}: AddEditExpenseSheetDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { t } = useTranslation();
@@ -97,36 +97,33 @@ const AddEditExpenseSheet = ({
     ),
   };
 
-  return;
-  {
-    isDesktop ? (
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger>{content.trigger}</SheetTrigger>
-        <SheetContent
-          disableBackdrop
-          className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
-          side={"right"}
-        >
-          <SheetHeader>
-            <SheetTitle>{content.title}</SheetTitle>
-            <SheetDescription></SheetDescription>
-          </SheetHeader>
-          <div className="overflow-y-auto">{content.content}</div>
-        </SheetContent>
-      </Sheet>
-    ) : (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerTrigger asChild>{content.trigger}</DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>{content.title}</DrawerTitle>
-            <DrawerDescription></DrawerDescription>
-          </DrawerHeader>
-          <ScrollArea className="h-fit">{content.content}</ScrollArea>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
+  return isDesktop ? (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger>{content.trigger}</SheetTrigger>
+      <SheetContent
+        disableBackdrop
+        className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
+        side={"right"}
+      >
+        <SheetHeader>
+          <SheetTitle>{content.title}</SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
+        <div className="overflow-y-auto">{content.content}</div>
+      </SheetContent>
+    </Sheet>
+  ) : (
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger asChild>{content.trigger}</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>{content.title}</DrawerTitle>
+          <DrawerDescription></DrawerDescription>
+        </DrawerHeader>
+        <ScrollArea className="h-fit">{content.content}</ScrollArea>
+      </DrawerContent>
+    </Drawer>
+  );
 };
 
-export default AddEditExpenseSheet;
+export default AddEditExpenseSheetDrawer;

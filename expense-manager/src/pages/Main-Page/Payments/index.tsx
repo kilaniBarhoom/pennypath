@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import AddEditPaymentDialogDrawer from "../components/payments/add-edit-dialog-drawer";
+import AddEditPaymentSheetDrawer from "../components/payments/add-edit-sheet-drawer";
 import PaymentsWrapper from "../components/payments/payments-wrapper";
 
 const Payments = () => {
@@ -48,11 +48,11 @@ const Payments = () => {
           ]}
           currentPage={"All"}
         />
-        <AddEditPaymentDialogDrawer>
+        <AddEditPaymentSheetDrawer>
           <Button className="px-4 max-md:w-full" Icon={Plus}>
             {t("Add Payment")}
           </Button>
-        </AddEditPaymentDialogDrawer>
+        </AddEditPaymentSheetDrawer>
       </div>
       <PaymentsWrapper />
     </div>

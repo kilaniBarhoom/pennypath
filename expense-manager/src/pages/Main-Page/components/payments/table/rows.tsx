@@ -3,11 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { ny } from "@/lib/utils";
 // import ActionsDropDown from "./actions-dropdown";
-import { format } from "date-fns";
-import AddEditPaymentDialogDrawer from "../add-edit-dialog-drawer";
 import { Button } from "@/components/ui/button";
 import { useDeletePaymentMutation } from "@/pages/Main-Page/api/payments";
+import { format } from "date-fns";
 import { t } from "i18next";
+import AddEditPaymentSheetDrawer from "../add-edit-sheet-drawer";
 // import ActionsDrawer from "./actions-drawer";
 const TableRows = ({ payments }: { payments: PaymentType[] }) => {
   const { mutate: deletePayment } = useDeletePaymentMutation();
@@ -52,7 +52,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
           </TableCell>
           <TableCell>
             <div className="justify-end flex items-center gap-2">
-              <AddEditPaymentDialogDrawer payment={payment}>
+              <AddEditPaymentSheetDrawer payment={payment}>
                 <Button
                   size={"link"}
                   variant={"none"}
@@ -60,7 +60,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
                 >
                   {t("Edit")}
                 </Button>
-              </AddEditPaymentDialogDrawer>
+              </AddEditPaymentSheetDrawer>
               •
               <Button
                 size={"sm"}

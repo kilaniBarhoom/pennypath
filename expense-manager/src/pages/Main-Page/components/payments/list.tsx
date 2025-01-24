@@ -10,7 +10,7 @@ import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon, CreditCard, Pen, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDeletePaymentMutation } from "../../api/payments";
-import AddEditPaymentDialogDrawer from "./add-edit-dialog-drawer";
+import AddEditPaymentSheetDrawer from "./add-edit-sheet-drawer";
 
 const PaymentsList = ({
   payments,
@@ -91,11 +91,11 @@ const PaymentsList = ({
               </div>
               <Separator orientation="vertical" />
               <div className="flex items-center gap-2">
-                <AddEditPaymentDialogDrawer payment={payment}>
+                <AddEditPaymentSheetDrawer payment={payment}>
                   <Button variant={"secondary"} size={"icon"}>
                     <Pen />
                   </Button>
-                </AddEditPaymentDialogDrawer>
+                </AddEditPaymentSheetDrawer>
                 <Button
                   onClick={() => handleDeletePayment(payment?.id)}
                   variant={"destructive"}

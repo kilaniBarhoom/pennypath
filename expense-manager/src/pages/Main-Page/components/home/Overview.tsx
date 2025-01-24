@@ -1,4 +1,5 @@
 // Import Statements
+import ShekelIcon from "@/components/shared/icons/shekel-icon.tsx";
 import TooltipComponent from "@/components/shared/tooltip-component";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -19,10 +20,9 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import AddEditExpenseSheet from "../expenses/add-edit-sheet-drawer/index.tsx";
+import AddEditExpenseSheetDrawer from "../expenses/add-edit-sheet-drawer/index.tsx";
+import AddEditPaymentSheetDrawer from "../payments/add-edit-sheet-drawer/index.tsx";
 import { ExpenseOverviewChart } from "./ExpenseOverviewChart";
-import ShekelIcon from "@/components/shared/icons/shekel-icon.tsx";
-import AddEditPaymentDialogDrawer from "../payments/add-edit-dialog-drawer/index.tsx";
 
 // Animation Variants
 const containerVariants = {
@@ -77,12 +77,12 @@ export default function OverView({ analytics }: { analytics: any }) {
           }
           cta="payments"
           action={
-            <AddEditPaymentDialogDrawer>
+            <AddEditPaymentSheetDrawer>
               <Button size="sm" className="flex items-center gap-1">
                 {t("Add")}
                 <Plus className="h-4 w-4" />
               </Button>
-            </AddEditPaymentDialogDrawer>
+            </AddEditPaymentSheetDrawer>
           }
         />{" "}
         <CardDetails
@@ -96,12 +96,12 @@ export default function OverView({ analytics }: { analytics: any }) {
           }
           cta="expenses"
           action={
-            <AddEditExpenseSheet>
+            <AddEditExpenseSheetDrawer>
               <Button size="sm" className="flex items-center gap-1">
                 {t("Add")}
                 <Plus className="h-4 w-4" />
               </Button>
-            </AddEditExpenseSheet>
+            </AddEditExpenseSheetDrawer>
           }
         />
       </div>

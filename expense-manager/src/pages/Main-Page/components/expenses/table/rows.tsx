@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useDeleteExpenseMutation } from "@/pages/Main-Page/api/expenses";
 import { format } from "date-fns";
 import { t } from "i18next";
-import AddEditExpenseSheet from "../add-edit-sheet-drawer";
+import AddEditExpenseSheetDrawer from "../add-edit-sheet-drawer";
 // import ActionsDrawer from "./actions-drawer";
 const TableRows = ({ expenses }: { expenses: ExpenseType[] }) => {
   const { mutate: deletePayment } = useDeleteExpenseMutation();
@@ -39,7 +39,7 @@ const TableRows = ({ expenses }: { expenses: ExpenseType[] }) => {
           </TableCell>
           <TableCell>
             <div className="justify-end flex items-center gap-2">
-              <AddEditExpenseSheet expense={expense}>
+              <AddEditExpenseSheetDrawer expense={expense}>
                 <Button
                   size={"link"}
                   variant={"none"}
@@ -47,7 +47,7 @@ const TableRows = ({ expenses }: { expenses: ExpenseType[] }) => {
                 >
                   {t("Edit")}
                 </Button>
-              </AddEditExpenseSheet>
+              </AddEditExpenseSheetDrawer>
               •
               <Button
                 size={"sm"}

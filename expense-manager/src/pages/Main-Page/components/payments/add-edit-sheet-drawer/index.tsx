@@ -27,15 +27,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-type AddEditPaymentDialogDrawerProps = {
+type AddEditPaymentSheetDrawerProps = {
   children: React.ReactNode;
   payment?: PaymentType;
 };
 
-const AddEditPaymentDialogDrawer = ({
+const AddEditPaymentSheetDrawer = ({
   children,
   payment,
-}: AddEditPaymentDialogDrawerProps) => {
+}: AddEditPaymentSheetDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { t } = useTranslation();
@@ -118,4 +118,4 @@ const AddEditPaymentDialogDrawer = ({
   );
 };
 
-export default AddEditPaymentDialogDrawer;
+export default AddEditPaymentSheetDrawer;
