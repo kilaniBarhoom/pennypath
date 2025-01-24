@@ -39,7 +39,6 @@ const Expenses = () => {
           </AddEditExpenseSheet>
         </div>
       </div>
-      <div className="w-full flex items-center flex-wrap justify-between gap-2 mt-4"></div>
       <ExpensesWrapper />
     </div>
   );

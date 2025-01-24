@@ -29,7 +29,7 @@ const BreadcrumbComponent = ({
   return (
     <div
       className={ny(
-        "my-2 z-30 transition-all duration-300 ease-in-out max-md:w-full",
+        " z-30 transition-all duration-300 ease-in-out max-md:w-full",
         className
       )}
     >

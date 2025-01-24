@@ -6,7 +6,7 @@ import { ny } from "@/lib/utils";
 import LoadingSpinner from "../shared/icons/loading-icon";
 
 const buttonVariants = cva(
-  "inline-flex items-center tracking-wider transition-all duration-50 ease-in-out justify-center rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center tracking-wider transition-all duration-50 shadow-lg ease-in-out justify-center rounded-sm text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -49,6 +49,7 @@ export interface ButtonProps
   loading?: boolean;
   Icon?: React.ComponentType<{ className?: string }>;
   iconPosition?: "left" | "right";
+  iconClassNames?: string;
 }
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -61,6 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       Icon,
       children,
       iconPosition = "right",
+      iconClassNames,
       ...props
     },
     ref
@@ -73,14 +75,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {Icon && iconPosition === "left" && (
-          <Icon className="md:ltr:mr-2 md:rtl:ml-2 size-6" />
+          <Icon className={ny("md:me-2 size-5", iconClassNames)} />
         )}
         {loading && (
           <LoadingSpinner className="ltr:mr-2 rtl:ml-2 h-4 w-4 animate-spin" />
         )}
         {children}
         {Icon && iconPosition === "right" && (
-          <Icon className="md:rtl:mr-2 md:ltr:ml-2 size-6" />
+          <Icon className={ny("md:ms-2 size-5", iconClassNames)} />
         )}
       </Comp>
     );

@@ -1,6 +1,7 @@
 import ShekelIcon from "@/components/shared/icons/shekel-icon";
 import TablePagiation from "@/components/shared/pagination";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 import { useSearchExpensesQuery } from "../../api/expenses";
 import ExpensesFilters from "./filters";
@@ -15,9 +16,15 @@ export default function PaymentsWrapper() {
   const { t } = useTranslation();
 
   return (
-    <>
-      <div className="flex flex-col gap-2 rounded-sm">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 w-full">
+    <section className="flex flex-col gap-10">
+      {isLoadingToFetchExpensesData ? (
+        <div className="grid gap-2 md:grid-cols-2 w-full">
+          {/* skeletons */}
+          <Skeleton className="h-40" />
+          <Skeleton className="h-40" />
+        </div>
+      ) : (
+        <div className="grid gap-2 md:grid-cols-2 w-full">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -51,6 +58,8 @@ export default function PaymentsWrapper() {
             </CardContent>
           </Card>
         </div>
+      )}
+      <div className="flex flex-col gap-2 rounded-sm">
         <ExpensesFilters />
         <ExpensesTable
           expenses={searchExpensesResponse?.expenses ?? []}
@@ -62,6 +71,6 @@ export default function PaymentsWrapper() {
           />
         </div>
       </div>
-    </>
+    </section>
   );
 }

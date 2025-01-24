@@ -29,7 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, iconPosition, error, noRing, ...props }, ref) => {
     const { t, i18n } = useTranslation();
     const sharedClassNames =
-      "flex h-10 w-full rounded-sm border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
+      "flex h-10 w-full rounded-sm border border-input bg-transparent px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 text-foreground shadow-inner focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
     iconPosition = i18n.dir() === "rtl" ? "left" : "right";
     return (
       <>

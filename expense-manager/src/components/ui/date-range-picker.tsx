@@ -1,9 +1,10 @@
 import { ny } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ar, enGB } from "date-fns/locale";
+import { Calendar as CalendarIcon, ChevronDown, ChevronUp } from "lucide-react";
 import { type FC, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
-import { ar, enGB } from "date-fns/locale";
 import { Label } from "./label";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import {
@@ -13,9 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-import { DateInput } from "./date-input";
 import { Switch } from "./switch";
-import { useTranslation } from "react-i18next";
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
@@ -37,13 +36,13 @@ export interface DateRangePickerProps {
   className?: string;
 }
 
-const formatDate = (date: Date, locale: string = "en-us"): string => {
-  return date.toLocaleDateString(locale, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-};
+// const formatDate = (date: Date, locale: string = "en-us"): string => {
+//   return date.toLocaleDateString(locale, {
+//     month: "short",
+//     day: "numeric",
+//     year: "numeric",
+//   });
+// };
 
 const getDateAdjustedForTimezone = (dateInput: Date | string): Date => {
   if (typeof dateInput === "string") {
@@ -303,30 +302,14 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={ny(
-            "overflow-y-hidden md:w-fit w-full bg-background text-base",
-            {
-              className,
-            }
-          )}
+          className={ny("overflow-y-hidden md:w-fit w-full", {
+            className,
+          })}
+          Icon={CalendarIcon}
+          iconPosition="left"
+          iconClassNames="text-secondary-foreground size-4"
         >
-          <div className="text-start">
-            <div>
-              <div>{`${formatDate(range.from, locale)}${
-                range.to != null ? " - " + formatDate(range.to, locale) : ""
-              }`}</div>
-            </div>
-            {rangeCompare != null && (
-              <div className="opacity-60 text-xs -mt-1">
-                <>
-                  vs. {formatDate(rangeCompare.from, locale)}
-                  {rangeCompare.to != null
-                    ? ` - ${formatDate(rangeCompare.to, locale)}`
-                    : ""}
-                </>
-              </div>
-            )}
-          </div>
+          {t("Select Dates")}
           <div className="ltr:pl-1 rtl:pr-1 opacity-60 ltr:-mr-2 rtl:-ml-2 scale-125">
             {isOpen ? <ChevronUp width={18} /> : <ChevronDown width={18} />}
           </div>
@@ -376,7 +359,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                     <Label htmlFor="compare-mode">Compare</Label>
                   </div>
                 )}
-                <div className="flex flex-col gap-2">
+                {/* <div className="flex flex-col gap-2">
                   <div className="flex gap-2">
                     <DateInput
                       value={range.from}
@@ -445,7 +428,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                       />
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
               <Select
                 defaultValue={selectedPreset}

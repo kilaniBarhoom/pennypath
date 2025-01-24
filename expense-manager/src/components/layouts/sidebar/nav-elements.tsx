@@ -11,18 +11,21 @@ import {
   SideNavLastSectionItems,
   SideNavSecondSectionItems,
 } from "./nav-items";
+import { Separator } from "@/components/ui/separator";
 
 const NavElements = () => {
   const { t } = useTranslation();
   return (
-    <nav className="flex flex-col gap-16 justify-between pb-4 flex-1 h-full">
+    <nav className="flex flex-col gap-5 justify-between pb-4 flex-1 h-full">
       <div className="flex flex-col gap-2">
         <RenderItems items={SideNavItems} />
       </div>
+      <Separator />
       <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("App")}</span>
         <RenderItems items={SideNavSecondSectionItems} />
       </div>
+      <Separator />
 
       <div className="flex flex-col gap-2 mt-auto">
         <span className="text-muted-foreground">{t("User")}</span>
@@ -57,9 +60,9 @@ const RenderItems = ({ items }: { items: NavItem[] }) => {
           className={ny(
             buttonVariants({
               variant: pathname === item.path ? "navBtn" : "ghost",
-              size: isSideBarOpen ? "lg" : "icon",
+              size: isSideBarOpen ? "default" : "icon",
             }),
-            "flex w-full gap-2 p-2 items-center font-normal",
+            "flex w-full gap-2 p-2 items-center font-normal shadow-none",
             isSideBarOpen ? "justify-start" : "justify-center"
           )}
         >

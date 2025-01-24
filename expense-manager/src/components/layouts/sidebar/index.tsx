@@ -48,7 +48,7 @@ export const SideBarContent = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 lg:p-2 lg:h-screen  overflow-visible">
+    <div className="flex flex-col gap-4 lg:p-2 lg:h-screen  overflow-visible">
       <div className="flex flex-col bg-muted border rounded-lg w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
           <TooltipComponent
