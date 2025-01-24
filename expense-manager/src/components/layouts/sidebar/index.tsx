@@ -20,7 +20,7 @@ const SideBar = () => {
           "w-[4rem] border-0": !isSideBarOpen,
           "w-[16rem] border": isSideBarOpen,
         },
-        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 rounded-lg bg-secondary flex-shrink-0 no-scrollbar"
+        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 rounded-lg bg-secondary/30 flex-shrink-0 no-scrollbar"
       )}
     >
       <SideBarContent />
@@ -51,7 +51,11 @@ export const SideBarContent = () => {
     <div className="flex flex-col gap-2 lg:p-2 lg:h-screen  overflow-visible">
       <div className="flex flex-col bg-muted border rounded-lg w-full">
         <div className="flex flex-col w-full py-2 gap-2 items-center justify-center">
-          <TooltipComponent side="right" content="User Profile">
+          <TooltipComponent
+            variant="invert"
+            side="right"
+            content="User Profile"
+          >
             <Avatar
               className={ny("size-28 cursor-pointer", {
                 "lg:size-8": !isSideBarOpen,
