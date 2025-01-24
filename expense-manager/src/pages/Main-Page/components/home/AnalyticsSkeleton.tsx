@@ -15,52 +15,43 @@ export default function AnalyticsSkeleton() {
       <div className="container mx-auto grid gap-6">
         {/* Overview Section */}
         <div className="grid gap-2">
-          <Card className="p-2">
-            <CardHeader className="px-0">
-              <CardTitle className="text-4xl font-semibold tracking-tight">
-                <Skeleton className="h-12 w-40" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-0">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full gap-2">
-                {/* Main Balance Card */}
-                <Card className="bg-gradient-to-r from-primary dark:from-primary/30 to-primary/80 dark:to-primary/60 w-full">
-                  <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-0">
-                    <Skeleton className="h-10 w-10 rounded-full bg-primary-foreground/20" />
-                    <div className="space-y-1">
-                      <CardTitle>
-                        <Skeleton className="h-5 w-32 bg-primary-foreground/20" />
-                      </CardTitle>
-                      <Skeleton className="h-4 w-40 bg-primary-foreground/20" />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-0 pt-6">
-                    <Skeleton className="h-8 w-28 bg-primary-foreground/20" />
-                  </CardContent>
-                </Card>
-                {/* Other Overview Cards */}
-                {Array.from({ length: 2 }).map((_, i) => (
-                  <Card key={i} className="bg-secondary/40 p-6">
-                    <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-0">
-                      <Skeleton className="h-10 w-10 rounded-full" />
-                      <div className="space-y-1">
-                        <CardTitle>
-                          <Skeleton className="h-5 w-32" />
-                        </CardTitle>
-                        <Skeleton className="h-4 w-40" />
-                      </div>
-                    </CardHeader>
-                    <CardContent className="p-0 pt-6">
-                      <Skeleton className="h-8 w-28" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full gap-2">
+            {/* Main Balance Card */}
+            <Card className="bg-gradient-to-r from-primary dark:from-primary/30 to-primary/80 dark:to-primary/60 w-full border-0">
+              <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-0">
+                <Skeleton className="h-10 w-10 rounded-full bg-primary-foreground/20" />
+                <div className="space-y-1">
+                  <CardTitle>
+                    <Skeleton className="h-5 w-32 bg-primary-foreground/20" />
+                  </CardTitle>
+                  <Skeleton className="h-4 w-40 bg-primary-foreground/20" />
+                </div>
+              </CardHeader>
+              <CardContent className="p-0 pt-6">
+                <Skeleton className="h-8 w-28 bg-primary-foreground/20" />
+              </CardContent>
+            </Card>
+            {/* Other Overview Cards */}
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Card key={i} className="bg-secondary/40 p-6 border-0">
+                <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-0">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-1">
+                    <CardTitle>
+                      <Skeleton className="h-5 w-32" />
+                    </CardTitle>
+                    <Skeleton className="h-4 w-40" />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0 pt-6">
+                  <Skeleton className="h-8 w-28" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
           <div className="flex max-lg:flex-col gap-2 items-center w-full">
             {/* Recent Transactions */}
-            <Card className="p-6 flex-[2] w-full h-full">
+            <Card className="p-6 flex-[2] w-full h-full bg-secondary/40 border-0">
               <CardHeader className="flex flex-row items-center justify-between px-0">
                 <CardTitle>
                   <Skeleton className="h-6 w-40" />
@@ -85,7 +76,7 @@ export default function AnalyticsSkeleton() {
               </CardContent>
             </Card>
             {/* Category Expenses Card */}
-            <Card className="p-6 flex-1 w-full">
+            <Card className="p-6 flex-1 w-full bg-secondary/40 border-0">
               <CardHeader className="space-y-2 px-0">
                 <CardTitle>
                   <Skeleton className="h-6 w-40" />
@@ -109,9 +100,9 @@ export default function AnalyticsSkeleton() {
                 </div>
               </CardContent>
             </Card>
-          </div>{" "}
+          </div>
           {/* Monthly Spending Chart */}
-          <Card className="p-6">
+          <Card className="p-6 bg-secondary/40 border-0">
             <CardHeader className="space-y-2 px-0">
               <div className="flex items-center justify-between">
                 <CardTitle>

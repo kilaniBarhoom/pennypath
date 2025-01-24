@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import AddEditExpenseSheet from "../expenses/add-edit-sheet-drawer/index.tsx";
 import { ExpenseOverviewChart } from "./ExpenseOverviewChart";
 import ShekelIcon from "@/components/shared/icons/shekel-icon.tsx";
+import AddEditPaymentDialogDrawer from "../payments/add-edit-dialog-drawer/index.tsx";
 
 // Animation Variants
 const containerVariants = {
@@ -48,11 +49,11 @@ export default function OverView({ analytics }: { analytics: any }) {
     <motion.div
       initial="hidden"
       animate="visible"
-      className="w-full"
+      className="w-full grid gap-2"
       variants={containerVariants}
     >
       {/* Wallet Balance and Earned */}
-      <div className="flex gap-2 max-md:flex-col md:h-[160px]">
+      <div className="grid gap-2 xl:grid-cols-3 md:grid-cols-2">
         <CardDetails
           title="Wallet Balance"
           description="Your current balance in your wallet"
@@ -70,7 +71,7 @@ export default function OverView({ analytics }: { analytics: any }) {
           main
         />
         <CardDetails
-          title="Earned"
+          title="Payments"
           description="How much you earned"
           amount={analytics?.totalPaymentsValue}
           Icon={
@@ -83,38 +84,53 @@ export default function OverView({ analytics }: { analytics: any }) {
             </motion.span>
           }
           cta="payments"
+          action={
+            <AddEditPaymentDialogDrawer>
+              <Button size="sm" className="flex items-center gap-1">
+                {t("Add")}
+                <Plus className="h-4 w-4" />
+              </Button>
+            </AddEditPaymentDialogDrawer>
+          }
+        />{" "}
+        <CardDetails
+          title="Expenses"
+          description="How much you spent"
+          amount={analytics?.allTimeTotalExpensesValue}
+          Icon={
+            <motion.span
+              className="p-2 bg-red-500 rounded-full"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TrendingDown className="text-white" />
+            </motion.span>
+          }
+          cta="expenses"
+          action={
+            <AddEditExpenseSheet>
+              <Button size="sm" className="flex items-center gap-1">
+                {t("Add")}
+                <Plus className="h-4 w-4" />
+              </Button>
+            </AddEditExpenseSheet>
+          }
         />
       </div>
 
-      {/* Expenses */}
-      <CardDetails
-        title="Expenses"
-        description="How much you spent (Visualize current and prev week)"
-        amount={analytics?.allTimeTotalExpensesValue}
-        Icon={
-          <motion.span
-            className="p-2 bg-red-500 rounded-full"
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.3 }}
-          >
-            <TrendingDown className="text-white" />
-          </motion.span>
-        }
-        cta="expenses"
-        chart={
-          <ExpenseOverviewChart
-            expensesData={analytics?.expensesOfCurrentAndPreviousWeeks}
+      {/* Expenses Chart */}
+      {analytics?.expensesOfCurrentAndPreviousWeeks &&
+        analytics?.expensesOfCurrentAndPreviousWeeks.length > 10 && (
+          <CardDetails
+            title="Expenses Overview"
+            description="Visualize current and prev week's expenses"
+            chart={
+              <ExpenseOverviewChart
+                expensesData={analytics?.expensesOfCurrentAndPreviousWeeks}
+              />
+            }
           />
-        }
-        action={
-          <AddEditExpenseSheet>
-            <Button size="sm" className="flex items-center gap-1">
-              {t("Add")}
-              <Plus className="h-4 w-4" />
-            </Button>
-          </AddEditExpenseSheet>
-        }
-      />
+        )}
     </motion.div>
   );
 }
@@ -133,7 +149,7 @@ function CardDetails({
 }: {
   title: string;
   description: string;
-  amount: number;
+  amount?: number;
   Icon?: JSX.Element;
   main?: boolean;
   cta?: string;
@@ -172,14 +188,16 @@ function CardDetails({
         <CardContent className="flex flex-col gap-4">
           {chart}
           <div className="flex justify-between gap-2 items-start h-max">
-            <motion.div
-              className="text-3xl font-bold"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <ShekelIcon /> {amount}
-            </motion.div>
+            {amount && (
+              <motion.div
+                className="text-3xl font-bold"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <ShekelIcon className="text-3xl" /> {amount}
+              </motion.div>
+            )}
             {cta && (
               <TooltipComponent content="View">
                 <Link

@@ -57,78 +57,77 @@ export function ExpenseOverviewChart({
   );
 
   return (
-    <Card className="bg-transparent h-fit p-0 w-full shadow-none">
+    <Card className="bg-transparent h-fit p-0 w-full border-0 shadow-none">
       <CardHeader className="p-0">
         <CardTitle></CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
       <CardContent className="h-fit">
-        {expensesData && expensesData.length > 0 && (
-	<ChartContainer
-          config={chartConfig}
-          className="h-[200px] aspect-auto w-full p-0"
-        >
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-              top: 12,
-              bottom: 12,
-            }}
+        {expensesData && expensesData.length > 10 && (
+          <ChartContainer
+            config={chartConfig}
+            className="h-[200px] aspect-auto w-full p-0"
           >
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <XAxis
-              className=""
-              dataKey="date"
-              tickLine={true}
-              axisLine={true}
-              tickMargin={20}
-            />
-            <CartesianGrid vertical={false} />
-            <Line
-              dataKey="previous"
-              type="natural"
-              stroke="hsl(var(--chart-secondary-foreground))"
-              strokeWidth={4}
-              dot={{ r: 4 }}
-              activeDot={{
-                r: 6,
+            <LineChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
+                top: 12,
+                bottom: 12,
               }}
             >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="line" />}
               />
-            </Line>
-            <Line
-              dataKey="current"
-              type="natural"
-              stroke="hsl(var(--chart-primary-foreground))"
-              strokeWidth={4}
-              dot={{ r: 4 }}
-              activeDot={{
-                r: 6,
-              }}
-            >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
+              <XAxis
+                className=""
+                dataKey="date"
+                tickLine={true}
+                axisLine={true}
+                tickMargin={20}
               />
-            </Line>
-          </LineChart>
-        </ChartContainer>
-     
-)}
- </CardContent>
+              <CartesianGrid vertical={false} />
+              <Line
+                dataKey="previous"
+                type="natural"
+                stroke="hsl(var(--chart-secondary-foreground))"
+                strokeWidth={4}
+                dot={{ r: 4 }}
+                activeDot={{
+                  r: 6,
+                }}
+              >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Line>
+              <Line
+                dataKey="current"
+                type="natural"
+                stroke="hsl(var(--chart-primary-foreground))"
+                strokeWidth={4}
+                dot={{ r: 4 }}
+                activeDot={{
+                  r: 6,
+                }}
+              >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Line>
+            </LineChart>
+          </ChartContainer>
+        )}
+      </CardContent>
       <CardFooter></CardFooter>
     </Card>
   );
