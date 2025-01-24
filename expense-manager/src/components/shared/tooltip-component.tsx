@@ -11,10 +11,12 @@ import { useTranslation } from "react-i18next";
 export default function TooltipComponent({
   content,
   side = "top",
+  variant = "default",
   children,
 }: {
   content: string;
   side?: "top" | "bottom" | "left" | "right";
+  variant?: "default" | "outline" | "secondary" | "invert";
   children: React.ReactNode;
 }) {
   const { t } = useTranslation();
@@ -27,6 +29,7 @@ export default function TooltipComponent({
         <TooltipContent
           sideOffset={10}
           side={side}
+          variant={variant}
           className={ny("px-2 py-1", isSideBarOpen && "lg:hidden")}
         >
           {t(content)}
