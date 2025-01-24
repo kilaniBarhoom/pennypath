@@ -41,7 +41,7 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={ny(
-        "fixed inset-x-0 bottom-0 z-50 p-0 mt-24 flex h-5/6 flex-col border border-border bg-background overflow-hidden",
+        "fixed inset-x-0 bottom-0 z-50 p-0 mt-24 flex h-5/6 flex-col bg-background overflow-hidden rounded-t-sm pb-12",
         className
       )}
       {...props}
@@ -71,7 +71,10 @@ const DrawerFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={ny("mt-auto flex flex-col gap-2 p-4", className)}
+    className={ny(
+      "fixed bottom-0 bg-muted rounded-none  flex flex-col gap-2 p-4",
+      className
+    )}
     {...props}
   />
 );
@@ -106,13 +109,13 @@ DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {
   Drawer,
-  DrawerPortal,
-  DrawerOverlay,
-  DrawerTrigger,
   DrawerClose,
   DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
   DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTitle,
+  DrawerTrigger,
 };

@@ -43,8 +43,7 @@ const ExpenseForm = ({
   const { categories, loadingToFetchCategories } = useCategories();
 
   const footerAttributes = {
-    className:
-      "flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full",
+    className: "flex flex-row items-center gap-2 px-4 py-2 w-full",
     closeBtn: (
       <Button type="button" className="md:w-fit w-full" variant={"outline"}>
         {t("Discard")}
@@ -208,9 +207,13 @@ const ExpenseForm = ({
           />
         </div>
         {footer === "sheet" ? (
-          <SheetFooter className="flex rounded-b-md flex-row items-center justify-end gap-2 px-4 py-2 w-full">
+          <SheetFooter className={ny(footerAttributes.className, "w-full")}>
             <SheetClose asChild>
-              <Button type="button" className="w-fit" variant={"outline"}>
+              <Button
+                type="button"
+                className="w-full flex-1"
+                variant={"outline"}
+              >
                 {t("Discard")}
               </Button>
             </SheetClose>
@@ -218,7 +221,7 @@ const ExpenseForm = ({
               loading={isLoading}
               disabled={isLoading}
               type="submit"
-              className="px-8 w-fit"
+              className="w-full flex-1"
             >
               {expense ? t("Save") : t("Add")}
             </Button>
