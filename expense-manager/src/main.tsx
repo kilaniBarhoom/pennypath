@@ -13,6 +13,7 @@ import LoadingComponent from "./components/shared/Loading-component.tsx";
 import { Suspense } from "react";
 // import { Suspense } from "react";
 // import Loading from "./components/shared/loading.tsx";
+import { Analytics } from "@vercel/analytics/react";
 
 i18n.on("languageChanged", (locale: any) => {
   let lang = locale.substring(0, 2);
@@ -47,6 +48,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <QueryClientProvider client={queryClient}>
           <Suspense fallback={<LoadingComponent />}>
             <App />
+            <Analytics />
             <Toaster />
           </Suspense>
         </QueryClientProvider>
