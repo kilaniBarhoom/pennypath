@@ -101,7 +101,7 @@ const ExpensesFilters = () => {
         </div>
       </div>
       {(from || to || q || category) && (
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap w-fit">
           {(from || to) && (
             <div className="flex items-center gap-2 w-fit flex-wrap rounded-sm font-normal p-1 border bg-secondary">
               <Calendar size={20} strokeWidth={2} className="me-1" />

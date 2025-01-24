@@ -15,7 +15,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-secondary-foreground/5 shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -23,7 +23,8 @@ const buttonVariants = cva(
         hover:
           "text-secondary-foreground/40 bg-transparent hover:text-secondary-foreground ",
         success: "text-white bg-green-500 hover:bg-green-500/70",
-        navBtn: "text-white bg-blue-500 hover:bg-blue-500/70 font-semibold ",
+        navBtn:
+          "text-secondary-foreground bg-secondary-foreground/10 border shadow-inner shadow-secondary-foreground/20",
         none: "",
       },
       size: {
@@ -77,9 +78,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {Icon && iconPosition === "left" && (
           <Icon className={ny("me-2 size-5", iconClassNames)} />
         )}
-        {loading && (
-          <LoadingSpinner className="ltr:ms-2 h-4 w-4 animate-spin" />
-        )}
+        {loading && <LoadingSpinner className="me-2 h-4 w-4 animate-spin" />}
         {children}
         {Icon && iconPosition === "right" && (
           <Icon className={ny("ms-2 size-5", iconClassNames)} />

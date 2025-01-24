@@ -1,14 +1,13 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
 // import { useState } from "react";
-import { usePagination } from "@/hooks/use-pagination";
 import { ny } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { buttonVariants } from "../ui/button";
 import {
@@ -18,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useTranslation } from "react-i18next";
 
 const TablePagiation = ({ totalPages }: { totalPages: number }) => {
   const { t } = useTranslation();
@@ -28,7 +26,6 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
     PageNumber: "1",
   });
 
-  const PageSize = searchParams.get("PageSize") || "30";
   const PageNumber = searchParams.get("PageNumber") || "1";
 
   const setPageNumber = (value: string) => {
@@ -53,32 +50,19 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
     );
   };
 
-  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
-    currentPage: Number(PageNumber),
-    totalPages,
-    paginationItemsToDisplay: Number(PageSize),
-  });
-
   return (
-    <div className="flex items-center gap-4 px-4 justify-center max-sm:w-full sm:ms-auto">
-      <p
-        className="flex-1 max-sm:sr-only whitespace-nowrap text-lg text-muted-foreground"
-        aria-live="polite"
-      >
-        {t("Page")} <span className="text-foreground">{PageNumber}</span>{" "}
-        {t("of")} <span className="text-foreground">{totalPages}</span>
-      </p>
-      <Pagination>
-        <PaginationContent className="inline-flex gap-0 -space-x-px rounded-sm shadow-sm shadow-black/5 rtl:space-x-reverse">
+    <div className="flex items-center gap-4 px-4 w-full max-sm:flex-col">
+      <Pagination className="flex-1 w-full">
+        <PaginationContent className="inline-flex items-center max-sm:w-full justify-between gap-2 shadow-sm shadow-black/5">
           {/* Previous page button */}
-          <PaginationItem className="[&:first-child>a]:rounded-s-sm [&:last-child>a]:rounded-e-sm">
+          <PaginationItem className="rounded-sm">
             <PaginationLink
               className={ny(
                 buttonVariants({
                   variant: "outline",
                   size: "icon",
                 }),
-                "rounded-none shadow-none focus-visible:z-10 aria-disabled:pointer-events-none [&[aria-disabled]>svg]:opacity-50"
+                " shadow-none focus-visible:z-10 aria-disabled:pointer-events-none [&[aria-disabled]>svg]:opacity-50"
               )}
               onClick={() => setPageNumber(String(Number(PageNumber) - 1))}
               aria-label="Go to previous page"
@@ -92,60 +76,22 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
               />
             </PaginationLink>
           </PaginationItem>
-
-          {/* Left ellipsis (...) */}
-          {showLeftEllipsis && (
-            <PaginationItem className="[&:first-child>a]:rounded-s-lg [&:last-child>a]:rounded-e-lg">
-              <PaginationEllipsis />
-            </PaginationItem>
-          )}
-
-          {/* Page number links */}
-          {pages.map((page) => {
-            return (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  className={ny(
-                    buttonVariants({
-                      variant: "outline",
-                      size: "icon",
-                    }),
-                    "rounded-none shadow-none focus-visible:z-10 text-primary-foreground",
-                    page === Number(PageNumber) && "bg-primary hover:bg-primary"
-                  )}
-                  onClick={() => setPageNumber(String(page))}
-                  isActive={page === Number(PageNumber)}
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })}
-
-          {/* Right ellipsis (...) */}
-          {showRightEllipsis && (
-            <PaginationItem className="[&:first-child>a]:rounded-s-sm [&:last-child>a]:rounded-e-sm">
-              <PaginationEllipsis
-                className={ny(
-                  buttonVariants({
-                    variant: "outline",
-                    size: "icon",
-                  }),
-                  "pointer-events-none rounded-none shadow-none"
-                )}
-              />
-            </PaginationItem>
-          )}
-
+          <p
+            className=" whitespace-nowrap text-lg text-muted-foreground"
+            aria-live="polite"
+          >
+            {t("Page")} <span className="text-foreground">{PageNumber}</span>{" "}
+            {t("of")} <span className="text-foreground">{totalPages}</span>
+          </p>
           {/* Next page button */}
-          <PaginationItem className="[&:first-child>a]:rounded-s-sm [&:last-child>a]:rounded-e-sm">
+          <PaginationItem className="rounded-sm">
             <PaginationLink
               className={ny(
                 buttonVariants({
                   variant: "outline",
                   size: "icon",
                 }),
-                "rounded-none shadow-none focus-visible:z-10 aria-disabled:pointer-events-none [&[aria-disabled]>svg]:opacity-50"
+                "shadow-none focus-visible:z-10 aria-disabled:pointer-events-none [&[aria-disabled]>svg]:opacity-50"
               )}
               onClick={() => setPageNumber(String(Number(PageNumber) + 1))}
               aria-label="Go to next page"
@@ -162,7 +108,7 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-      <div className="flex flex-1 justify-end">
+      <div className="max-sm:w-full">
         <Select
           defaultValue="30"
           aria-label="Results per page"
@@ -173,12 +119,12 @@ const TablePagiation = ({ totalPages }: { totalPages: number }) => {
         >
           <SelectTrigger
             id="results-per-page"
-            className="w-fit whitespace-nowrap text-lg h-10"
+            className="w-fit whitespace-nowrap text-lg h-10 max-sm:w-full "
           >
             <SelectValue placeholder="Select number of results" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="5">5 / {t("Page")}</SelectItem>
+            <SelectItem value="1">1 / {t("Page")}</SelectItem>
             <SelectItem value="10">10 / {t("Page")}</SelectItem>
             <SelectItem value="20">20 / {t("Page")}</SelectItem>
             <SelectItem value="30">30 / {t("Page")}</SelectItem>
