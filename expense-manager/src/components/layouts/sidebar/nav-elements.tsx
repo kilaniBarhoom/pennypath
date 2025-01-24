@@ -15,7 +15,7 @@ import {
 const NavElements = () => {
   const { t } = useTranslation();
   return (
-    <nav className="flex flex-col gap-6 justify-between pb-4 flex-1 h-full">
+    <nav className="flex flex-col gap-16 justify-between pb-4 flex-1 h-full">
       <div className="flex flex-col gap-2">
         <RenderItems items={SideNavItems} />
       </div>
@@ -42,7 +42,12 @@ const RenderItems = ({ items }: { items: NavItem[] }) => {
 
   return items.map((item: NavItem) =>
     !item?.unAuthorizedRoles?.includes(user?.role ?? "") ? (
-      <TooltipComponent content={item.title} key={item.title} side="right">
+      <TooltipComponent
+        variant="invert"
+        content={item.title}
+        key={item.title}
+        side="right"
+      >
         <Link
           to={item.path}
           key={item.title}
@@ -51,10 +56,11 @@ const RenderItems = ({ items }: { items: NavItem[] }) => {
           }}
           className={ny(
             buttonVariants({
-              variant: pathname === item.path ? "navBtn" : "secondary",
+              variant: pathname === item.path ? "navBtn" : "ghost",
               size: isSideBarOpen ? "lg" : "icon",
             }),
-            "flex justify-start w-full gap-2 p-2 hover:bg-primary/30 h-12 group border-primary items-center text-lg border font-normal ltr:border-l-[7px] rtl:border-r-[7px]"
+            "flex w-full gap-2 p-2 items-center font-normal",
+            isSideBarOpen ? "justify-start" : "justify-center"
           )}
         >
           {item.icon}

@@ -45,7 +45,7 @@ export const SideNavItems: NavItem[] = [
 
 export const SideNavSecondSectionItems: NavItem[] = [
   {
-    title: "MyLogs",
+    title: "My Logs",
     path: "/my-logs",
     icon: <TextSearch size={24} />,
     unAuthorizedRoles: ["spectator"],
