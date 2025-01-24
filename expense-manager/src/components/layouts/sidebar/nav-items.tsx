@@ -32,7 +32,7 @@ export const SideNavItems: NavItem[] = [
   {
     title: "Payments",
     path: "/payments",
-    icon: <Banknote className="rotate-45" size={24} />,
+    icon: <Banknote size={24} />,
     unAuthorizedRoles: ["spectator"],
   },
   {

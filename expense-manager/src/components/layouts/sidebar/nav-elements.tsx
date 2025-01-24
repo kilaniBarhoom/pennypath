@@ -1,8 +1,10 @@
 import TooltipComponent from "@/components/shared/tooltip-component";
 import { buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { ny } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
 import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
+import { Lightbulb } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -11,18 +13,35 @@ import {
   SideNavLastSectionItems,
   SideNavSecondSectionItems,
 } from "./nav-items";
-import { Separator } from "@/components/ui/separator";
 
 const NavElements = () => {
   const { t } = useTranslation();
   return (
     <nav className="flex flex-col gap-5 justify-between pb-4 flex-1 h-full">
+      <TooltipComponent
+        content="Upcoming Features"
+        side="right"
+        variant="invert"
+      >
+        <RenderItems
+          items={[
+            {
+              title: "Upcoming Features",
+              icon: <Lightbulb />,
+              path: "/upcoming",
+            },
+          ]}
+          special
+        />
+      </TooltipComponent>
       <div className="flex flex-col gap-2">
+        <Separator />
         <RenderItems items={SideNavItems} />
       </div>
       <Separator />
       <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("App")}</span>
+
         <RenderItems items={SideNavSecondSectionItems} />
       </div>
       <Separator />
@@ -37,7 +56,13 @@ const NavElements = () => {
 
 export default NavElements;
 
-const RenderItems = ({ items }: { items: NavItem[] }) => {
+const RenderItems = ({
+  items,
+  special,
+}: {
+  items: NavItem[];
+  special?: boolean;
+}) => {
   const { user } = useAuth();
   const { isSideBarOpen, setIsSideBarSheetOpen } = useSideBarTrigger();
   const { t } = useTranslation();
@@ -62,8 +87,9 @@ const RenderItems = ({ items }: { items: NavItem[] }) => {
               variant: pathname === item.path ? "navBtn" : "ghost",
               size: isSideBarOpen ? "default" : "icon",
             }),
-            "flex w-full gap-2 p-2 items-center font-normal shadow-none",
-            isSideBarOpen ? "justify-start" : "justify-center"
+            "flex justify-start mx-auto gap-2 p-2 max-md:w-full items-center font-normal",
+            isSideBarOpen && "shadow-none w-full",
+            special && "bg-primary text-primary-foreground border"
           )}
         >
           {item.icon}
