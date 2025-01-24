@@ -2,7 +2,7 @@ import ResponseError from "./respErr.js"
 
 const handleErrors = (err, req, res, next) => {
     const { status = 500, message = "Internal server error" } = err
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV !== 'production') {
         res.status(status).json({
             err: err,
             message,
@@ -24,7 +24,7 @@ const handleErrors = (err, req, res, next) => {
                 400
             )
         } else if (err.code === 11000) {
-            const duplicatedKey =  Object.keys(err.keyPattern)[0];
+            const duplicatedKey = Object.keys(err.keyPattern)[0];
             const message = `${duplicatedKey} is already in use`
             error = new ResponseError(
                 message,

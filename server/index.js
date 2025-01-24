@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-if (process.env.NODE_ENV !== "prod")
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV !== "production")
     dotenv.config();
 
 import app from "./app.js";
