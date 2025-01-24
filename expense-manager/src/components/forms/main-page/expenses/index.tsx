@@ -1,5 +1,4 @@
 import { DatePicker } from "@/components/shared/date-picker";
-import LoadingComponent from "@/components/shared/Loading-component";
 import { Button } from "@/components/ui/button";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import {
@@ -14,14 +13,12 @@ import { Input } from "@/components/ui/input";
 import { SelectNative } from "@/components/ui/select-native";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import useAxios from "@/hooks/use-axios";
 import { ny, stringToDate } from "@/lib/utils";
+import useCategories from "@/pages/Main-Page/hooks/use-categories";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 type ExpenseFormProps = {
   expenseForm: any;
@@ -43,30 +40,7 @@ const ExpenseForm = ({
 
   // Update total when categories change
 
-  const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [loadingToFetchCategories, setLoadingToFetchCategories] =
-    useState(false);
-  const axios = useAxios();
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoadingToFetchCategories(true);
-        const { data: response } = await axios.get("/category");
-        const { data: categories } = response;
-
-        setCategories(categories);
-      } catch (error) {
-        toast(t("Error"), {
-          description: t("Failed to fetch categories"),
-        });
-      } finally {
-        setLoadingToFetchCategories(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const { categories, loadingToFetchCategories } = useCategories();
 
   const footerAttributes = {
     className:
@@ -179,37 +153,37 @@ const ExpenseForm = ({
                 </FormItem>
               )}
             />
-            {loadingToFetchCategories ? (
-              <div className="h-20 w-full flex items-center justify-center">
-                <LoadingComponent size={10} />
-              </div>
-            ) : (
-              <FormField
-                control={expenseForm.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem className="flex-[2] w-full">
-                    <FormLabel>
-                      <span className="text-red-500">*</span>&nbsp;
-                      {t("Category")}
-                    </FormLabel>
-                    <FormControl>
-                      <SelectNative {...field} defaultValue="" className="h-10">
-                        <option value="" disabled>
-                          {t("Please select a category")}
-                        </option>
-                        {categories.map((category) => (
+            <FormField
+              control={expenseForm.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="flex-[2] w-full">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;
+                    {t("Category")}
+                  </FormLabel>
+                  <FormControl>
+                    <SelectNative {...field} defaultValue="" className="h-10">
+                      <option value="" disabled>
+                        {t("Please select a category")}
+                      </option>
+                      {loadingToFetchCategories ? (
+                        <></>
+                      ) : (
+                        categories &&
+                        categories.length > 0 &&
+                        categories.map((category) => (
                           <option key={category.id} value={category.id}>
                             {category.name}
                           </option>
-                        ))}
-                      </SelectNative>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+                        ))
+                      )}
+                    </SelectNative>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <FormField
             control={expenseForm.control}
