@@ -208,23 +208,8 @@ const ExpenseForm = ({
         </div>
         {footer === "sheet" ? (
           <SheetFooter className={ny(footerAttributes.className, "w-full")}>
-            <SheetClose asChild>
-              <Button
-                type="button"
-                className="w-full flex-1"
-                variant={"outline"}
-              >
-                {t("Discard")}
-              </Button>
-            </SheetClose>
-            <Button
-              loading={isLoading}
-              disabled={isLoading}
-              type="submit"
-              className="w-full flex-1"
-            >
-              {expense ? t("Save") : t("Add")}
-            </Button>
+            <SheetClose asChild>{footerAttributes.closeBtn}</SheetClose>
+            {footerAttributes.submitBtn}
           </SheetFooter>
         ) : (
           <DrawerFooter className={ny(footerAttributes.className, "w-full")}>

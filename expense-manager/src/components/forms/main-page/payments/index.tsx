@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { ny, stringToDate } from "@/lib/utils";
 import { format } from "date-fns";
@@ -29,6 +30,7 @@ type PaymentFormProps = {
   isLoading: boolean;
   onSubmit: any;
   payment?: PaymentType;
+  footer: "sheet" | "drawer";
 };
 
 const PaymentForm = ({
@@ -36,17 +38,37 @@ const PaymentForm = ({
   isLoading,
   onSubmit,
   payment,
+  footer,
 }: PaymentFormProps) => {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
   const dir = i18n.dir();
+
+  const footerAttributes = {
+    className: "flex flex-row items-center gap-2 px-4 py-2 w-full",
+    closeBtn: (
+      <Button type="button" className="md:w-fit w-full" variant={"outline"}>
+        {t("Discard")}
+      </Button>
+    ),
+    submitBtn: (
+      <Button
+        loading={isLoading}
+        disabled={isLoading}
+        type="submit"
+        className="px-8 md:w-fit w-full"
+      >
+        {payment ? t("Save") : t("Add")}
+      </Button>
+    ),
+  };
   return (
     <Form {...paymentForm}>
       <form
         onSubmit={paymentForm.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-10"
       >
-        <div className={ny("flex flex-col gap-y-3")}>
+        <div className={ny("flex flex-col gap-y-3 p-4")}>
           <FormField
             control={paymentForm.control}
             name="date"
@@ -156,25 +178,17 @@ const PaymentForm = ({
             )}
           />
         </div>
-        <DialogFooter className="flex items-center gap-2 p-2 justify-end w-full">
-          <DialogClose asChild>
-            <Button
-              type="button"
-              className="md:w-fit w-full"
-              variant={"outline"}
-            >
-              {t("Discard")}
-            </Button>
-          </DialogClose>
-          <Button
-            loading={isLoading}
-            disabled={isLoading}
-            type="submit"
-            className="px-8 md:w-fit w-full"
-          >
-            {payment ? t("Save") : t("Add")}
-          </Button>
-        </DialogFooter>
+        {footer === "sheet" ? (
+          <SheetFooter>
+            <SheetClose>{footerAttributes.closeBtn}</SheetClose>
+            {footerAttributes.submitBtn}
+          </SheetFooter>
+        ) : (
+          <DialogFooter>
+            <DialogClose>{footerAttributes.closeBtn}</DialogClose>
+            {footerAttributes.submitBtn}
+          </DialogFooter>
+        )}
       </form>
     </Form>
   );
