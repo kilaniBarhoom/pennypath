@@ -1,5 +1,4 @@
 import ShekelIcon from "@/components/shared/icons/shekel-icon";
-import LoadingComponent from "@/components/shared/Loading-component";
 import TablePagiation from "@/components/shared/pagination";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,11 +20,13 @@ export default function PaymentsWrapper() {
       {isLoadingToFetchExpensesData ? (
         <div className="grid gap-2 md:grid-cols-2 w-full">
           {/* skeletons */}
-          <Skeleton className="h-32">
-            <LoadingComponent />
+          <Skeleton className="h-32 grid gap-2 p-4">
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-40" />
           </Skeleton>
-          <Skeleton className="h-32">
-            <LoadingComponent />
+          <Skeleton className="h-32 grid gap-2 p-4">
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-40" />
           </Skeleton>
         </div>
       ) : (
