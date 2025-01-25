@@ -74,11 +74,7 @@ const LocalSearchBar = ({
             )
           }
           onChange={(e) => setSearch(e.target.value)}
-          className={ny(
-            "md:min-w-80 font-normal text-lg py-5 border-input",
-            otherClasses
-          )}
-          noRing
+          className={ny("md:min-w-80 font-normal text-lg py-5", otherClasses)}
         />
       ) : (
         <NumberField

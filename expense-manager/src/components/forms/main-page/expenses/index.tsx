@@ -43,9 +43,10 @@ const ExpenseForm = ({
   const { categories, loadingToFetchCategories } = useCategories();
 
   const footerAttributes = {
-    className: "flex flex-row items-center gap-2 px-4 py-2 w-full",
+    className:
+      "flex flex-row items-center gap-2 px-4 justify-between py-2 w-full",
     closeBtn: (
-      <Button type="button" className="md:w-fit w-full" variant={"outline"}>
+      <Button type="button" variant={"outline"}>
         {t("Discard")}
       </Button>
     ),
@@ -54,7 +55,7 @@ const ExpenseForm = ({
         loading={isLoading}
         disabled={isLoading}
         type="submit"
-        className="px-8 md:w-fit w-full"
+        className="px-8"
       >
         {expense ? t("Save") : t("Add")}
       </Button>
@@ -107,7 +108,7 @@ const ExpenseForm = ({
                     <Button
                       variant={"outline"}
                       className={ny(
-                        "pl-3 text-left font-normal text-base flex-1 w-full hover:scale-100 active:scale-100",
+                        "ps-3 text-start font-normal text-base flex-1 w-full hover:border-secondary-foreground/70",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -118,7 +119,7 @@ const ExpenseForm = ({
                       ) : (
                         <span>{t("Date")}</span>
                       )}
-                      <CalendarIcon className="ltr:ml-auto rtl:mr-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
                     </Button>
                   </DatePicker>
                 </FormControl>
@@ -207,12 +208,12 @@ const ExpenseForm = ({
           />
         </div>
         {footer === "sheet" ? (
-          <SheetFooter className={ny(footerAttributes.className, "w-full")}>
+          <SheetFooter className={footerAttributes.className}>
             <SheetClose asChild>{footerAttributes.closeBtn}</SheetClose>
             {footerAttributes.submitBtn}
           </SheetFooter>
         ) : (
-          <DrawerFooter className={ny(footerAttributes.className, "w-full")}>
+          <DrawerFooter className={footerAttributes.className}>
             <DrawerClose asChild>{footerAttributes.closeBtn}</DrawerClose>
             {footerAttributes.submitBtn}
           </DrawerFooter>

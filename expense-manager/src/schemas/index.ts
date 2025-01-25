@@ -55,9 +55,7 @@ export const UsersEditFormSchema = z.object({
 export type UsersEditFormSchemaType = z.infer<typeof UsersEditFormSchema>;
 
 export const PaymentFormSchema = z.object({
-  amount: z.string({
-    required_error: "Amount is required",
-  }),
+  amount: z.number().positive().gt(0),
   date: z.date({
     required_error: "Date is required",
   }),

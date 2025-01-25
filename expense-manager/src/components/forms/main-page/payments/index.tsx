@@ -1,6 +1,6 @@
 import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
@@ -45,9 +45,10 @@ const PaymentForm = ({
   const dir = i18n.dir();
 
   const footerAttributes = {
-    className: "flex flex-row items-center gap-2 px-4 py-2 w-full",
+    className:
+      "flex flex-row items-center gap-2 px-4 py-2 justify-between w-full",
     closeBtn: (
-      <Button type="button" className="md:w-fit w-full" variant={"outline"}>
+      <Button type="button" variant={"outline"}>
         {t("Discard")}
       </Button>
     ),
@@ -56,7 +57,7 @@ const PaymentForm = ({
         loading={isLoading}
         disabled={isLoading}
         type="submit"
-        className="px-8 md:w-fit w-full"
+        className="px-8"
       >
         {payment ? t("Save") : t("Add")}
       </Button>
@@ -88,7 +89,7 @@ const PaymentForm = ({
                     <Button
                       variant={"outline"}
                       className={ny(
-                        "pl-3 text-left font-normal text-base flex-1 w-full hover:scale-100 active:scale-100",
+                        "ps-3 text-left font-normal text-base flex-1 w-full hover:border-secondary-foreground/70",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -99,7 +100,7 @@ const PaymentForm = ({
                       ) : (
                         <span>{t("Permit Expiration Date")}</span>
                       )}
-                      <CalendarIcon className="ltr:ml-auto rtl:mr-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
                     </Button>
                   </DatePicker>
                 </FormControl>
@@ -120,7 +121,10 @@ const PaymentForm = ({
                     <Input
                       {...field}
                       type="number"
-                      min={0}
+                      placeholder="e.g. 100"
+                      onChange={(e) => {
+                        field.onChange(parseFloat(e.target.value));
+                      }}
                       autoComplete="amount"
                       error={!!paymentForm.formState.errors.amount?.message}
                     />
@@ -170,6 +174,7 @@ const PaymentForm = ({
                     {...field}
                     autoComplete="note"
                     className="h-32"
+                    placeholder={t("Add a note")}
                     // error={!!paymentForm.formState.errors.note?.message}
                   />
                 </FormControl>
@@ -179,15 +184,15 @@ const PaymentForm = ({
           />
         </div>
         {footer === "sheet" ? (
-          <SheetFooter>
+          <SheetFooter className={footerAttributes.className}>
             <SheetClose>{footerAttributes.closeBtn}</SheetClose>
             {footerAttributes.submitBtn}
           </SheetFooter>
         ) : (
-          <DialogFooter>
-            <DialogClose>{footerAttributes.closeBtn}</DialogClose>
+          <DrawerFooter className={footerAttributes.className}>
+            <DrawerClose>{footerAttributes.closeBtn}</DrawerClose>
             {footerAttributes.submitBtn}
-          </DialogFooter>
+          </DrawerFooter>
         )}
       </form>
     </Form>

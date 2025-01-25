@@ -42,12 +42,19 @@ const AddEditPaymentSheetDrawer = ({
 
   const paymentForm = useForm<PaymentFormSchemaType>({
     resolver: zodResolver(PaymentFormSchema),
-    defaultValues: {
-      date: (payment && stringToDate(payment.date)) || new Date(),
-      note: payment?.note || "",
-      amount: String(payment?.amount) || "0",
-      type: payment?.type || "full",
-    },
+    defaultValues: payment
+      ? {
+          date: stringToDate(payment.date ?? new Date()),
+          note: payment.note ?? "",
+          amount: payment.amount,
+          type: payment.type,
+        }
+      : {
+          date: new Date(),
+          note: "",
+          amount: 0,
+          type: "full",
+        },
   });
 
   const { mutateAsync } = usePaymentFormMutation();

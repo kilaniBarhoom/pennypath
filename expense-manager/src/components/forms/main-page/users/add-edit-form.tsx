@@ -126,10 +126,8 @@ const UsersForm = ({
                         <Input
                           type={showPassword ? "text" : "password"}
                           {...field}
-                          noRing
                           autoComplete="password"
                           placeholder="********"
-                          className="hover:border-primary focus-within:border-primary duration-500 border"
                         />
                         {showPassword ? (
                           <Eye

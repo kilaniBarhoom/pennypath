@@ -103,9 +103,7 @@ const LoginForm = () => {
               <FormControl>
                 <Input
                   {...field}
-                  noRing
                   autoComplete="email"
-                  className="hover:border-primary focus-within:border-primary duration-500 border"
                   defaultValue="ibrahim-kelani@hotmail.com"
                   icon={<Mail size={20} />}
                   placeholder="john@doe.com"
@@ -130,10 +128,8 @@ const LoginForm = () => {
                     <Input
                       type={showPassword ? "text" : "password"}
                       {...field}
-                      noRing
                       autoComplete="password"
                       placeholder="********"
-                      className="hover:border-primary focus-within:border-primary duration-500 border"
                     />
                     {showPassword ? (
                       <Eye

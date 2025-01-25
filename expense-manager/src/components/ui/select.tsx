@@ -24,7 +24,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={ny(
-      "border-input ring-offset-background data-[placeholder]:text-muted-foreground focus:ring-ring flex h-10 w-full items-center justify-between rounded-sm border bg-transparent px-3 py-2 text-left text-sm shadow-sm focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 [&>span]:text-left",
+      "border-input hover:border-secondary-foreground/70 data-[placeholder]:text-muted-foreground flex h-10 w-full items-center justify-between rounded-sm border bg-secondary-foreground/5 hover:bg-accent hover:text-accent-foreground px-3 py-2 text-left text-sm shadow-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 [&>span]:text-left",
       className
     )}
     onPointerDown={(e) => {

@@ -1,9 +1,11 @@
 import { ny } from "@/lib/utils";
+import { useTheme } from "@/providers/theme-provider";
 
 export default function AppLogo({ smallLogo }: { smallLogo?: boolean }) {
+  const { theme } = useTheme();
   return (
     <div
-      className={ny("flex items-center w-fit", {
+      className={ny("flex items-center gap-1 w-fit", {
         "mx-auto": smallLogo,
       })}
     >
@@ -13,7 +15,11 @@ export default function AppLogo({ smallLogo }: { smallLogo?: boolean }) {
         alt="app logo"
       />
       <img
-        src="assets/applogo-text.png"
+        src={
+          theme === "light"
+            ? "assets/applogo-text.png"
+            : "assets/applogo-text-light.png"
+        }
         className={ny("w-32 object-contain", {
           "lg:hidden": smallLogo,
         })}
