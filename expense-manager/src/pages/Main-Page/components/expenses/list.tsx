@@ -81,7 +81,7 @@ export const ExpenseCard = ({
     <div
       key={expense.id}
       dir={dir}
-      className="p-4 py-2 border rounded-sm w-full bg-secondary shadow-lg grid items-start transition-all relative duration-1000 ease-in-out cursor-pointer group"
+      className="p-4 py-2 border rounded-sm w-full bg-secondary-foreground/5 hover:bg-accent hover:text-accent-foreground shadow-lg grid items-start transition-all relative duration-50 ease-in-out cursor-pointer group"
     >
       {expense?.description && (
         <BellDot className="w-4 animate-bounce text-yellow-500 absolute -top-2 -right-2 transition-opacity ease-in-out opacity-100 group-hover:opacity-0" />
