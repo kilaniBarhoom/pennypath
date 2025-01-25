@@ -27,7 +27,7 @@ export const SideBarContent = () => {
   const { isSideBarOpen } = useSideBarTrigger();
 
   return (
-    <div className="flex flex-col gap-4 lg:p-2 lg:h-screen  overflow-visible">
+    <div className="flex flex-col gap-4 lg:p-2 lg:h-screen overflow-visible">
       <AppLogo smallLogo={!isSideBarOpen} />
       <NavElements />
     </div>

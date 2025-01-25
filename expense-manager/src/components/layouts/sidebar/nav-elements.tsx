@@ -13,11 +13,12 @@ import {
   SideNavLastSectionItems,
   SideNavSecondSectionItems,
 } from "./nav-items";
+import { NavUser } from "./nav-user";
 
 const NavElements = () => {
   const { t } = useTranslation();
   return (
-    <nav className="flex flex-col gap-5 justify-between pb-4 flex-1 h-full">
+    <nav className="flex flex-col gap-4 justify-between pb-4 flex-1 h-full">
       <TooltipComponent
         content="Upcoming Features"
         side="right"
@@ -47,10 +48,12 @@ const NavElements = () => {
       </div>
       <Separator />
 
-      <div className="flex flex-col gap-2 mt-auto">
+      <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("User")}</span>
         <RenderItems items={SideNavLastSectionItems} />
       </div>
+      <Separator />
+      <NavUser />
     </nav>
   );
 };
