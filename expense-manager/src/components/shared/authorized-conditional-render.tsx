@@ -9,7 +9,7 @@ type AuthorizedRenderProps = {
 const AuthorizedRender = ({
   children,
   authorizedRoles,
-  replacement,
+  replacement, // Optional replacement component for non authorized users
 }: AuthorizedRenderProps) => {
   const { user } = useAuth();
   const userRole = user?.role ?? "user";

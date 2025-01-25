@@ -1,8 +1,8 @@
+import AuthorizedRender from "@/components/shared/authorized-conditional-render";
 import TooltipComponent from "@/components/shared/tooltip-component";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ny } from "@/lib/utils";
-import { useAuth } from "@/providers/auth-provider";
 import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
 import { Lightbulb } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -29,6 +29,7 @@ const NavElements = () => {
               title: "Upcoming Features",
               icon: <Lightbulb />,
               path: "/upcoming",
+              authorizedRoles: ["user", "admin", "superadmin"],
             },
           ]}
           special
@@ -63,18 +64,18 @@ const RenderItems = ({
   items: NavItem[];
   special?: boolean;
 }) => {
-  const { user } = useAuth();
   const { isSideBarOpen, setIsSideBarSheetOpen } = useSideBarTrigger();
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-  return items.map((item: NavItem) =>
-    !item?.unAuthorizedRoles?.includes(user?.role ?? "") ? (
+  return items.map((item: NavItem) => (
+    <AuthorizedRender key={item.title} authorizedRoles={item.authorizedRoles}>
       <TooltipComponent
         variant="invert"
         content={item.title}
         key={item.title}
         side="right"
+        inSideBar
       >
         <Link
           to={item.path}
@@ -98,6 +99,6 @@ const RenderItems = ({
           </span>
         </Link>
       </TooltipComponent>
-    ) : null
-  );
+    </AuthorizedRender>
+  ));
 };

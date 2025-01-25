@@ -99,7 +99,7 @@ const AddEditExpenseSheetDrawer = ({
 
   return isDesktop ? (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger>{content.trigger}</SheetTrigger>
+      <SheetTrigger asChild>{content.trigger}</SheetTrigger>
       <SheetContent
         disableBackdrop
         className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
