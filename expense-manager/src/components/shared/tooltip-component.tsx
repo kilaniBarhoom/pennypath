@@ -8,17 +8,21 @@ import { ny } from "@/lib/utils";
 import { useSideBarTrigger } from "@/providers/sidebar-trigger.provider";
 import { useTranslation } from "react-i18next";
 
+type TooltipComponentProps = {
+  content: string;
+  side?: "top" | "bottom" | "left" | "right";
+  variant?: "default" | "outline" | "secondary" | "invert";
+  inSideBar?: boolean;
+  children: React.ReactNode;
+};
+
 export default function TooltipComponent({
   content,
   side = "top",
   variant = "default",
+  inSideBar,
   children,
-}: {
-  content: string;
-  side?: "top" | "bottom" | "left" | "right";
-  variant?: "default" | "outline" | "secondary" | "invert";
-  children: React.ReactNode;
-}) {
+}: TooltipComponentProps) {
   const { t } = useTranslation();
   const { isSideBarOpen } = useSideBarTrigger();
 
@@ -30,7 +34,7 @@ export default function TooltipComponent({
           sideOffset={10}
           side={side}
           variant={variant}
-          className={ny("px-2 py-1", isSideBarOpen && "lg:hidden")}
+          className={ny("px-2 py-1", inSideBar && isSideBarOpen && "lg:hidden")}
         >
           {t(content)}
         </TooltipContent>
