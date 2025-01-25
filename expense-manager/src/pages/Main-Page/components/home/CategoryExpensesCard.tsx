@@ -18,6 +18,8 @@ import { ExternalLink } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 import CategoriesDialog from "./CategoriesDialog";
 import { useTranslation } from "react-i18next";
+import ShekelIcon from "@/components/shared/icons/shekel-icon";
+import { Link } from "react-router-dom";
 
 // Chart colors array for dynamic category assignment
 const chartColors = [
@@ -108,7 +110,13 @@ export default function CategoryExpensesCard({
           >
             <PieChart className="w-full max-h-[200px]">
               <ChartTooltip
-                content={<ChartTooltipContent nameKey="name" hideLabel />}
+                content={
+                  <ChartTooltipContent
+                    nameKey="name"
+                    hideLabel
+                    formatter={(value) => `₪ ${value}`}
+                  />
+                }
               />
               <Pie
                 data={chartData}
@@ -132,17 +140,22 @@ export default function CategoryExpensesCard({
         {categories && categories.length > 0 && (
           <div className="flex items-center gap-4 flex-wrap w-full">
             {categories.map((item, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <Link
+                to={`/expenses?category=${item.category.id}`}
+                key={index}
+                className="flex items-center gap-2"
+              >
                 <span
-                  className="h-4 rounded-sm aspect-square"
+                  className="h-2 rounded-sm aspect-square"
                   style={{
                     backgroundColor: chartColors[index % chartColors.length],
                   }}
                 />
                 <span className="text-sm">
-                  {item.category.name}: {item.amount}
+                  {item.category.name}: <ShekelIcon className="text-lg" />{" "}
+                  {item.amount}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         )}
