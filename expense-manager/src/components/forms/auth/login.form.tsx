@@ -158,9 +158,6 @@ const LoginForm = () => {
                 </Trans>
               </FormControl>
               <FormMessage className="text-start" />
-              <div className="text-end">
-                <p>{t("Forgot your password?")}</p>
-              </div>
             </FormItem>
           )}
         />
