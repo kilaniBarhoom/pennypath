@@ -35,7 +35,7 @@ export function NavUser() {
     const isConfirmed = confirm(t("Are you sure you want to logout?"));
 
     if (isConfirmed) {
-      queryClient.invalidateQueries();
+      queryClient.removeQueries();
       await logout();
       navigate("/");
     }
@@ -51,9 +51,9 @@ export function NavUser() {
             <UserAvatar
               image=""
               name={user?.fullNameEnglish}
-              description={user?.email}
               className="p-0"
               imageClassName="bg-muted"
+              nameClassName="max-w-40 overflow-hidden text-elipsis whitespace-nowrap"
             />
             <ChevronsUpDown className="ml-auto size-4" />
           </>
