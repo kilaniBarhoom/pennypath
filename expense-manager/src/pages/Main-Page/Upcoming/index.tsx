@@ -63,6 +63,15 @@ const features: Feature[] = [
     eta: "4 weeks",
     category: "Front/Back",
   },
+  {
+    id: "6",
+    title: "Localization",
+    description:
+      "Allow users to change the language of the app to their preferred language",
+    progress: 0,
+    eta: "4.5 weeks",
+    category: "Front/Back",
+  },
 ];
 
 export default function UpcomingFeaturesPage() {
@@ -85,7 +94,9 @@ export default function UpcomingFeaturesPage() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 {feature.title}
-                <Badge variant="secondary">{feature.category}</Badge>
+                <Badge variant="secondary" className="font-normal">
+                  {feature.category}
+                </Badge>
               </CardTitle>
               <CardDescription>{feature.description}</CardDescription>
             </CardHeader>
