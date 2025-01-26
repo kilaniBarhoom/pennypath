@@ -28,28 +28,25 @@ const ExpensesTable = ({
         <TableRow>
           <TableHead>
             <span className="flex items-center gap-1">
-              <Notebook size={20} className="text-secondary-foreground" />
+              <Notebook size={20} className="text-white" />
               {t("Name")}
             </span>
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
             <span className="flex items-center gap-1">
-              <ChartBarStacked
-                size={20}
-                className="text-secondary-foreground"
-              />
+              <ChartBarStacked size={20} className="text-white" />
               {t("Category")}
             </span>
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
             <span className="flex items-center gap-1">
-              <Calendar size={20} className="text-secondary-foreground" />
+              <Calendar size={20} className="text-white" />
               {t("Date")}
             </span>
           </TableHead>
           <TableHead className="min-w-60 overflow-x-hidden">
             <span className="flex items-center gap-1 justify-center">
-              <Banknote size={20} className="text-secondary-foreground" />
+              <Banknote size={20} className="text-white" />
               {t("Amount")}
             </span>
           </TableHead>

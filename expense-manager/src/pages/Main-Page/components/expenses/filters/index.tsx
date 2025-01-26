@@ -118,7 +118,7 @@ const ExpensesFilters = () => {
               ) : to ? (
                 <DateFormatComponent date={to} />
               ) : null}
-              <TooltipComponent content="Clear">
+              <TooltipComponent variant="invert" content="Clear">
                 <Button
                   size={"xs"}
                   variant={"ghost"}
@@ -141,7 +141,7 @@ const ExpensesFilters = () => {
             </div>
           )}
           {category && (
-            <div className="flex items-center gap-2 w-fit rounded-sm font-normal text-lg px-2 py-1 border bg-secondary">
+            <div className="flex items-center gap-2 w-fit rounded-sm font-normal px-2 py-1 border bg-secondary">
               {t("Category")}:
               {loadingToFetchCategories ? (
                 <></>
