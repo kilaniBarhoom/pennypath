@@ -36,7 +36,7 @@ const UsersForm = ({
     <Form {...userForm}>
       <form
         onSubmit={userForm.handleSubmit(onSubmit)}
-        className="flex flex-col p-4 gap-y-5"
+        className="flex flex-col gap-y-5"
       >
         <div className={ny("flex flex-col gap-y-2")}>
           <div className="flex gap-2 w-full">

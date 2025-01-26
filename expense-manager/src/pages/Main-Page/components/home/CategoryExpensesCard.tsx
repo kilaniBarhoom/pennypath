@@ -113,7 +113,6 @@ export default function CategoryExpensesCard({
                 content={
                   <ChartTooltipContent
                     nameKey="name"
-                    hideLabel
                     formatter={(value) => `${value} ₪`}
                   />
                 }

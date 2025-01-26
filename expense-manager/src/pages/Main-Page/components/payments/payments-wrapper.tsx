@@ -39,7 +39,7 @@ export default function PaymentsWrapper() {
           </CardContent>
         </Card>
       )}
-      <div className="border flex flex-col gap-2 p-4 rounded-sm">
+      <div className="flex flex-col gap-2">
         <div className="w-full md:w-fit mb-2">
           <LocalSearchBar
             route="/payments"
