@@ -1,7 +1,4 @@
 import LoginForm from "@/components/forms/auth/login.form";
-import LanguageSelect from "@/components/shared/language-select";
-import ThemeSelector from "@/components/shared/theme-selector";
-import { Separator } from "@/components/ui/separator";
 import Typography from "@/components/ui/typography";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -36,11 +33,6 @@ const Login = () => {
         </div>
       </div>
       <LoginForm />
-      <Separator />
-      <div className="flex items-center justify-between gap-2">
-        <LanguageSelect />
-        <ThemeSelector />
-      </div>
     </div>
   );
 };
