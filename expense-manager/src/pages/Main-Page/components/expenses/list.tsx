@@ -95,9 +95,11 @@ export const ExpenseCard = ({
         >
           {expense?.name}
         </Typography>
-        <div className="gap-1 flex-1 items-end text-xl justify-end flex font-semibold text-red-400 tabular-nums">
-          -{expense.amount}
-          <ShekelIcon />
+        <div className="gap-1 flex-1 items-end text-xl justify-end flex">
+          <span className="bg-red-100 text-red-800 font-medium px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">
+            -{expense.amount}
+            <ShekelIcon className="text-xl ms-1" />
+          </span>
         </div>
       </div>
       <span className="leading-none text-muted-foreground">

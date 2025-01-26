@@ -183,7 +183,12 @@ function CardDetails({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <ShekelIcon className="text-3xl" /> {amount}
+                {amount}
+                <ShekelIcon
+                  className={ny("text-3xl ms-1", {
+                    "text-white": main,
+                  })}
+                />
               </motion.div>
             )}
             {cta && (

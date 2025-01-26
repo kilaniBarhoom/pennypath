@@ -39,8 +39,8 @@ export default function PaymentsWrapper() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                <ShekelIcon />
                 {searchExpensesResponse?.allTimeTotalValue ?? 0}
+                <ShekelIcon className="ms-1" />
               </div>
               <p className="text-xs text-muted-foreground">
                 {t("Total expenses")}
@@ -55,8 +55,8 @@ export default function PaymentsWrapper() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                <ShekelIcon />
                 {searchExpensesResponse?.filteredTotalValue ?? 0}
+                <ShekelIcon className="ms-1" />
               </div>
               <p className="text-xs text-muted-foreground">
                 {t("Based on current filters")}

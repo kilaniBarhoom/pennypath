@@ -114,7 +114,7 @@ export default function CategoryExpensesCard({
                   <ChartTooltipContent
                     nameKey="name"
                     hideLabel
-                    formatter={(value) => `₪ ${value}`}
+                    formatter={(value) => `${value} ₪`}
                   />
                 }
               />
@@ -152,8 +152,11 @@ export default function CategoryExpensesCard({
                   }}
                 />
                 <span className="text-sm">
-                  {item.category.name}: <ShekelIcon className="text-lg" />{" "}
+                  <span className="text-muted-foreground">
+                    {item.category.name}:{" "}
+                  </span>
                   {item.amount}
+                  <ShekelIcon className="text-lg ms-1" />
                 </span>
               </Link>
             ))}

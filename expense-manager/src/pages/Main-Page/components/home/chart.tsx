@@ -96,7 +96,12 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
               tickFormatter={(value) => value.slice(0, 3)}
               interval={0}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent formatter={(value) => `${value} ₪`} />
+              }
+            />
             <Bar
               dataKey="amount"
               fill="var(--color-amount)"
@@ -105,7 +110,7 @@ export function AnalyticsChart1({ data }: { data: Record<string, number> }) {
               <LabelList
                 dataKey="amount"
                 position="top"
-                formatter={(value: number) => `₪${value.toFixed(0)}`}
+                formatter={(value: number) => `${value.toFixed(0)} ₪`}
                 className="fill-foreground text-[10px] sm:text-xs"
               />
             </Bar>
