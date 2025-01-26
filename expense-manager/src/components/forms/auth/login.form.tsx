@@ -89,7 +89,7 @@ const LoginForm = () => {
     <Form {...loginForm}>
       <form
         onSubmit={loginForm.handleSubmit(onSubmit)}
-        className="flex flex-col text-start gap-3 w-full"
+        className="flex flex-col text-start gap-5 w-full"
       >
         <FormField
           control={loginForm.control}
