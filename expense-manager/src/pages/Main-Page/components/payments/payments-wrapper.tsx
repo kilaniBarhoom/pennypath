@@ -13,8 +13,7 @@ export default function PaymentsWrapper() {
     isLoading: isLoadingToFetchPaymentsData,
   } = useSearchPaymentsQuery();
 
-  const { t, i18n } = useTranslation();
-  const language = i18n.language;
+  const { t } = useTranslation();
   return (
     <section className="flex flex-col gap-10">
       {isLoadingToFetchPaymentsData ? (
@@ -26,11 +25,7 @@ export default function PaymentsWrapper() {
         <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              {t("Sum of all payments for")} (
-              {language === "ar"
-                ? searchPaymentsResponse?.payments?.[0].user?.fullNameArabic
-                : searchPaymentsResponse?.payments?.[0].user?.fullNameEnglish}
-              )
+              {t("Sum of all payments")}
             </CardTitle>
           </CardHeader>
           <CardContent>
