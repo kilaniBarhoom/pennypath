@@ -39,7 +39,7 @@ const Payments = () => {
       <Helmet>
         <title>Payments</title>
       </Helmet>
-      <div className="w-full flex items-center justify-between gap-2 flex-wrap">
+      <div className="w-full flex items-center justify-between gap-2 flex-wrap my-4">
         <BreadcrumbComponent
           tree={[
             {
