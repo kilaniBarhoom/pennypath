@@ -11,6 +11,7 @@ import TableRows from "./rows";
 import PaymentsTableSkeleton from "./payments-table-skeleton";
 import Typography from "@/components/ui/typography";
 import { Banknote, Calendar, ChartBarStacked } from "lucide-react";
+import AuthorizedRender from "@/components/shared/authorized-conditional-render";
 
 const PaymentsTable = ({
   payments,
@@ -26,26 +27,25 @@ const PaymentsTable = ({
     <Table className="min-w-max">
       <TableHeader>
         <TableRow>
-          <TableHead>{t("User")}</TableHead>
+          <AuthorizedRender authorizedRoles={["admin", "superadmin"]}>
+            <TableHead>{t("User")}</TableHead>
+          </AuthorizedRender>
           <TableHead className="min-w-32 overflow-x-hidden">
             <span className="flex items-center gap-1">
-              <Calendar size={20} className="text-secondary-foreground" />
+              <Calendar size={20} className="text-white" />
               {t("Date")}
             </span>
           </TableHead>
 
           <TableHead className="min-w-32 overflow-x-hidden">
             <span className="flex items-center gap-1">
-              <ChartBarStacked
-                size={20}
-                className="text-secondary-foreground"
-              />
-              {t("Category")}
+              <ChartBarStacked size={20} className="text-white" />
+              {t("Type")}
             </span>
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
             <span className="flex items-center gap-1 justify-center">
-              <Banknote size={20} className="text-secondary-foreground" />
+              <Banknote size={20} className="text-white" />
               {t("Amount")}
             </span>
           </TableHead>

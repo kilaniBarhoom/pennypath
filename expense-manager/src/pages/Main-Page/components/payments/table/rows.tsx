@@ -8,6 +8,7 @@ import { useDeletePaymentMutation } from "@/pages/Main-Page/api/payments";
 import { format } from "date-fns";
 import { t } from "i18next";
 import AddEditPaymentSheetDrawer from "../add-edit-sheet-drawer";
+import AuthorizedRender from "@/components/shared/authorized-conditional-render";
 // import ActionsDrawer from "./actions-drawer";
 const TableRows = ({ payments }: { payments: PaymentType[] }) => {
   const { mutate: deletePayment } = useDeletePaymentMutation();
@@ -25,9 +26,11 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
           key={payment.id}
           className="cursor-pointer even:bg-secondary/50"
         >
-          <TableCell className="font-medium  min-w-40 overflow-x-hidden text-lg">
-            {payment.user?.fullNameEnglish}
-          </TableCell>
+          <AuthorizedRender authorizedRoles={["admin", "superadmin"]}>
+            <TableCell className="font-medium  min-w-40 overflow-x-hidden text-lg">
+              {payment.user?.fullNameEnglish}
+            </TableCell>
+          </AuthorizedRender>
           <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg">
             {format(new Date(payment.date), "dd/MM/yyyy")}
           </TableCell>
