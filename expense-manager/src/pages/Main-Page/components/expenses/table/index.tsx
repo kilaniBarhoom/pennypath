@@ -6,10 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Typography from "@/components/ui/typography";
+import { Banknote, Calendar, ChartBarStacked, Notebook } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import TableRows from "./rows";
 import ExpensesTableSkeleton from "./skeleton";
-import Typography from "@/components/ui/typography";
 
 const ExpensesTable = ({
   expenses,
@@ -25,15 +26,32 @@ const ExpensesTable = ({
     <Table className="min-w-max">
       <TableHeader>
         <TableRow>
-          <TableHead>{t("Name")}</TableHead>
-          <TableHead className="min-w-32 overflow-x-hidden">
-            {t("Category")}
+          <TableHead>
+            <span className="flex items-center gap-1">
+              <Notebook size={20} className="text-secondary-foreground" />
+              {t("Name")}
+            </span>
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
-            {t("Date")}
+            <span className="flex items-center gap-1">
+              <ChartBarStacked
+                size={20}
+                className="text-secondary-foreground"
+              />
+              {t("Category")}
+            </span>
           </TableHead>
-          <TableHead className="min-w-60 text-end overflow-x-hidden">
-            {t("Amount")}
+          <TableHead className="min-w-32 overflow-x-hidden">
+            <span className="flex items-center gap-1">
+              <Calendar size={20} className="text-secondary-foreground" />
+              {t("Date")}
+            </span>
+          </TableHead>
+          <TableHead className="min-w-60 overflow-x-hidden">
+            <span className="flex items-center gap-1 justify-center">
+              <Banknote size={20} className="text-secondary-foreground" />
+              {t("Amount")}
+            </span>
           </TableHead>
           <TableHead className="w-20">
             <span className="sr-only">Actions</span>

@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import TableRows from "./rows";
 import PaymentsTableSkeleton from "./payments-table-skeleton";
 import Typography from "@/components/ui/typography";
+import { Banknote, Calendar, ChartBarStacked } from "lucide-react";
 
 const PaymentsTable = ({
   payments,
@@ -27,13 +28,26 @@ const PaymentsTable = ({
         <TableRow>
           <TableHead>{t("User")}</TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
-            {t("Date")}
+            <span className="flex items-center gap-1">
+              <Calendar size={20} className="text-secondary-foreground" />
+              {t("Date")}
+            </span>
+          </TableHead>
+
+          <TableHead className="min-w-32 overflow-x-hidden">
+            <span className="flex items-center gap-1">
+              <ChartBarStacked
+                size={20}
+                className="text-secondary-foreground"
+              />
+              {t("Category")}
+            </span>
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
-            {t("Amount")}
-          </TableHead>
-          <TableHead className="min-w-32 overflow-x-hidden">
-            {t("Type")}
+            <span className="flex items-center gap-1 justify-center">
+              <Banknote size={20} className="text-secondary-foreground" />
+              {t("Amount")}
+            </span>
           </TableHead>
           <TableHead>
             <span className="sr-only">Actions</span>
