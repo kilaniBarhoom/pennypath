@@ -8,7 +8,7 @@ const AuthLayout = () => {
         <AppLogo />
       </header>
 
-      <main className="max-w-sm mx-auto w-full">
+      <main className="max-w-sm mx-auto w-full pt-10">
         <Outlet />
       </main>
     </div>

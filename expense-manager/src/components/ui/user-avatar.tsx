@@ -27,10 +27,10 @@ const UserAvatar = ({
       <Avatar className={ny("size-7", imageClassName)}>
         <AvatarImage src={image} alt={name} />
         <AvatarFallback className="bg-smoked">
-          {name?.[0].toUpperCase()}
+          {name?.[0]?.toUpperCase() ?? ""}
         </AvatarFallback>
       </Avatar>
-      <div className="flex flex-col items-start justify-center gap-1">
+      <div className="flex flex-col items-start justify-center">
         <p
           className={ny(
             "leading-none text-secondary-foreground text-xs font-medium",

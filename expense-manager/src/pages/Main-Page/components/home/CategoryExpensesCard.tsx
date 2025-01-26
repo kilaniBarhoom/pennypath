@@ -102,7 +102,7 @@ export default function CategoryExpensesCard({
           </Button>
         </CategoriesDialog>
       </CardHeader>
-      <CardContent className="h-fit pb-0">
+      <CardContent className="h-full pb-0">
         {categories && categories.length > 0 ? (
           <ChartContainer
             config={chartConfig}
