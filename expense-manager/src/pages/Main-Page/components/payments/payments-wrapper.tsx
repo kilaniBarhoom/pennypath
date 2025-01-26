@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { useSearchPaymentsQuery } from "../../api/payments";
 import PaymentsTable from "./table";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function PaymentsWrapper() {
   const {
@@ -15,30 +16,34 @@ export default function PaymentsWrapper() {
   const { t, i18n } = useTranslation();
   const language = i18n.language;
   return (
-    <div className="flex flex-col gap-2">
-      {searchPaymentsResponse?.payments &&
-        searchPaymentsResponse?.payments.length > 0 && (
-          <Card className="w-full">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {t("Sum of all payments for")} (
-                {language === "ar"
-                  ? searchPaymentsResponse?.payments?.[0].user?.fullNameArabic
-                  : searchPaymentsResponse?.payments?.[0].user?.fullNameEnglish}
-                )
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {searchPaymentsResponse?.allTimeTotalValue ?? 0}
-                <ShekelIcon className="ms-1" />
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {t("Total payments")}
-              </p>
-            </CardContent>
-          </Card>
-        )}
+    <section className="flex flex-col gap-10">
+      {isLoadingToFetchPaymentsData ? (
+        <Skeleton className="h-32 grid gap-2 w-full p-4">
+          <Skeleton className="h-8 w-20" />
+          <Skeleton className="h-8 w-40" />
+        </Skeleton>
+      ) : (
+        <Card className="w-full">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              {t("Sum of all payments for")} (
+              {language === "ar"
+                ? searchPaymentsResponse?.payments?.[0].user?.fullNameArabic
+                : searchPaymentsResponse?.payments?.[0].user?.fullNameEnglish}
+              )
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {searchPaymentsResponse?.allTimeTotalValue ?? 0}
+              <ShekelIcon className="ms-1" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {t("Total payments")}
+            </p>
+          </CardContent>
+        </Card>
+      )}
       <div className="border flex flex-col gap-2 p-4 rounded-sm">
         <div className="w-full md:w-fit mb-2">
           <LocalSearchBar
@@ -57,6 +62,6 @@ export default function PaymentsWrapper() {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
