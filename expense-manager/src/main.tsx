@@ -39,12 +39,12 @@ const queryClient = new QueryClient({
 });
 
 const posthogOptions = {
-  api_host: process.env.VITE_PUBLIC_POSTHOG_HOST,
+  api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
 };
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <PostHogProvider
-    apiKey={process.env.VITE_PUBLIC_POSTHOG_KEY!}
+    apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY!}
     options={posthogOptions}
   >
     <ThemeProvider defaultTheme="dark">
