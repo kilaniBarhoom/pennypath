@@ -1,4 +1,4 @@
-export const findAllUsers = ({ grouped, search, pageNumber }) => {
+export const findAllUsers = ({ grouped, search, pageNumber, limit }) => {
     let filter = []
 
     if (grouped) {
@@ -91,11 +91,7 @@ export const findAllUsers = ({ grouped, search, pageNumber }) => {
                 $project: {
                     roleOrder: 0 // Optionally exclude the roleOrder field from the final output
                 }
-            },
-            {
-                $skip: pageNumber * 10
-            },
-            { $limit: 10 }
+            }
         ];
     }
 
@@ -111,6 +107,17 @@ export const findAllUsers = ({ grouped, search, pageNumber }) => {
                 ],
             },
         });
+
+        if (limit) {
+
+            filter.push({
+                $skip: pageNumber * limit,
+            });
+    
+            filter.push({
+                $limit: limit,
+            });
+        }
 
     return filter;
 

@@ -49,7 +49,7 @@ const TableRows = ({
           "cursor-pointer"
         )}
       >
-        <TableCell className="min-w-max">
+        <TableCell className="min-w-40">
           <Typography element="p" className="font-semibold">
             <UserAvatar
               name={

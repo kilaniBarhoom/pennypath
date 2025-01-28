@@ -10,11 +10,12 @@ import * as queryHelper from "../helpers/queries/user.queries.js";
 // get all users and sort descending by date and group by role
 // /api/user/all
 export const getAllUsers = async (req, res, next) => {
-    const { grouped, search, pageNumber, pageSize = 10 } = ReqQueryHelper(req.query);
+    const { grouped, search, pageNumber, pageSize } = ReqQueryHelper(req.query);
 
+    const allUsers =  await User.aggregate(queryHelper.findAllUsers({ grouped, search, pageNumber, limit: 0 }));
 
-    const users = await User.aggregate(queryHelper.findAllUsers({ grouped, search, pageNumber }));
-    const totalPages = Math.ceil(users.length / pageSize);
+    const users = await User.aggregate(queryHelper.findAllUsers({ grouped, search, pageNumber, limit: pageSize }));
+    const totalPages = Math.ceil(allUsers.length / pageSize);
 
     res.status(200).json({
         success: true,
