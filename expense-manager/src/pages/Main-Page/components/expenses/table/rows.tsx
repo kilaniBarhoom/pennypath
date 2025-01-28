@@ -23,14 +23,14 @@ const TableRows = ({ expenses }: { expenses: ExpenseType[] }) => {
           key={expense.id}
           className="cursor-pointer even:bg-secondary/50"
         >
-          <TableCell className=" min-w-80 overflow-x-auto max-w-80 whitespace-nowrap text-ellipsis text-lg">
+          <TableCell className=" min-w-72 overflow-x-auto max-w-80 whitespace-nowrap text-ellipsis text-lg">
             {expense.name}
           </TableCell>
           <TableCell className=" max-w-20 overflow-x-hidden text-lg">
             {expense.category.name}
           </TableCell>
-          <TableCell className=" max-w-20 overflow-x-hidden text-lg">
-            {format(new Date(expense.date), "dd/MM/yyyy")}
+          <TableCell className=" min-w-40 overflow-x-hidden text-lg">
+            {format(new Date(expense.date), "eee, dd/MM/yyyy")}
           </TableCell>
           <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg text-center">
             <span className="bg-red-100 text-red-800 font-medium px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">
