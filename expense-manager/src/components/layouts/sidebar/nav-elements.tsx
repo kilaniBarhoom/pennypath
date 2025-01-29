@@ -18,7 +18,7 @@ import { NavUser } from "./nav-user";
 const NavElements = () => {
   const { t } = useTranslation();
   return (
-    <nav className="flex flex-col gap-4 justify-between pb-4 flex-1 h-full">
+    <nav className="flex flex-col gap-4 justify-between flex-1 h-fit">
       <TooltipComponent
         content="Upcoming Features"
         side="right"

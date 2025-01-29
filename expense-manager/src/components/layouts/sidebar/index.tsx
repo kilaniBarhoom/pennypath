@@ -13,7 +13,7 @@ const SideBar = () => {
           "w-[4rem] border-0": !isSideBarOpen,
           "w-[16rem] border": isSideBarOpen,
         },
-        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 rounded-lg bg-secondary/30 flex-shrink-0 no-scrollbar"
+        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 top-2 bottom-2 rounded-lg bg-secondary/30 flex-shrink-0 no-scrollbar"
       )}
     >
       <SideBarContent />
@@ -27,7 +27,7 @@ export const SideBarContent = () => {
   const { isSideBarOpen } = useSideBarTrigger();
 
   return (
-    <div className="flex flex-col gap-4 lg:p-2 lg:h-screen overflow-visible">
+    <div className="flex flex-col gap-4 p-2 h-full overflow-y-auto no-scrollbar">
       <AppLogo smallLogo={!isSideBarOpen} />
       <NavElements />
     </div>
