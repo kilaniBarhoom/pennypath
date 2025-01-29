@@ -42,7 +42,16 @@ const cardVariants = {
   },
 };
 
-export default function OverView({ analytics }: { analytics: any }) {
+export default function OverView({
+  analytics,
+}: {
+  analytics: {
+    walletBalance: number;
+    totalPaymentsValue: number;
+    allTimeTotalExpensesValue: number;
+    expensesOfCurrentAndPreviousWeeks: any[];
+  };
+}) {
   const { t } = useTranslation();
 
   return (
@@ -192,7 +201,7 @@ function CardDetails({
               </motion.div>
             )}
             {cta && (
-              <TooltipComponent content="View">
+              <TooltipComponent content="View" variant="invert">
                 <Link
                   to={`/${cta}`}
                   className={ny(
