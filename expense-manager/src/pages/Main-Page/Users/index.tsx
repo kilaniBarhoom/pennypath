@@ -15,7 +15,7 @@ const Users = () => {
       <Helmet>
         <title>Users</title>
       </Helmet>
-      <div className="flex items-center justify-between gap-2 max-md:flex-col">
+      <div className="flex items-center justify-between gap-2 max-md:flex-col mb-4">
         <BreadcrumbComponent
           tree={[
             {
