@@ -9,7 +9,7 @@ const Header = () => {
   const { setIsSideBarOpen } = useSideBarTrigger();
 
   return (
-    <div className="flex py-1 px-2 justify-between w-full items-center gap-4">
+    <div className="flex p-2 justify-between w-full items-center gap-4">
       <div className="flex items-center gap-2">
         <SideNavSheet>
           <Button className="lg:hidden flex" size="icon" variant="outline">
