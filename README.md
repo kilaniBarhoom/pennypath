@@ -1,8 +1,8 @@
 
 ## An attendance tacker app
 ```
-The main idea of this app is to create a cutomized attendance tracker app, to keep track of workers 
-attendances and payments.
+PennyPath is a customized expense tracker app, to keep track of expenses 
+and payments, offering unique design and flawless experience.
 ```
 ## Website
 <a href="https://shalaby-manager.vercel.app">Click here to view website</a>
