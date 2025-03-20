@@ -2,20 +2,15 @@ import LocalSearchBar from "@/components/shared/loacal-search";
 import TooltipComponent from "@/components/shared/tooltip-component";
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import {
-  dateToString,
-  getFirstDayOfCurrentMonth,
-  getLastDayOfCurrentMonth,
-  stringToDate,
-} from "@/lib/utils";
+import { SelectNative } from "@/components/ui/select-native";
+import { dateToString, stringToDate } from "@/lib/utils";
+import useCategories from "@/pages/Main-Page/hooks/use-categories";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { Calendar, Filter, MoveRight, Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FiltersDropdown from "./filters-dropdown";
-import { SelectNative } from "@/components/ui/select-native";
-import useCategories from "@/pages/Main-Page/hooks/use-categories";
 
 const ExpensesFilters = () => {
   const { t, i18n } = useTranslation();
@@ -24,8 +19,6 @@ const ExpensesFilters = () => {
   const { categories, loadingToFetchCategories } = useCategories();
 
   const [searchParams, setSearchParams] = useSearchParams({
-    from: getFirstDayOfCurrentMonth(),
-    to: getLastDayOfCurrentMonth(),
     q: "",
   });
 

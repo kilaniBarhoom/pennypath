@@ -15,7 +15,7 @@ const Expenses = () => {
       <Helmet>
         <title>Expenses</title>
       </Helmet>
-      <div className="flex md:items-center max-md:flex-col gap-2 justify-between my-4">
+      <div className="flex md:items-center max-md:flex-col gap-2 justify-between mb-4">
         <BreadcrumbComponent
           tree={[
             {

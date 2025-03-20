@@ -15,7 +15,7 @@ export default function Main() {
         "flex-1 flex flex-col gap-2 overflow-auto min-w-0 transition-all duration-200 ease-in-out container max-lg:p-2"
       )}
     >
-      <header className="bg-secondary border h-14 rounded-sm">
+      <header className="bg-secondary border h-fit rounded-sm">
         <Header />
       </header>
       <Outlet />
