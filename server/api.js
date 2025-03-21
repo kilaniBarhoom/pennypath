@@ -14,6 +14,7 @@ import paymentRoutes from "./routes/payment.route.js";
 import sessionRoutes from "./routes/session.route.js";
 import settingsRoutes from "./routes/settings.route.js";
 import userRoutes from "./routes/user.route.js";
+import walletRoutes from "./routes/wallet.route.js";
 
 
 //	Routes
@@ -49,6 +50,9 @@ router.use("/analytics", analyticsRoutes);
 
 //category Routes
 router.use("/category", categoryRoutes);
+
+//category Routes
+router.use("/wallet", walletRoutes);
 
 
 //  Undefined Routes

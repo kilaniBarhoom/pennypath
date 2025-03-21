@@ -13,11 +13,12 @@ import ResponseError from '../utils/respErr.js';
 export const getAllAttendances = async (req, res, next) => {
     const { from: startDate, to: endDate, search, filterUser, onlyAdvancePayments, pageNumber } = ReqQueryHelper(req.query);
 
-    const attendanceDocuments = await Attendance.countDocuments();
+   
 
-    const totalPages = Math.ceil(attendanceDocuments / 10);
 
     const attendances = await Attendance.aggregate(queryHelper.findAttendance({ startDate, endDate, search, filterUser, onlyAdvancePayments, loggedInUser: req.user, pageNumber }));
+    
+    const totalPages = Math.ceil(attendances.length / 10);
 
     let averageAttendanceAndLeaveTime = (await Attendance.aggregate(queryHelper.calculateAverageTimes()))[0];
     const averageAttendanceTime = averageAttendanceAndLeaveTime ? averageAttendanceAndLeaveTime.averageAttendanceTime : 0;

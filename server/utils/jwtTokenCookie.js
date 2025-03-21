@@ -4,7 +4,7 @@ import Session from '../models/Session.js';
 const sendToken = async (user, statusCode, res) => {
     const refreshToken = user.genRefreshToken()
 
-    const secure = process.env.NODE_ENV !== 'dev';
+    const secure = true;
     const maxAge = ms(process.env.JWT_REFRESH_SECRET_EXPIRE);
 
     const session = await Session.create({
