@@ -44,7 +44,7 @@ export function NavUser() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className={ny(buttonVariants({ variant: "outline" }), "px-2")}
+        className={ny(buttonVariants({ variant: "outline" }), "px-2 w-full")}
       >
         {isSideBarOpen || !isDesktop ? (
           <>

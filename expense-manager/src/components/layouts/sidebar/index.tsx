@@ -11,9 +11,9 @@ const SideBar = () => {
       className={ny(
         {
           "w-[4rem] border-0": !isSideBarOpen,
-          "w-[16rem] border": isSideBarOpen,
+          "w-[16rem] border-r": isSideBarOpen,
         },
-        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed start-2 top-2 bottom-2 rounded-lg bg-secondary/30 flex-shrink-0 no-scrollbar"
+        "max-lg:w-0 z-40 max-lg:max-w-0 overflow-hidden lg:overflow-auto transition-all duration-200 ease-in-out fixed inset-0 h-screen bg-secondary/30 flex-shrink-0 no-scrollbar"
       )}
     >
       <SideBarContent />
