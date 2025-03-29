@@ -11,14 +11,14 @@ import {
   NavItem,
   SideNavItems,
   SideNavLastSectionItems,
-  SideNavSecondSectionItems,
+  // SideNavSecondSectionItems,
 } from "./nav-items";
 import { NavUser } from "./nav-user";
 
 const NavElements = () => {
   const { t } = useTranslation();
   return (
-    <nav className="flex flex-col gap-4 justify-between flex-1 h-fit">
+    <nav className="flex flex-col gap-2 flex-1 h-fit">
       <TooltipComponent
         content="Upcoming Features"
         side="right"
@@ -40,20 +40,24 @@ const NavElements = () => {
         <Separator />
         <RenderItems items={SideNavItems} />
       </div>
-      <Separator />
-      <div className="flex flex-col gap-2">
+      {/* <div className="flex flex-col gap-2">
         <span className="text-muted-foreground">{t("App")}</span>
 
         <RenderItems items={SideNavSecondSectionItems} />
-      </div>
-      <Separator />
+        </div>
+        <Separator /> */}
 
-      <div className="flex flex-col gap-2">
-        <span className="text-muted-foreground">{t("User")}</span>
-        <RenderItems items={SideNavLastSectionItems} />
+      <AuthorizedRender authorizedRoles={["admin", "superadmin"]}>
+        <Separator />
+        <div className="flex flex-col gap-2">
+          <span className="text-muted-foreground">{t("User")}</span>
+          <RenderItems items={SideNavLastSectionItems} />
+        </div>
+        <Separator />
+      </AuthorizedRender>
+      <div className="absolute bottom-0 left-0 px-2 py-2 w-full bg-secondary">
+        <NavUser />
       </div>
-      <Separator />
-      <NavUser />
     </nav>
   );
 };
