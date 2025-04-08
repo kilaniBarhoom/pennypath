@@ -1,5 +1,5 @@
 
-## An attendance tacker app
+## An Expense tracker app
 ```
 PennyPath is a customized expense tracker app, to keep track of expenses 
 and payments, offering unique design and flawless experience.
