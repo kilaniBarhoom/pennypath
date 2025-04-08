@@ -5,7 +5,7 @@ PennyPath is a customized expense tracker app, to keep track of expenses
 and payments, offering unique design and flawless experience.
 ```
 ## Website
-<a href="https://shalaby-manager.vercel.app">Click here to view website</a>
+<a href="https://pennypath2.vercel.app">Click here to view website</a>
 - Email
 ```
 demo@mail.com
