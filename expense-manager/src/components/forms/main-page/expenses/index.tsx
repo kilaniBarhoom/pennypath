@@ -1,5 +1,6 @@
 import { DatePicker } from "@/components/shared/date-picker";
 import { Button } from "@/components/ui/button";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { DrawerClose, DrawerFooter } from "@/components/ui/drawer";
 import {
   Form,
@@ -11,13 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SelectNative } from "@/components/ui/select-native";
-import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { ny, stringToDate } from "@/lib/utils";
 import useCategories from "@/pages/Main-Page/hooks/use-categories";
 import { format } from "date-fns";
 import { ar, enGB } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type ExpenseFormProps = {
@@ -25,7 +26,7 @@ type ExpenseFormProps = {
   isLoading: boolean;
   onSubmit: any;
   expense?: ExpenseType;
-  footer: "sheet" | "drawer";
+  footer: "dialog" | "drawer";
 };
 
 const ExpenseForm = ({
@@ -41,6 +42,7 @@ const ExpenseForm = ({
   // Update total when categories change
 
   const { categories, loadingToFetchCategories } = useCategories();
+  const [expandedDescription, setExpandedDescription] = useState(false);
 
   const footerAttributes = {
     className:
@@ -48,6 +50,17 @@ const ExpenseForm = ({
     closeBtn: (
       <Button type="button" variant={"outline"}>
         {t("Discard")}
+      </Button>
+    ),
+    submitAndAddMoreBtn: (
+      <Button
+        loading={isLoading}
+        disabled={isLoading}
+        type="submit"
+        className="px-4"
+        variant={"secondary"}
+      >
+        {expense ? t("Save and add more") : t("Add and add more")}
       </Button>
     ),
     submitBtn: (
@@ -69,64 +82,66 @@ const ExpenseForm = ({
         className="flex flex-col gap-y-10"
       >
         <div className={ny("flex flex-col gap-y-3 p-4")}>
-          <FormField
-            control={expenseForm.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;{t("Name")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="e.g. Salary"
-                    autoComplete="name"
-                    error={!!expenseForm.formState.errors.name?.message}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={expenseForm.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem className="flex-1 w-full">
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;
-                  {t("Date")}
-                </FormLabel>
-                <FormControl>
-                  <DatePicker
-                    selected={field.value}
-                    onSelect={(value: Date) => {
-                      field.onChange(value);
-                    }}
-                  >
-                    <Button
-                      variant={"outline"}
-                      className={ny(
-                        "ps-3 text-start font-normal text-base flex-1 w-full hover:border-secondary-foreground/70",
-                        !field.value && "text-muted-foreground"
-                      )}
+          <div className={ny("flex gap-2")}>
+            <FormField
+              control={expenseForm.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;{t("Name")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="e.g. Salary"
+                      autoComplete="name"
+                      error={!!expenseForm.formState.errors.name?.message}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={expenseForm.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex-1 w-full">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;
+                    {t("Date")}
+                  </FormLabel>
+                  <FormControl>
+                    <DatePicker
+                      selected={field.value}
+                      onSelect={(value: Date) => {
+                        field.onChange(value);
+                      }}
                     >
-                      {field.value ? (
-                        format(stringToDate(field.value), "dd-LL-yy", {
-                          locale: language === "ar" ? ar : enGB,
-                        })
-                      ) : (
-                        <span>{t("Date")}</span>
-                      )}
-                      <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </DatePicker>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                      <Button
+                        variant={"outline"}
+                        className={ny(
+                          "ps-3 text-start font-normal text-base flex-1 w-full hover:border-secondary-foreground/70",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(stringToDate(field.value), "dd-LL-yy", {
+                            locale: language === "ar" ? ar : enGB,
+                          })
+                        ) : (
+                          <span>{t("Date")}</span>
+                        )}
+                        <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </DatePicker>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="flex items-start gap-2">
             <FormField
               control={expenseForm.control}
@@ -157,7 +172,7 @@ const ExpenseForm = ({
               control={expenseForm.control}
               name="category"
               render={({ field }) => (
-                <FormItem className="flex-[2] w-full">
+                <FormItem className="flex-1 w-full">
                   <FormLabel>
                     <span className="text-red-500">*</span>&nbsp;
                     {t("Category")}
@@ -185,36 +200,50 @@ const ExpenseForm = ({
               )}
             />
           </div>
-          <FormField
-            control={expenseForm.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem className="flex-1 w-full">
-                <FormLabel>
-                  <span className="text-red-500">*</span>&nbsp;
-                  {t("Description")}
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    className="min-h-32"
-                    placeholder="e.g. Monthly salary for June"
-                    autoComplete="description"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {!expandedDescription && (
+            <Button
+              className="text-secondary-foreground w-fit"
+              onClick={() => setExpandedDescription(true)}
+              size={"sm"}
+            >
+              {t("Add description")}
+            </Button>
+          )}
+          {expandedDescription && (
+            <FormField
+              control={expenseForm.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="flex-1 w-full">
+                  <FormLabel>
+                    <span className="text-red-500">*</span>&nbsp;
+                    {t("Description")}
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      className="min-h-32"
+                      placeholder="e.g. Monthly salary for June"
+                      autoComplete="description"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
-        {footer === "sheet" ? (
-          <SheetFooter className={footerAttributes.className}>
-            <SheetClose asChild>{footerAttributes.closeBtn}</SheetClose>
+        {footer === "dialog" ? (
+          <DialogFooter className={footerAttributes.className}>
+            <DialogClose asChild>{footerAttributes.closeBtn}</DialogClose>
+            {footerAttributes.submitAndAddMoreBtn}
+
             {footerAttributes.submitBtn}
-          </SheetFooter>
+          </DialogFooter>
         ) : (
           <DrawerFooter className={footerAttributes.className}>
             <DrawerClose asChild>{footerAttributes.closeBtn}</DrawerClose>
+            {footerAttributes.submitAndAddMoreBtn}
             {footerAttributes.submitBtn}
           </DrawerFooter>
         )}

@@ -1,14 +1,14 @@
 import ObjectID from "../../utils/ObjectID.js";
 
-export const findExpenses = ({ from, to, search, amount, category, loggedInUser, pageNumber, limit }) => {
+export const findExpenses = ({ from, to, search, amount, category, groupby, loggedInUser, pageNumber, limit }) => {
     const filter = [];
-
 
     if (!loggedInUser) {
         return filter;
     }
     filter.push({ $match: { user: ObjectID(loggedInUser.id) } });
 
+    // --- Other initial match stages ---
     if (from)
         filter.push({
             $match: {
@@ -37,7 +37,6 @@ export const findExpenses = ({ from, to, search, amount, category, loggedInUser,
             },
         });
     }
-
     if (category) {
         filter.push({
             $match: {
@@ -46,92 +45,149 @@ export const findExpenses = ({ from, to, search, amount, category, loggedInUser,
         });
     }
 
-    filter.push({
-        $project: {
-            _id: 0,
-            id: "$_id",
-            amount: 1,
-            description: 1,
-            date: 1,
-            name: 1,
-            user: 1,
-            createdAt: 1,
-            category: 1,
-        },
-    });
+    // --- Grouping Stage ---
+    if (groupby) {
+        let groupStage = {
+            $group: {
+                _id: null, // Placeholder, will be replaced below
+                totalAmount: { $sum: "$amount" },
+                // Push the original documents into an array for each group
+                expenses: { $push: "$$ROOT" },
+            },
+        };
 
+        if (groupby === 'date') {
+            // If grouping by date, format the date to group by calendar day
+            groupStage.$group._id = {
+                $dateToString: { format: "%Y-%m-%d", date: "$date" }
+            };
+        } else {
+            // Otherwise, group by the specified field name (e.g., category)
+            // Ensure the field exists before grouping (category ID is used here)
+            groupStage.$group._id = `$${groupby}`; // e.g., '$category'
+        }
+        filter.push(groupStage);
 
-    filter.push({
-        $lookup: {
-            from: "users",
-            localField: "user",
-            foreignField: "_id",
-            as: "userDetails",
-        },
-    });
+        // --- IMPORTANT CAVEAT ---
+        // When grouping, the subsequent stages need to be aware of the new structure.
+        // Fields like 'amount', 'description', 'date', 'user', 'category' are now
+        // *inside* the 'expenses' array for each group.
+        // The $project, $lookup, $unwind, $addFields stages after this $group
+        // might NOT work as intended because they expect fields at the top level.
 
-    filter.push({
-        $unwind: "$userDetails",
-    });
-
-    filter.push({
-        $addFields: {
-            "user.id": "$userDetails._id",
-            "user.fullNameEnglish": "$userDetails.fullNameEnglish",
-            "user.fullNameArabic": "$userDetails.fullNameArabic",
-            "user.email": "$userDetails.email",
-            "user.role": "$userDetails.role",
-        },
-    });
-
-    // Populate category details
-    filter.push({
-        $lookup: {
-            from: "categories", // Replace with your categories collection name
-            localField: "category",
-            foreignField: "_id",
-            as: "categoryDetails",
-        },
-    });
-
-    filter.push({
-        $unwind: {
-            path: "$categoryDetails",
-            preserveNullAndEmptyArrays: true, // Allow null if no category is matched
-        },
-    });
-
-    filter.push({
-        $addFields: {
-            "category.id": "$categoryDetails._id",
-            "category.name": "$categoryDetails.name",
-        },
-    });
-
-    filter.push({
-        $project: {
-            userDetails: 0, // Remove the temporary joined user data
-            categoryDetails: 0, // Remove the temporary joined category data
-        },
-    });
-
-
-
-    // Sort all expenses by createdAt (latest first)
-    filter.push({
-        $sort: { date: -1 },
-    });
-
-    if (limit) {
-
+        // Example: Rename _id (which is now the group identifier)
         filter.push({
-            $skip: pageNumber * limit,
+            $project: {
+                _id: 0, // Remove the default _id
+                groupKey: "$_id", // Rename the group identifier (e.g., the date string or category ID)
+                totalAmount: 1,
+                expenses: 1 // Keep the array of expenses for this group
+            }
         });
 
+        // If you need user/category details *within* the grouped expenses,
+        // you should perform the lookups *before* the $group stage.
+        // The current lookups below will likely FAIL or produce unexpected results
+        // when grouping is active because 'user' and 'category' fields are now
+        // nested within the 'expenses' array.
+
+        // Sort the *groups* (e.g., by date string or total amount)
+        // Sorting individual expenses should happen *before* the $group stage if needed.
+        filter.push({
+            $sort: { groupKey: -1 } // Sort groups by date (descending) or other key
+        });
+
+    } else {
+        // --- Stages ONLY if NOT Grouping ---
+
+        // Initial projection (can be done earlier too)
+        filter.push({
+            $project: {
+                // _id: 0, // Keep _id for lookups if needed, remove later
+                // id: "$_id", // Create 'id' field later if needed
+                amount: 1,
+                description: 1,
+                date: 1,
+                name: 1,
+                user: 1, // Keep user ID for lookup
+                createdAt: 1,
+                category: 1, // Keep category ID for lookup
+            },
+        });
+
+        // Populate user details
+        filter.push({
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "userDetails",
+            },
+        });
+        filter.push({ $unwind: "$userDetails" }); // Assume user always exists
+
+        // Populate category details
+        filter.push({
+            $lookup: {
+                from: "categories", // Replace with your categories collection name
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryDetails",
+            },
+        });
+        filter.push({
+            $unwind: {
+                path: "$categoryDetails",
+                preserveNullAndEmptyArrays: true, // Keep expenses even if category is missing
+            },
+        });
+
+        // Add fields and clean up projection
+        filter.push({
+            $addFields: {
+                id: "$_id", // Create id field from _id
+                "user.id": "$userDetails._id",
+                "user.fullNameEnglish": "$userDetails.fullNameEnglish",
+                "user.fullNameArabic": "$userDetails.fullNameArabic",
+                "user.email": "$userDetails.email",
+                "user.role": "$userDetails.role",
+                "category.id": "$categoryDetails._id",
+                "category.name": "$categoryDetails.name",
+            },
+        });
+
+        filter.push({
+            $project: {
+                userDetails: 0, // Remove temporary lookup data
+                categoryDetails: 0,
+                _id: 0, // Remove original _id if 'id' is preferred
+                // Explicitly list fields to keep if needed, $addFields keeps existing ones
+                // id: 1, amount: 1, description: 1, date: 1, name: 1, user: 1, category: 1, createdAt: 1
+            },
+        });
+
+        // Sort individual expenses by date (latest first)
+        filter.push({
+            $sort: { date: -1 },
+        });
+    }
+
+    // --- Pagination (applies to grouped results OR individual expenses) ---
+    // Note: When grouping, this paginates the *groups*.
+    //       When not grouping, this paginates individual *expenses*.
+    if (limit && pageNumber !== undefined) { // Ensure limit and pageNumber are provided
+        const skipAmount = Math.max(0, pageNumber * limit); // Ensure skip is not negative
+        filter.push({
+            $skip: skipAmount,
+        });
         filter.push({
             $limit: limit,
         });
+    } else if (limit) {
+        // Handle case where only limit is provided (defaults to first page)
+        filter.push({ $limit: limit });
     }
+
 
     return filter;
 };

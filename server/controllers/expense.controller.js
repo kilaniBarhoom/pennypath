@@ -9,13 +9,13 @@ import ResponseError from '../utils/respErr.js';
 
 // create a new expense, edit a expense, delete a expense, get all expenses, get a single expense, delete a expense after 1 day
 export const getAllExpenses = async (req, res, next) => {
-    const { from, to, search, amount, pageNumber, pageSize, category } = ReqQueryHelper(req.query);
+    const { from, to, search, amount, pageNumber, pageSize, category, groupby } = ReqQueryHelper(req.query);
 
 
-    const allExpenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: 0 }))
+    const allExpenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, groupby, loggedInUser: req.user, pageNumber, limit: 0 }))
 
 
-    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, loggedInUser: req.user, pageNumber, limit: pageSize }));
+    const expenses = await Expense.aggregate(queryHelper.findExpenses({ from, to, search, amount, category, groupby, loggedInUser: req.user, pageNumber, limit: pageSize }));
 
     const totalPages = Math.ceil(allExpenses.length / pageSize);
 
@@ -45,6 +45,8 @@ export const getAllExpenses = async (req, res, next) => {
             to: to ? to.toISOString().substring(0, 10) : "",
             search,
             category,
+            groupby,
+            amount,
             pageNumber,
             pageSize,
             totalPages,

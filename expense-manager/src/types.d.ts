@@ -64,3 +64,69 @@ declare type GroupedExpensesType = {
   totalAmount: number;
   expenses: ExpenseType[];
 };
+
+declare type WalletType = {
+  id: string;
+  name: string;
+  description: string;
+  balance: number;
+  color: string;
+  currency: "USD" | "ILS" | "JOD";
+  transactions: TransactionType[];
+};
+
+declare type TransactionType = {
+  id: string;
+  description: string;
+  amount: number;
+  date: Date;
+  type: "expense" | "income" | "transfer";
+};
+
+declare type SearchWalletsResponseType = {
+  wallets: WalletType[];
+  from: Date;
+  to: Date;
+  totalBalance: number;
+  currencySummary: {
+    currency: string;
+    total: number;
+  }[];
+  search: string;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  count: number;
+};
+
+declare type GetWalletAnalyticsResponseType = {
+  analytics: {
+    totalBalance: number;
+    totalWallets: number;
+    totalTransactions: number;
+    incomeTransactions: number;
+    expenseTransactions: number;
+    transferTransactions: number;
+    totalIncome: number;
+    totalExpense: number;
+    currencies: {
+      currency: string;
+      count: number;
+      totalBalance: number;
+    }[];
+  };
+  recentActivity: {
+    _id: string;
+    walletId: string;
+    walletName: string;
+    walletCurrency: string;
+    transaction: TransactionType | null;
+  }[];
+  walletsByBalance: {
+    name: string;
+    balance: number;
+    currency: string;
+    createdAt: string;
+    id: string;
+  }[];
+};

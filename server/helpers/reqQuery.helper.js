@@ -5,6 +5,7 @@ export default (query) => {
     const { from, to, analytics_interval } = query;
     let search = query.search || "";
     const category = query.category || ""
+    const groupby = query.groupby || null;
     let amount = query.amount || null;
     let grouped = query.grouped || false;
     let pageNumber = query.pageNumber || 1;
@@ -86,6 +87,7 @@ export default (query) => {
         search,
         amount,
         grouped,
+        groupby,
         analytics_interval: analyticsInterval,
         pageNumber,
         pageSize,

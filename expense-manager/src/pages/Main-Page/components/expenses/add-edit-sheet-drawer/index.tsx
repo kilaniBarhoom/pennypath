@@ -26,6 +26,14 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import useMediaQuery from "@/hooks/use-media-query";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type AddEditExpenseSheetDrawerProps = {
   children: React.ReactNode;
@@ -92,26 +100,22 @@ const AddEditExpenseSheetDrawer = ({
         isLoading={isLoading}
         onSubmit={onSubmit}
         expense={expense}
-        footer={isDesktop ? "sheet" : "drawer"}
+        footer={isDesktop ? "dialog" : "drawer"}
       />
     ),
   };
 
   return isDesktop ? (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>{content.trigger}</SheetTrigger>
-      <SheetContent
-        disableBackdrop
-        className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out"
-        side={"right"}
-      >
-        <SheetHeader>
-          <SheetTitle>{content.title}</SheetTitle>
-          <SheetDescription></SheetDescription>
-        </SheetHeader>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>{content.trigger}</DialogTrigger>
+      <DialogContent className="bg-background sm:min-w-[500px] rounded-sm w-full transition-all duration-300 ease-in-out">
+        <DialogHeader>
+          <DialogTitle>{content.title}</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
         <div className="overflow-y-auto">{content.content}</div>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   ) : (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>{content.trigger}</DrawerTrigger>
