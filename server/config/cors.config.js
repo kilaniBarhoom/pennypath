@@ -4,7 +4,7 @@
 
 
 const corsOptions = {
-    origin: "*",
+    origin: allowedOrigins,
     credentials: true,
     methods: "GET,POST,PUT,PATCH,DELETE",
 };
