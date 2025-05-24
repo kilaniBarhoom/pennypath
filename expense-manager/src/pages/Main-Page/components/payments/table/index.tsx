@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import TableRows from "./rows";
 import PaymentsTableSkeleton from "./payments-table-skeleton";
 import Typography from "@/components/ui/typography";
-import { Banknote, Calendar, ChartBarStacked } from "lucide-react";
 import AuthorizedRender from "@/components/shared/authorized-conditional-render";
 
 const PaymentsTable = ({
@@ -31,23 +30,14 @@ const PaymentsTable = ({
             <TableHead>{t("User")}</TableHead>
           </AuthorizedRender>
           <TableHead className="min-w-32 overflow-x-hidden">
-            <span className="flex items-center gap-1">
-              <Calendar size={20} className="text-white" />
-              {t("Date")}
-            </span>
+            {t("Date")}
           </TableHead>
 
           <TableHead className="min-w-32 overflow-x-hidden">
-            <span className="flex items-center gap-1">
-              <ChartBarStacked size={20} className="text-white" />
-              {t("Type")}
-            </span>
+            {t("Type")}
           </TableHead>
           <TableHead className="min-w-32 overflow-x-hidden">
-            <span className="flex items-center gap-1 justify-center">
-              <Banknote size={20} className="text-white" />
-              {t("Amount")}
-            </span>
+            {t("Amount")}
           </TableHead>
           <TableHead>
             <span className="sr-only">Actions</span>

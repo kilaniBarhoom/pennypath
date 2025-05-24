@@ -74,7 +74,7 @@ const LocalSearchBar = ({
             )
           }
           onChange={(e) => setSearch(e.target.value)}
-          className={ny("md:min-w-80 font-normal text-lg py-5", otherClasses)}
+          className={ny("md:min-w-80 font-normal text-lg", otherClasses)}
         />
       ) : (
         <NumberField
@@ -86,7 +86,7 @@ const LocalSearchBar = ({
           }}
           aria-label="amount"
         >
-          <Group className="relative inline-flex h-10 w-fit items-center overflow-hidden whitespace-nowrap rounded-sm border border-input text-sm shadow-sm shadow-black/5 transition-shadow data-[focus-within]:border-ring data-[disabled]:opacity-50 data-[focus-within]:outline-none data-[focus-within]:ring-[3px] data-[focus-within]:ring-ring/20">
+          <Group className="relative inline-flex h-9 w-fit items-center overflow-hidden whitespace-nowrap rounded-sm border border-input text-sm shadow-sm shadow-black/5 transition-shadow data-[focus-within]:border-ring data-[disabled]:opacity-50 data-[focus-within]:outline-none data-[focus-within]:ring-[3px] data-[focus-within]:ring-ring/20">
             <Input
               aria-label="search"
               placeholder={placeholder}
@@ -96,7 +96,7 @@ const LocalSearchBar = ({
                 setSearch(e.target.value);
               }}
               type="number"
-              className="flex-1 bg-background px-3 py-2 tabular-nums text-foreground focus:outline-none border-0"
+              className="flex-1 bg-background px-2 h-9 tabular-nums text-foreground focus:outline-none border-0"
             />
           </Group>
         </NumberField>

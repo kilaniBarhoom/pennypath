@@ -32,7 +32,8 @@ const TableRows = ({ expenses }: { expenses: ExpenseType[] }) => {
           <TableCell className=" min-w-40 overflow-x-hidden text-lg">
             {format(new Date(expense.date), "eee, dd/MM/yyyy")}
           </TableCell>
-          <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg text-center">
+              )}
+              <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg">
             <span className="bg-red-100 text-red-800 font-medium px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">
               -{expense.amount}
               <ShekelIcon className="text-xl ms-1" />

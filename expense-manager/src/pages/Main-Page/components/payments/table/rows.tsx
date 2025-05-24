@@ -48,7 +48,7 @@ const TableRows = ({ payments }: { payments: PaymentType[] }) => {
               {t(payment?.type)}
             </Badge>
           </TableCell>{" "}
-          <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg text-center">
+          <TableCell className="font-medium  max-w-20 overflow-x-hidden text-lg">
             <span className="bg-green-100 text-green-800 font-medium px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">
               +{payment.amount}
               <ShekelIcon className="text-xl ms-1" />

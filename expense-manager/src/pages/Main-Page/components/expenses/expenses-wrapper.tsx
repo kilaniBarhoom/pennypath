@@ -65,7 +65,7 @@ export default function PaymentsWrapper() {
           </Card>
         </div>
       )}
-      <div className="flex flex-col gap-2 rounded-sm">
+      <div className="flex flex-col gap-4">
         <ExpensesFilters />
         <ExpensesTable
           expenses={searchExpensesResponse?.expenses ?? []}
